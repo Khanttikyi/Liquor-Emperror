@@ -58,92 +58,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private uiService: FormUIService, private modalService: NgbModal, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.getList()
-  }
-  getList() {
-    this.uiService.getByType().toPromise().then((res: any) => {
-      //console.log(res);
-      if (res) {
-        this.forms = res.forms
-        this.cdRef.detectChanges()
-        this.matTable.reChangeData()
-      }
-    })
+   
   }
 
   ngOnDestroy(): void {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
-  }
-
-  delete(index, id) {
-    this.uiService.delete(id).toPromise().then(res => {
-      if (res)
-        this.forms.splice(index, 1)
-
-      this.cdRef.detectChanges()
-      this.matTable.reChangeData()
-    })
-  }
-
-  edit(index: number, data: FormUI = {}) {
-    const modalRef = this.modalService.open(EditModalComponent, { size: 'md', backdrop: false });
-    modalRef.componentInstance.oldData = data
-    modalRef.componentInstance.id = data.dyProductID
-    modalRef.componentInstance.name = JSON.parse(JSON.stringify(data)).pageName
-    modalRef.result.then(() => { }, (res) => {
-      if (res) {
-        if (res.type == 'save') {
-          this.submit(res.data)
-        } else if (res.type == 'edit') {
-          this.forms[index] = res.data
-          this.cdRef.detectChanges()
-          this.matTable.reChangeData()
-        }
-      }
-    })
-  }
-
-  actionBtn(event) {
-    // console.log(event);
-    let index = this.forms.findIndex(x => x.dyProductID == event.data.dyProductID)
-    if (event.cmd == 'edit') {
-      this.editLayout(event.data)
-    } else if (event.cmd == 'delete') {
-      this.delete(index, event.data.dyProductID)
-    }
-    else if (event.cmd == 'view') {
-      this.editLayout(event.data)
-    }
-  }
-
-  editLayout(item: any) {
-    this.uiService.selectedForm = item
-    this.router.navigateByUrl("/config-layout")
-  }
-
-  viewLayout(item: any) {
-    this.uiService.selectedForm = item
-    this.router.navigateByUrl("/product-form")
-  }
-
-  submit(data) {
-    // if (!(this.form.name.trim())) return false
-    let postData = {
-      pageName: data.pageName,
-      config: JSON.stringify({}),
-      simpleTest: "nothing here",
-      type: "Form",
-    }
-    this.uiService.save(postData).toPromise().then(res => {
-      if (res) {
-        // console.log(res);
-        
-        this.uiService.selectedForm = res
-        this.router.navigateByUrl("/config-layout")
-        // this.getList()
-      }
-    })
-
   }
 
 }

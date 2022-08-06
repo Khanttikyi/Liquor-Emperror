@@ -4,7 +4,7 @@
       class="svg-icon svg-icon-xl svg-icon-primary"></span>
   </div> -->
 <!-- </div> -->
-<div class="topbar-item">
+<!-- <div class="topbar-item">
   <div class="btn btn-icon btn-clean btn-lg mr-1 pulse pulse-primary">
     <span [inlineSVG]="'./assets/media/svg/icons/Code/Compiling.svg'" cacheSVG="true"
       class="svg-icon svg-icon-xl svg-icon-primary"></span>
@@ -16,21 +16,22 @@
     <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" cacheSVG="true"
       class="svg-icon svg-icon-xl svg-icon-primary"></span>
   </div>
-</div>
+</div> -->
 <div class="topbar-item">
   <div class="btn btn-icon btn-clean btn-lg mr-1" id="kt_quick_cart_toggle">
     <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Cart3.svg'" cacheSVG="true"
       class="svg-icon svg-icon-xl svg-icon-primary"></span>
   </div>
 </div>
-<ng-container *ngIf="user$ | async as _user">
+<!-- *ngIf="user$ | async as _user" -->
+<ng-container>
   <div ngbDropdown class="dropdown" placement="bottom-right">
     <div class="topbar-item" ngbDropdownToggle data-offset="0px,0px">
       <div class="btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-2">
         <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1"></span>
         <span class="font-weight-bolder font-size-base d-none d-md-inline mr-3" style="color: #fff;">{{ currentUser.username | titlecase
           }}</span>
-        <span class="symbol symbol-35 symbol-light-success">
+        <span class="symbol symbol-35 symbol-light-primary">
           <span class="symbol-label font-size-h5 font-weight-bold">{{
             (currentUser.username | firstLetter) | titlecase
             }}</span>

@@ -4,9 +4,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
 import { NgPagination } from './components/paginator/ng-pagination/ng-pagination.component';
 import { FormsModule } from '@angular/forms';
 import { InlineSVGModule } from 'ng-inline-svg';
-import { SortConfigModalComponent } from '../../../pages/form-component/sort-config-modal/sort-config-modal.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { PrintError } from './components/print-error/print-error.component';
 import { SortIconComponent } from './components/sort-icon/sort-icon.component';
 import { ActionButtonComponent } from './components/action-button/action-button.component';
 import { MaterialTableViewComponent } from './components/material-table-view/material-table-view.component';
@@ -17,9 +15,9 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { StylePaginatorDirective } from './components/material-table-view/custom-paginator.directive';
 
 @NgModule({
-  declarations: [PaginatorComponent, NgPagination, SortIconComponent, SortConfigModalComponent, PrintError, ActionButtonComponent,MaterialTableViewComponent,StylePaginatorDirective],
+  declarations: [PaginatorComponent, NgPagination, SortIconComponent, ActionButtonComponent,MaterialTableViewComponent,StylePaginatorDirective],
   imports: [CommonModule, FormsModule, InlineSVGModule, DragDropModule,MatTableModule,MatPaginatorModule,MatSortModule,OverlayModule,],
-  exports: [PaginatorComponent, NgPagination, SortIconComponent, SortConfigModalComponent, PrintError, ActionButtonComponent,MaterialTableViewComponent,StylePaginatorDirective],
-  entryComponents: [SortConfigModalComponent]
+  exports: [PaginatorComponent, NgPagination, SortIconComponent, ActionButtonComponent,MaterialTableViewComponent,StylePaginatorDirective],
+  entryComponents: []
 })
 export class CRUDTableModule { }

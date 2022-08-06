@@ -3,13 +3,11 @@ import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { catchError, finalize, map, mergeMap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
-import { KBZToastService } from "../modules/loading-toast/toast/kbz-toast.service";
-import { LoadingService } from "../modules/loading-toast/loading/loading.service";
 import { AuthService } from "../modules/auth";
 
 @Injectable()
 export class HttpConfigInterceptor implements HttpInterceptor {
-    constructor(private alertService: KBZToastService, private loading: LoadingService, private authService: AuthService) { }
+    constructor( private authService: AuthService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // if (!this.userProfile.isOnline) {
         // return throwError('Please Check Your Network Connection !');
@@ -31,7 +29,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         // request = request.clone({ headers: request.headers.set('X-Tenant-ID', 'kbzms') });
         // request = request.clone({ headers: request.headers.set('Authorization', 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYyODQyMzI5OCwiaWF0IjoxNjI3ODE4NDk4fQ.K08GdAdgMVisiUjOO8ySxRA68Rj6PWTjRdoOBAnpRiCJ5aAY4pqJPKrhKS0ulK6K9qjU4jpOx2wuFdVi-XHw4A') });
 
-        this.loading.activate()
+        // this.loading.activate()
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
@@ -52,26 +50,26 @@ export class HttpConfigInterceptor implements HttpInterceptor {
             // catchError(this.errorHandler)
             catchError(
                 (error: HttpErrorResponse) => {
-                    this.loading.deactivate()
-                    if (error.error) {
-                        if (typeof error.error == 'string') {
-                            this.alertService.activate("Internal Server error!", "Error")
-                        } else {
-                            this.alertService.activate(error.error.message || "Internal Server error!", 'error');
-                            if(error.error.code == "403"){
-                                this.authService.logout()
-                                document.location.reload();
-                            }
-                        }
-                    }
-                    else
-                        this.alertService.activate("Sorry!, Try again later", 'error');
+                    // this.loading.deactivate()
+                    // if (error.error) {
+                    //     if (typeof error.error == 'string') {
+                    //         this.alertService.activate("Internal Server error!", "Error")
+                    //     } else {
+                    //         this.alertService.activate(error.error.message || "Internal Server error!", 'error');
+                    //         if(error.error.code == "403"){
+                    //             this.authService.logout()
+                    //             document.location.reload();
+                    //         }
+                    //     }
+                    // }
+                    // else
+                    //     this.alertService.activate("Sorry!, Try again later", 'error');
 
                     return throwError(error)
                 }
             ),
             finalize(() => {
-                this.loading.deactivate()
+                // this.loading.deactivate()
             })
         );
     }

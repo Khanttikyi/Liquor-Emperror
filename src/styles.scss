@@ -225,7 +225,7 @@ tr.highlighted {
 }
 
 .aside-menu {
-    background-color: #005f99;
+    background-color: #151620;
 }
 
 .aside-menu .menu-nav>.menu-item>.menu-link .menu-text,
@@ -244,7 +244,7 @@ tr.highlighted {
 }
 
 .aside-menu .menu-nav>.menu-item.menu-item-active>.menu-link {
-    background-color: #005f99;
+    background-color: #151620;
 }
 
 .aside-menu .menu-nav>.menu-item.menu-item-active>.menu-link .menu-text {
@@ -259,7 +259,7 @@ tr.highlighted {
 .aside-menu .menu-nav>.menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover>.menu-link,
 .aside-menu .menu-nav>.menu-item .menu-submenu .menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover>.menu-link,
 .aside-menu .menu-nav>.menu-item .menu-submenu .menu-item.menu-item-active>.menu-link {
-    background-color: #005f99;
+    background-color: #151620;
 }
 
 .aside-menu .menu-nav>.menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover>.menu-link .menu-text,
@@ -270,7 +270,7 @@ tr.highlighted {
 
 app-header.header.header-fixed,
 .mat-custom-page {
-    background-color: #005f99;
+    background-color: #151620;
     color: #fff;
 }
 
@@ -377,7 +377,7 @@ app-header.header.header-fixed,
 .card.card.card-custom-orange,
 .card.card-custom-orange .card-header {
     box-shadow: none;
-    background-color: #ff8100;
+    background-color: #0d0e19;
     border-radius: 25px;
 }
 
@@ -450,6 +450,11 @@ td.mat-footer-cell,
 .table.table-head-custom thead th,
 .card-header {
     border-bottom-color: rgb(218, 217, 217);
+}
+
+.btn.btn-primary {
+    background-color: #151620 !important;
+    border: 0px;
 }
 
 .btn.btn-secondary {

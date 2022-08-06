@@ -11,8 +11,6 @@ import { Router, NavigationEnd, NavigationError } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TableExtendedService } from './_metronic/shared/crud-table';
 import { ProductsService } from './_metronic/core/services/products.service';
-import { LoadingService } from './modules/loading-toast/loading/loading.service';
-import { MasterDataService } from './modules/master-data/master-data.service';
 import { AuthService } from './modules/auth';
 
 @Component({
@@ -30,8 +28,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private tableService: TableExtendedService,
     private itemService: ProductsService,
-    private kbzToast: LoadingService,
-    private master: MasterDataService,
     private authService: AuthService
   ) {
 
@@ -44,14 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const productData = {
-      forms: [],
-      products: [],
-      formObjs: [],
-      configPage: []
-    };
-    const itemsData = localStorage.getItem("itemsData")
-    this.itemService.loadItems(JSON.parse(itemsData) || productData);
+   
     const routerSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // clear filtration paginations and others
@@ -65,18 +54,9 @@ export class AppComponent implements OnInit, OnDestroy {
         // to display back the body content
         setTimeout(() => {
           document.body.classList.add('page-loaded');
-        }, 500);
+        }, 2500);
       }
     });
-    this.unsubscribe.push(routerSubscription);
-    let unsub = this.authService.currentUserSubject.subscribe((res) => {
-      console.log(res);
-      
-      if (res) {
-        // this.master.getType()
-      }
-    })
-    this.unsubscribe.push(unsub);
   }
 
   ngOnDestroy() {

@@ -7,7 +7,6 @@ import { MatSort } from '@angular/material/sort';
 import * as moment from 'moment';
 import { SelectionModel } from '@angular/cdk/collections';
 import { StylePaginatorDirective } from './custom-paginator.directive';
-import { PRODUCT_STATUS } from '../../../../../pages/products/models/product.dto';
 import { environment } from '../../../../../../environments/environment';
 
 @Component({
@@ -39,8 +38,6 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
     "02": "primary",
     "03": "danger",
   }
-
-  prodStatus = PRODUCT_STATUS
   prodStatusColor = {
     "01": "secondary",
     "02": "primary",

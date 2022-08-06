@@ -22,28 +22,6 @@ import { HeaderMenuDynamicComponent } from './_layout/components/header/header-m
 // import { ActivityManagementListComponent } from './activity-management-list/activity-management-list.component';
 // import { ActivityManagementDetailComponent } from './activity-management-detail/activity-management-detail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FnaBramComponent } from './fna-bram/fna-bram.component';
-import { AboutBramComponent } from './fna-bram/about-bram/about-bram.component';
-import { InputsComponent } from './fna-bram/inputs/inputs.component';
-import { OutputsComponent } from './fna-bram/outputs/outputs.component';
-import { ProductComponent } from './fna-bram/product/product.component';
-import { FnaTypeComponent } from './fna-list/fna-type/fna-type.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ReportDetailByAgentComponent } from './report-detail-by-agent/report-detail-by-agent.component';
-import { ReportDetailByBankBranchComponent } from './report-detail-by-bank-branch/report-detail-by-bank-branch.component';
-import { ReportChannelSummaryByBankBranchComponent } from './report-channel-summary-by-bank-branch/report-channel-summary-by-bank-branch.component';
-import { ReportByBranchSummaryAiComponent } from './report-by-branch-summary-ai/report-by-branch-summary-ai.component';
-import { ReportByProductSalesChannelPoliciesComponent } from './report-by-product-sales-channel-policies/report-by-product-sales-channel-policies.component';
-import { ReportByProductSalesChannelPremiumComponent } from './report-by-product-sales-channel-premium/report-by-product-sales-channel-premium.component';
-import { ReportByProductBranchPoliciesComponent } from './report-by-product-branch-policies/report-by-product-branch-policies.component';
-import { ReportByProductBranchPremiumComponent } from './report-by-product-branch-premium/report-by-product-branch-premium.component';
-import { ReportByAgentYearlyComponent } from './report-by-agent-yearly/report-by-agent-yearly.component';
-import { ReportByAgentDailyComponent } from './report-by-agent-daily/report-by-agent-daily.component';
-import { ReportByAgentMonthlyComponent } from './report-by-agent-monthly/report-by-agent-monthly.component';
-import { ReportWeeklySalesAnalysisByBranchComponent } from './report-weekly-sales-analysis-by-branch/report-weekly-sales-analysis-by-branch.component';
-import { ReportDailySalesAnalysisByBranchComponent } from './report-daily-sales-analysis-by-branch/report-daily-sales-analysis-by-branch.component';
-import { ReportKeyDriverComponent } from './report-key-driver/report-key-driver.component';
-import { ReportCommonSearchComponent } from './report-common-search/report-common-search.component';
 
 @NgModule({
   declarations: [
@@ -57,41 +35,7 @@ import { ReportCommonSearchComponent } from './report-common-search/report-commo
     TopbarComponent,
     AsideDynamicComponent,
     HeaderMenuDynamicComponent,
-    FnaTypeComponent,
-    // ResetPasswordComponent,
-    //ReportCommonSearchComponent,
-    //ReportDetailByBankBranchComponent,
-    //ReportChannelSummaryByBankBranchComponent,
-    //ReportByBranchSummaryAiComponent,
-    //ReportByProductSalesChannelPoliciesComponent,
-    // ReportByProductSalesChannelPremiumComponent,
-    //ReportByProductBranchPoliciesComponent,
-    //ReportByProductBranchPremiumComponent,
-    //ReportByAgentYearlyComponent,
-    //ReportByAgentDailyComponent,
-    //ReportByAgentMonthlyComponent,
-    //ReportWeeklySalesAnalysisByBranchComponent,
-    //ReportDailySalesAnalysisByBranchComponent,
-    //ReportKeyDriverComponent,
-    //ReportDetailByAgentComponent,
-    // AboutBramComponent,
-    //InputsComponent,
-    //OutputsComponent,
-    //ProductComponent,
-    //FnaBramComponent,
-    //IncomeComponent,
-    //HealthComponent,
-    //AssetComponent,
-    //EducationComponent,
-    //RetirementComponent,
-    //FreedomComponent,
-    //ChartAnalysisComponent,
-    //LlpAnalysisComponent,
-    //ProductAnalysisComponent,
-    //FnaListComponent,
-    //FnaDetailComponent,
-    // ActivityManagementListComponent,
-    // ActivityManagementDetailComponent,
+   
   ],
   imports: [
     CommonModule,
