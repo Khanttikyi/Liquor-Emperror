@@ -12,11 +12,8 @@ import { environment } from 'src/environments/environment';
 // Highlight JS
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { SplashScreenModule } from './_metronic/partials/layout/splash-screen/splash-screen.module';
-import { KBZToastModule } from './modules/loading-toast/toast/kbz-toast.module';
-import { KBZLoadingModule } from './modules/loading-toast/loading/loading.module';
 import { HttpConfigInterceptor } from './core/httpconfig.interceptor';
 import { DecimalPipe } from '@angular/common';
-import { AlertModelModule } from './modules/loading-toast/alert-model/alert-model.module';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
@@ -47,9 +44,6 @@ function appInitializer(authService: AuthService) {
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
-    KBZToastModule,
-    KBZLoadingModule,
-    AlertModelModule,
     OverlayModule,
     MatTooltipModule,
     MatSelectModule,
