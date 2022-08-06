@@ -1,0 +1,30 @@
+<div style="white-space: nowrap;">
+    <a *ngIf="viewBtn.view" title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView()">
+        <span class="flaticon-eye"></span>
+        <!-- <span [inlineSVG]="'./assets/media/svg/icons/General/Visible.svg'" cacheSVG="true"
+      class="svg-icon svg-icon-md svg-icon-white">
+    </span> -->
+    </a>
+
+    <!-- <ng-container *ngIf="prod.application || prod.quotation"> -->
+    <ng-container *ngIf="viewBtn.editOnState;else editBtn">
+        <a *ngIf="viewBtn.edit && data['status'] == 'in_progress'" title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionEdit()">
+            <span class="flaticon-edit"></span>
+        </a>
+    </ng-container>
+    <ng-template #editBtn>
+        <a *ngIf="viewBtn.edit" title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionEdit()">
+            <span class="flaticon-edit"></span>
+        </a>
+    </ng-template>
+    <a *ngIf="viewBtn.delete" title="Edit Form Page" class="btn btn-danger btn-hover-danger btn-sm mx-1" (click)="onActionDelete()">
+        <span class="flaticon-delete"></span>
+        <!-- <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+      class="svg-icon svg-icon-md svg-icon-white">
+    </span> -->
+    </a>
+    <a *ngIf="viewBtn.download" title="Downlaod Form Page" class="btn btn-primary btn-hover-primary btn-sm mx-1" (click)="onActionDownload()">
+        <span class="flaticon-download"></span>
+
+    </a>
+</div>

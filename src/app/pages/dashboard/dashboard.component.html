@@ -1,0 +1,48 @@
+<div class="row">
+  <!-- <div class="col-sm-6">
+    <div class="row">
+      <div class="col-sm-12 mb-2">
+
+        <div class="card card-custom">
+          <div class="card-header">
+            <div class="card-title">
+              <h3 class="card-label left-border-image">Policy List</h3>
+            </div>
+          </div>
+          <div class="card-body">
+            <form class="form" (ngSubmit)="submit()">
+              <div class="form-group">
+                <label>Group Name</label>
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="form.name" name="name" placeholder="" />
+              </div>
+              <div class="form-group">
+                <button class="btn btn-primary">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div> -->
+  <div class="col-12">
+    <div class="card card-custom">
+      <div class="card-header">
+        <div class="card-title">
+          <h3 class="card-label left-border-image">Page Groups List</h3>
+        </div>
+        <div class="card-toolbar">
+          <button type="button" class="btn btn-primary btn-circle" (click)="edit(-1)">
+            <span class="flaticon2-plus"></span>
+          </button>
+          <!-- <button type="button" class="btn btn-primary" (click)="createOrEdit()">Create New Quotation</button> -->
+        </div>
+      </div>
+      <div class="card-body customer-card-body">
+        <app-material-table-view [data]="forms" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns"
+          (emitter)="actionBtn($event)">
+        </app-material-table-view>
+      </div>
+    </div>
+  </div>
+</div>

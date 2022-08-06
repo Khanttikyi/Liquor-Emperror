@@ -1,0 +1,7 @@
+{
+  "name": "LIQUOR_EMPEROR",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

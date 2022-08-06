@@ -1,0 +1,100 @@
+<!--begin::Signin-->
+
+<div class="row">
+
+    <div class="col-sm-6 text-center">
+        <img src="assets/ms-logo.png" style="width:150px" /><br>
+        <!-- <span class="logo-text">KBZMS<br><small>General Insurance</small></span> -->
+
+    </div>
+    <div class="col-sm-6 text-center">
+        <img src="assets/life-logo.png" style="width:150px" /><br>
+        <!-- <span class="logo-text">KBZ LIFE</span> -->
+    </div>
+    <div class="col-12 pt-5 pb-5">
+        <h5 class="font-weight-bolder text-white text-center" style="font-size: 1.1rem;">
+            Welcome to Liquor Emperor
+        </h5>
+
+    </div>
+    <!--begin::Form-->
+    <div class="card card-custom-orange" style="width: 100%;">
+        <div class="card-body">
+            <form class="form" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+                (ngSubmit)="submit()">
+
+
+
+                <!--begin::Title-->
+
+
+
+                <!-- begin::Alert error-->
+                <ng-container *ngIf="hasError">
+                    <div class="mb-10 alert alert-custom alert-light-danger alert-dismissible">
+                        <div class="alert-text">The login details are incorrect</div>
+                    </div>
+                </ng-container>
+                <!-- end::Alert error-->
+
+                <!--begin::Form group-->
+                <div class="form-group">
+                    <!-- <input placeholder="User ID" class="form-control form-control-sm h-3 py-7 px-6 rounded-lg" type="text"
+                        name="username" formControlName="email" autocomplete="off"
+                        [ngClass]="{ 'is-invalid': loginForm.controls['email'].invalid }" /> -->
+                    <div class="input-icons">
+                        <i class="flaticon-avatar"></i>
+                        <input placeholder="User ID" class="input-field form-control h-3 py-7 px-11 rounded-lg"
+                            type="text" name="username" formControlName="email" autocomplete="off"
+                            [ngClass]="{ 'is-invalid': loginForm.controls['email'].invalid }" />
+                    </div>
+                </div>
+                <!--end::Form group-->
+
+                <!--begin::Form group-->
+                <div class="form-group">
+
+                    <div class="input-icons">
+                        <i class="flaticon-lock"></i>
+                        <input placeholder="Password" class="input-field form-control h-3 py-7 px-6 rounded-lg"
+                            type="password" name="password" autocomplete="off" formControlName="password"
+                            [ngClass]="{ 'is-invalid': loginForm.controls['password'].invalid }" />
+                    </div>
+                </div>
+                <!--end::Form group-->
+                <div class="font-weight-bolder text-center">
+                    <a routerLink="/auth/forgot-password"
+                        class="text-new text-center font-weight-bolder text-hover-new ">
+                        Forgot Password ?
+                    </a>
+                </div>
+                <!--begin::Action-->
+                <div class="pb-lg-10 pb-10">
+                    <button style="width: 100%;" type="submit" id="kt_login_signin_submit"
+                        class="btn btn-new text-white font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">
+                        SIGN IN
+                    </button>
+
+
+
+                    <ng-container *ngIf="isLoading$ | async">
+                        <span class="spinner spinner-primary ml-5"></span>
+                    </ng-container>
+                </div>
+                <!--end::Action-->
+            </form>
+        </div>
+    </div>
+    <!--end::Form-->
+</div>
+<!--end::Signin-->
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+    <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+        <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+                {{ message }}
+            </div>
+        </div>
+    </ng-container>
+</ng-template>

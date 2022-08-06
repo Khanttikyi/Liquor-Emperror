@@ -1,0 +1,22 @@
+.mat-paginator-container {
+    justify-content: space-between
+}
+
+.label.label-custom-round {
+    line-height: 20px;
+    white-space: nowrap;
+    border-radius: 10px;
+    width: 80px;
+    // font-size: 1rem;
+    // font-family: "Roboto";
+    color: white;
+}
+
+.table-img {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.label-default {
+    color: black !important;
+}

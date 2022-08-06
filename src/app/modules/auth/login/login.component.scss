@@ -1,0 +1,71 @@
+:host {
+    width: 100%;
+
+    @media (min-width: 992px) {
+        .login-form {
+            width    : 100%;
+            max-width: 450px;
+
+            .mat-form-field {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.logo-text {
+    margin-top: 10px;
+    font-size  : 30px;
+    color      : #fff;
+    font-weight: bold;
+    line-height: 20px;
+    display: block;
+    letter-spacing: 1px;
+    small {
+        font-size: 15px;
+        letter-spacing: 0px;
+    }
+}
+
+.input-icons i {
+    position : absolute;
+    font-size: 2.50rem;
+    padding  : 0px 7px;
+}
+
+.input-icons {
+    width           : 100%;
+    // margin-bottom: 10px;
+}
+
+.icon {
+    min-width: 50px;
+}
+
+.card-body {
+    padding: 30px 15px;
+}
+
+.input-field {
+    width     : 100%;
+    padding   : 20px;
+    text-align: center;
+}
+
+::-webkit-input-placeholder {
+    text-align: center;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    text-align: center;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    text-align: center;
+}
+
+:-ms-input-placeholder {
+    text-align: center;
+}
