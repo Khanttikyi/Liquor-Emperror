@@ -1,6 +1,5 @@
 import { AuthModel } from './auth.model';
 import { AddressModel } from './address.model';
-import { SocialNetworksModel } from './social-networks.model';
 
 export class UserModel extends AuthModel {
   id?: number;
@@ -14,8 +13,6 @@ export class UserModel extends AuthModel {
   companyName?: string;
   phone?: string;
   address?: AddressModel;
-  socialNetworks?: SocialNetworksModel;
-  // personal information
   firstName?: string;
   lastName?: string;
   website?: string;
@@ -62,6 +59,5 @@ export class UserModel extends AuthModel {
     this.companyName = user.companyName || '';
     this.phone = user.phone || '';
     this.address = user.address;
-    this.socialNetworks = user.socialNetworks;
   }
 }

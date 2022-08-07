@@ -13,6 +13,22 @@ const routes: Routes = [
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
+        path: 'category',
+        loadChildren: () => import('./category/category.module').then( m => m.CategoryPageModule)
+      },
+      {
+        path: 'sales',
+        loadChildren: () => import('./sales/sales.module').then( m => m.SalesPageModule)
+      },
+      {
+        path: 'category/brand',
+        loadChildren: () => import('./brand/brand.module').then( m => m.BrandPageModule)
+      },
+      {
+        path: 'category/sub-brand',
+        loadChildren: () => import('./sub-brand/sub-brand.module').then( m => m.SubBrandPageModule)
+      },
+      {
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',
@@ -23,6 +39,12 @@ const routes: Routes = [
       },
     ],
   },
+  
+
+ 
+
+  
+
 ];
 
 @NgModule({
