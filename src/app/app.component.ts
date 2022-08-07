@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { TableExtendedService } from './_metronic/shared/crud-table';
 import { ProductsService } from './_metronic/core/services/products.service';
 import { AuthService } from './modules/auth';
+import { DatabaseService } from './_metronic/shared/crud-table/services/database.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -28,7 +29,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private tableService: TableExtendedService,
     private itemService: ProductsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private database:DatabaseService
   ) {
 
   }
@@ -40,7 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-   
+   this.database.init()
     const routerSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // clear filtration paginations and others

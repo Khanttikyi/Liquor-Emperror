@@ -15,7 +15,6 @@ import { CRUDTableModule } from '../../_metronic/shared/crud-table';
     CRUDTableModule,
   ]
 })
-export class DashboardShareModule { }
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -25,7 +24,6 @@ export class DashboardShareModule { }
     FormsModule,
     ReactiveFormsModule,
     CRUDTableModule,
-    DashboardShareModule,
     RouterModule.forChild([
       {
         path: '',

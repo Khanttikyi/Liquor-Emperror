@@ -1,0 +1,73 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      <h3 class="card-label" *ngIf="isCreate">Create Brand</h3>
+      <h3 class="card-label" *ngIf="!isCreate">Brand Detail</h3>
+    </div>
+
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <form action="#" class="form" [formGroup]="subBrandForm" (ngSubmit)="createBrand()">
+      <div>
+
+        <div class="row" style="align-items: center">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Brand
+                <span>*</span></label>
+              <div class="col-sm-6">
+                  <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('brandCode')" [class.is-valid]="isControlValid('brandCode')" [items]="brandOption" bindLabel="value" bindValue="code" formControlName="brandCode">
+                  </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="align-items: center">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Name
+                <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm " name="name" autocomplete="off"
+                  [class.is-invalid]="isControlInvalid('name')" [class.is-valid]="isControlValid('name')"
+                  formControlName="name" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Description <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm" name="brandDescription" autocomplete="off"
+                  [class.is-invalid]="isControlInvalid('brandDescription')"
+                  [class.is-valid]="isControlValid('brandDescription')" formControlName="brandDescription" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Size <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm" name="size" autocomplete="off"
+                  [class.is-invalid]="isControlInvalid('size')"
+                  [class.is-valid]="isControlValid('size')" formControlName="size" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="cancel()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="createBrand()">Save</button>
+  </div>
+</div>

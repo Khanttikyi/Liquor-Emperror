@@ -19,6 +19,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { IonicModule } from '@ionic/angular';
+import { AddNewBrandComponent } from './pages/brand/add-new-brand/add-new-brand.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DatabaseService } from './_metronic/shared/crud-table/services/database.service';
+import { SQLite } from '@ionic-native/sqlite/ngx';
+import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
+import { AddNewSubBrandComponent } from './pages/sub-brand/add-new-sub-brand/add-new-sub-brand.component';
 // #fake-start#
 // #fake-end#
 function appInitializer(authService: AuthService) {
@@ -31,13 +37,14 @@ function appInitializer(authService: AuthService) {
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,AddNewBrandComponent,AddNewSubBrandComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     BrowserAnimationsModule,
     SplashScreenModule,
     IonicModule,
+    ReactiveFormsModule,
     HttpClientModule,
     HighlightModule,
     ClipboardModule,
@@ -70,6 +77,9 @@ function appInitializer(authService: AuthService) {
       },
     },
     DecimalPipe,
+    DatabaseService,
+    SQLite,
+    SQLitePorter,
   ],
   bootstrap: [AppComponent],
 })

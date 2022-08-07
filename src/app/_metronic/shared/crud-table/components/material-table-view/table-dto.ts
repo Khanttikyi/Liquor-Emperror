@@ -5,6 +5,7 @@ export interface TableCol {
   amtFormat?: boolean,
   isTitle?: boolean,
   isDate?: boolean,
+  isNo?:boolean,
   isFromatDate?: boolean,
   isActivityStatus?: boolean
   isLeadStatus?: boolean

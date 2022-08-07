@@ -6,8 +6,8 @@
     line-height: 20px;
     white-space: nowrap;
     border-radius: 10px;
-    width: 80px;
-    // font-size: 1rem;
+    min-width: 80px;
+    // font-size: 0.9rem;
     // font-family: "Roboto";
     color: white;
 }
@@ -19,4 +19,16 @@
 
 .label-default {
     color: black !important;
+}
+
+.act-btn-box{
+    padding: 0px 10px;
+    background-color: #005f99;
+    border-color: #005f99;
+    color: #fff !important;
+    text-decoration: none;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.925rem;
+    line-height: 1.35;
+    border-radius: 0.42rem;
 }

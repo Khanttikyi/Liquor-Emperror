@@ -19,12 +19,6 @@ export interface FromObj {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  forms: any[] = []
-  form: FromObj = {
-    id: "",
-    name: "",
-  }
-  private unsubscribe: Subscription[] = []
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
   constructor(private router: Router,private modalService: NgbModal, private cdRef: ChangeDetectorRef) { }
 
@@ -33,7 +27,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 
 }
