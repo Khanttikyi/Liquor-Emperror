@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatabaseService } from 'src/app/_metronic/shared/crud-table/services/database.service';
+import { AddSizeComponent } from '../add-size/add-size.component';
 
 @Component({
   selector: 'app-add-new-sub-brand',
@@ -16,20 +17,22 @@ export class AddNewSubBrandComponent implements OnInit {
   currentTimeInSeconds = Math.floor(Date.now() / 1000);
   @Input() data: any = {}
   brandOption: any[] = []
-  constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService) { 
+  sizeOption: any[] = []
+  constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService) {
 
     this.getBrand()
+    this.getSize()
   }
 
   ngOnInit() {
     this.loadForm()
   }
   getBrand() {
-    this.database.getBrandData().then((res) => {
-      let data =this.getFormatOpt(res)
+    this.database.getData('BRAND_DATA').then((res) => {
+      let data = this.getFormatOpt(res)
       this.brandOption = data
       console.log(this.brandOption);
-      
+
     })
   }
 
@@ -41,7 +44,7 @@ export class AddNewSubBrandComponent implements OnInit {
   loadForm() {
     this.subBrandForm = new FormGroup({
       subBrandCode: new FormControl(this.subBrandCode || null),
-      brandCode: new FormControl(this.data ? this.data.branchCode : null, Validators.required),
+      brandCode: new FormControl(this.data ? this.data.brandCode : null, Validators.required),
       description: new FormControl(this.data ? this.data.description : null, Validators.required),
       name: new FormControl(this.data ? this.data.name : null, Validators.required),
       size: new FormControl(this.data ? this.data.size : null, Validators.required),
@@ -55,11 +58,27 @@ export class AddNewSubBrandComponent implements OnInit {
     let value = { ...this.subBrandForm.value, subBrandCode: this.subBrandCode }
     this.modal.dismissAll({ data: value })
   }
-
+  createSize() {
+    const modalRef = this.modal.open(AddSizeComponent, { size: 'sm', backdrop: false });
+    modalRef.componentInstance.type = 'modal'
+    modalRef.result.then((res) => {
+      if (res) {
+        this.database.create('SIZE',res)
+        this.getSize()
+      }
+    })
+  }
+  getSize(){
+    this.database.getData('SIZE').then((res) => {
+      console.log(res);
+      
+      this.sizeOption = res
+    })
+  }
 
   getFormatOpt(res) {
     return res.map(x => {
-      return { 'code': x.brandCode, 'value': x.brandName}
+      return { 'code': x.brandCode, 'value': x.brandName }
     })
   }
 

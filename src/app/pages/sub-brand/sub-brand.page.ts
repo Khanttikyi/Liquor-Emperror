@@ -14,18 +14,26 @@ import { SubBrandCol, SubBrandDisplayCol } from './sub-brand-const';
 export class SubBrandPage implements OnInit {
 
   brandList: any = [];
+  brandOption: any = [];
   ELEMENT_COL: any = SubBrandCol;
   displayedColumns: any = SubBrandDisplayCol;
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  constructor(private cdf: ChangeDetectorRef, private modalCtrl: ModalController, private modalService: NgbModal, private database: DatabaseService) { }
+  constructor(private cdf: ChangeDetectorRef, private modalCtrl: ModalController, private modalService: NgbModal, private database: DatabaseService) {
+    this.getBrand()
+  }
 
   ngOnInit() {
-    this.getBrandList()
+    this.getSubBrandList()
   }
-  getBrandList() {
-    this.database.getSubBrandData().then((res) => {
+  getSubBrandList() {
+    this.database.getData('SUB_BRAND_DATA').then((res) => {
       console.log(res);
       this.brandList = res
+
+      this.brandList.forEach(element => {
+        let brand = this.brandOption.find((p) => p.code == element.brandCode);
+        element.brandName =brand.value 
+      });
       this.cdf.detectChanges()
       this.matTable.reChangeData()
     })
@@ -42,13 +50,12 @@ export class SubBrandPage implements OnInit {
       if (res) {
         let result = res.data
         console.log(result);
-
         if (data) {
           this.database.update('SUB_BRAND_DATA', result)
-          this.getBrandList()
+          this.getSubBrandList()
         } else {
           this.database.create('SUB_BRAND_DATA', result)
-          this.getBrandList()
+          this.getSubBrandList()
         }
       }
     })
@@ -60,9 +67,21 @@ export class SubBrandPage implements OnInit {
     }
     else {
       this.database.remove("SUB_BRAND_DATA", event.data, "brandCode")
-      this.getBrandList()
+      this.getSubBrandList()
     }
 
   }
+  getBrand() {
+    this.database.getData('BRAND_DATA').then((res) => {
+      let data = this.getFormatOpt(res)
+      this.brandOption = data
+    })
 
+  }
+
+  getFormatOpt(res) {
+    return res.map(x => {
+      return { 'code': x.brandCode, 'value': x.brandName }
+    })
+  }
 }

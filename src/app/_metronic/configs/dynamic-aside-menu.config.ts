@@ -34,10 +34,20 @@ export const DynamicAsideMenuConfig = {
     },
    
     {
+      title: 'Purchase',
+      root: true,
+      icon: 'flaticon2-shopping-cart-1',
+      svg: './assets/media/svg/icons/Shopping/Wallet.svg',
+      page: '/purchase',
+      bullet: 'dot',
+      show: true,
+
+    },
+    {
       title: 'Sales',
       root: true,
       icon: 'flaticon-cart',
-      svg: './assets/media/svg/icons/Design/Bucket.svg',
+      svg: './assets/media/svg/icons/Shopping/Sale1.svg',
       page: '/sales',
       bullet: 'dot',
       show: true,

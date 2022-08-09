@@ -20,11 +20,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { IonicModule } from '@ionic/angular';
 import { AddNewBrandComponent } from './pages/brand/add-new-brand/add-new-brand.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatabaseService } from './_metronic/shared/crud-table/services/database.service';
 import { SQLite } from '@ionic-native/sqlite/ngx';
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { AddNewSubBrandComponent } from './pages/sub-brand/add-new-sub-brand/add-new-sub-brand.component';
+import { AddSizeComponent } from './pages/sub-brand/add-size/add-size.component';
 // #fake-start#
 // #fake-end#
 function appInitializer(authService: AuthService) {
@@ -37,7 +38,7 @@ function appInitializer(authService: AuthService) {
 
 
 @NgModule({
-  declarations: [AppComponent,AddNewBrandComponent,AddNewSubBrandComponent],
+  declarations: [AppComponent,AddNewBrandComponent,AddNewSubBrandComponent,AddSizeComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -46,6 +47,7 @@ function appInitializer(authService: AuthService) {
     IonicModule,
     ReactiveFormsModule,
     HttpClientModule,
+    FormsModule,
     HighlightModule,
     ClipboardModule,
     AppRoutingModule,

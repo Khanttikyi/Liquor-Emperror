@@ -41,6 +41,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light btn-elevate mr-2" (click)="cancel()">Cancel</button>
-    <button type="submit" class="btn btn-primary btn-elevate" (click)="createBrand()">Save</button>
+    <button type="submit" class="btn btn-primary btn-elevate" [disabled]="brandForm.invalid" (click)="createBrand()">Save</button>
   </div>
   </div>

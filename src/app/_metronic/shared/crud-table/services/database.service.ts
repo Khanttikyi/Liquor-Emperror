@@ -91,7 +91,14 @@ export class DatabaseService {
                 sqlText = "INSERT INTO BRAND_DATA (brandName, brandCode, brandDescription) VALUES (?,?,?) ";
                 values = [item.brandName || null, item.brandCode || null, item.brandDescription || null]
                 break;
-
+            case "SUB_BRAND_DATA":
+                sqlText = "INSERT INTO SUB_BRAND_DATA (brandCode, subBrandCode, name, description,size) VALUES (?,?,?,?,?) ";
+                values = [item.brandCode || null, item.subBrandCode || null, item.name || null, item.description || null, item.size || null]
+                break;
+                case "SIZE":
+                    sqlText = "INSERT INTO SIZE (code, value) VALUES (?,?) ";
+                    values = [item.code || null, item.value]
+                    break;
             default:
                 return;
 
@@ -109,12 +116,17 @@ export class DatabaseService {
                 sqlText = "UPDATE BRAND_DATA SET (brandName , brandCode , brandDescription ) = ( ? , ? , ? ) where brandCode = ? ;";
                 values = [item.brandName || null, item.brandCode || null, item.brandDescription || null, item.brandCode]
                 break;
-
+            case "SUB_BRAND_DATA":
+                sqlText = "UPDATE SUB_BRAND_DATA SET (brandCode, subBrandCode, name, description,size)  = ( ? , ? , ? , ? , ? ) where subBrandCode = ? ;";
+                values = [item.brandCode || null, item.subBrandCode || null, item.name || null, item.description || null, item.size || null, item.subBrandCode]
+                break;
             default:
                 return;
 
         }
         let query = new Query(sqlText, values);
+        console.log(query);
+
         let res = this.database_instance.executeSql(query);
 
     }
@@ -122,39 +134,42 @@ export class DatabaseService {
 
     public remove(tableName, item, type) {
         let sqlText;
-        let values;   
+        let values;
         sqlText = `delete from ${tableName} where ${type} = ? `;
         values = [item.brandCode || null]
         let query = new Query(sqlText, values);
         console.log(query);
-        
+
         let res = this.database_instance.executeSql(query);
     }
 
-    async getSubBrandData() {
-        let data = await this.database_instance.executeSql(new Query("SELECT * FROM SUB_BRAND_DATA"))
-        return data
-    }
-    async getSubBrandDataByCode(code) {
-        let data = await this.database_instance.executeSql(new Query("SELECT * FROM SUB_BRAND_DATA  WHERE brandCode=? ", [code]))
+    async getData(tableName) {
+        let data;
+        switch (tableName) {
+            case "BRAND_DATA":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM BRAND_DATA"))
+                break;
+            case "SUB_BRAND_DATA":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM SUB_BRAND_DATA"))
+                break;
+            case "SIZE":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM SIZE"))
+                break;
+            default:
+                return;
+
+        }
         return data
     }
 
-    async getBrandData() {
-        let data = await this.database_instance.executeSql(new Query("SELECT * FROM BRAND_DATA"))
-        return data
-    }
-    async getBrandDataByCode(code) {
-        let data = await this.database_instance.executeSql(new Query("SELECT * FROM BRAND_DATA  WHERE brandCode=? ", [code]))
-        return data
-    }
 
     public createTableWithSql() {
         this.tables_data = [
             // 'DROP TABLE UPLOAD_DATA',
             'CREATE TABLE IF NOT EXISTS BRAND_DATA(id INTEGER PRIMARY KEY AUTOINCREMENT,brandName VARCHAR(25),brandCode VARCHAR(25),brandDescription VARCHAR(225))',
-            'CREATE TABLE IF NOT EXISTS SUB_BRAND_DATA(id INTEGER PRIMARY KEY AUTOINCREMENT,brandName VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),name VARCHAR(25),description VARCHAR(225),size VARCHAR(25))',
-      
+            'CREATE TABLE IF NOT EXISTS SUB_BRAND_DATA(id INTEGER PRIMARY KEY AUTOINCREMENT,brandCode VARCHAR(25),subBrandCode VARCHAR(25),name VARCHAR(25),description VARCHAR(225),size VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS SIZE(id INTEGER PRIMARY KEY AUTOINCREMENT,code VARCHAR(25),value VARCHAR(25))',
+
         ];
     }
 

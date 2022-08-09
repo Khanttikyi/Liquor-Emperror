@@ -22,7 +22,7 @@ export class BrandPage implements OnInit {
     this.getBrandList()
   }
   getBrandList() {
-    this.database.getBrandData().then((res) => {
+    this.database.getData('BRAND_DATA').then((res) => {
       console.log(res);
       this.brandList = res
       this.cdf.detectChanges()
