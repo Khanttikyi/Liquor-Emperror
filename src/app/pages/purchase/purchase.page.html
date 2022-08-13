@@ -94,7 +94,7 @@
                   <div class="col-sm-6">
                     <input type="text" class="form-control form-control-sm " name="purchaseCode" autocomplete="off"
                       [class.is-invalid]="isControlInvalid('purchaseCode')"
-                      [class.is-valid]="isControlValid('purchaseCode')" formControlName="purchaseCode" readonly/>
+                      [class.is-valid]="isControlValid('purchaseCode')" formControlName="purchaseCode" readonly />
                   </div>
                 </div>
               </div>
@@ -181,8 +181,8 @@
                     <span>*</span></label>
                   <div class="col-sm-6">
                     <input type="text" class="form-control form-control-sm " name="purchase" autocomplete="off"
-                      [class.is-invalid]="isControlInvalid('purchase')"
-                      [class.is-valid]="isControlValid('purchase')" formControlName="purchase" />
+                      [class.is-invalid]="isControlInvalid('purchase')" [class.is-valid]="isControlValid('purchase')"
+                      formControlName="purchase" />
                   </div>
                 </div>
               </div>
@@ -246,8 +246,9 @@
     </form>
     <div class="card-footer" style="float: right;">
       <button type="button" class="btn btn-light btn-elevate mr-2" (click)="cancel()">Cancel</button>
-      <button type="submit" class="btn btn-primary btn-elevate" [disabled]="purchaseForm.invalid" (click)="createPurchase()">Save</button>
+      <button type="submit" class="btn btn-primary btn-elevate" [disabled]="purchaseForm.invalid"
+        (click)="createPurchase()">Save</button>
     </div>
   </div>
-  
+
 </div>

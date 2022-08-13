@@ -314,6 +314,18 @@ app-header.header.header-fixed,
     gap: 5px;
 }
 
+
+.modal-dialog.modal-xl {
+    max-width: none;
+    width: 90%;
+}
+
+
+.modal-dialog.modal-xl2 {
+    max-width: none;
+    width: 93%;
+}
+
 .brand {
     position: relative;
 }

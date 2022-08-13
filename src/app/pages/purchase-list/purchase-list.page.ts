@@ -71,7 +71,7 @@ export class PurchaseListPage implements OnInit {
     })
   }
   async newPurchase(data?) {
-    const modalRef = this.modalService.open(PurchasePage, { size: 'lg', backdrop: false });
+    const modalRef = this.modalService.open(PurchasePage, { size: 'xl2', backdrop: false });
     modalRef.componentInstance.type = 'modal'
     modalRef.componentInstance.isCreate = data ? false : true
     modalRef.componentInstance.data = data

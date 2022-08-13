@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatabaseService } from 'src/app/_metronic/shared/crud-table/services/database.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class PurchasePage implements OnInit {
   purchaseForm: FormGroup
   purchaseCode: any = ""
   currentTimeInSeconds = Math.floor(Date.now() / 1000);
-  constructor(private database:DatabaseService) { }
+  constructor(private database:DatabaseService,private modal:NgbModal) { }
 
   ngOnInit() {
     this.loadForm()
@@ -52,6 +53,7 @@ export class PurchasePage implements OnInit {
   }
   cancel(){
     this.purchaseForm.reset()
+    this.modal.dismissAll()
   }
 
   //for View
