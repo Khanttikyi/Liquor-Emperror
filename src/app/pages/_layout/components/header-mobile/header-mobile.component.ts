@@ -36,17 +36,17 @@ export class HeaderMobileComponent implements OnInit, AfterViewInit {
   private getLogoUrl() {
     const headerSelfTheme = this.layout.getProp('header.self.theme') || '';
     const brandSelfTheme = this.layout.getProp('brand.self.theme') || '';
-    let result = 'kbzms.png';
+    let result = 'logo-01.png';
     if (!this.asideSelfDisplay) {
       if (headerSelfTheme === 'light') {
-        result = 'logo_text_blue.png';
+        result = 'logo-01.png';
       }
     } else {
       if (brandSelfTheme === 'light') {
-        result = 'bss_logo_white.png';
+        result = 'logo-01.png';
       }
     }
     // assets/images/kbzms.png
-    return `./assets/images/${result}`;
+    return `./assets/${result}`;
   }
 }
