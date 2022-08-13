@@ -58,7 +58,7 @@ export class BrandPage implements OnInit {
       this.addNewBrand(event.data)
     }
     else {
-      this.database.remove("BRAND_DATA", event.data, "brandCode")
+      this.database.remove("BRAND_DATA", event.data.brandCode, "brandCode")
       this.getBrandList()
     }
 

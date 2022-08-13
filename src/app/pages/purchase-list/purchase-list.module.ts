@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CategoryPageRoutingModule } from './category-routing.module';
+import { PurchaseListPageRoutingModule } from './purchase-list-routing.module';
 
-import { CategoryPage } from './category.page';
+import { PurchaseListPage } from './purchase-list.page';
 import { CRUDTableModule } from 'src/app/_metronic/shared/crud-table';
 
 @NgModule({
@@ -15,8 +15,8 @@ import { CRUDTableModule } from 'src/app/_metronic/shared/crud-table';
     FormsModule,
     IonicModule,
     CRUDTableModule,
-    CategoryPageRoutingModule
+    PurchaseListPageRoutingModule
   ],
-  declarations: [CategoryPage]
+  declarations: [PurchaseListPage]
 })
-export class CategoryPageModule {}
+export class PurchaseListPageModule {}

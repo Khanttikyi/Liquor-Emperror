@@ -87,6 +87,10 @@ export class DatabaseService {
         let sqlText;
         let values;
         switch (tableName) {
+            case "CATEGORY":
+                sqlText = "INSERT INTO CATEGORY (categoryName, categoryCode, categoryDescription) VALUES (?,?,?) ";
+                values = [item.categoryName || null, item.categoryCode || null, item.categoryDescription || null]
+                break;
             case "BRAND_DATA":
                 sqlText = "INSERT INTO BRAND_DATA (brandName, brandCode, brandDescription) VALUES (?,?,?) ";
                 values = [item.brandName || null, item.brandCode || null, item.brandDescription || null]
@@ -95,10 +99,10 @@ export class DatabaseService {
                 sqlText = "INSERT INTO SUB_BRAND_DATA (brandCode, subBrandCode, name, description,size) VALUES (?,?,?,?,?) ";
                 values = [item.brandCode || null, item.subBrandCode || null, item.name || null, item.description || null, item.size || null]
                 break;
-                case "SIZE":
-                    sqlText = "INSERT INTO SIZE (code, value) VALUES (?,?) ";
-                    values = [item.code || null, item.value]
-                    break;
+            case "SIZE":
+                sqlText = "INSERT INTO SIZE (code, value) VALUES (?,?) ";
+                values = [item.code || null, item.value]
+                break;
             default:
                 return;
 
@@ -112,6 +116,10 @@ export class DatabaseService {
         let sqlText;
         let values;
         switch (tableName) {
+            case "CATEGORY":
+                sqlText = "UPDATE CATEGORY SET (categoryName , categoryCode , categoryDescription ) = ( ? , ? , ? ) where categoryCode = ? ;";
+                values = [item.categoryName || null, item.categoryCode || null, item.categoryDescription || null, item.categoryCode]
+                break;
             case "BRAND_DATA":
                 sqlText = "UPDATE BRAND_DATA SET (brandName , brandCode , brandDescription ) = ( ? , ? , ? ) where brandCode = ? ;";
                 values = [item.brandName || null, item.brandCode || null, item.brandDescription || null, item.brandCode]
@@ -132,11 +140,11 @@ export class DatabaseService {
     }
 
 
-    public remove(tableName, item, type) {
+    public remove(tableName, data, type) {
         let sqlText;
         let values;
         sqlText = `delete from ${tableName} where ${type} = ? `;
-        values = [item.brandCode || null]
+        values = [data || null]
         let query = new Query(sqlText, values);
         console.log(query);
 
@@ -146,6 +154,9 @@ export class DatabaseService {
     async getData(tableName) {
         let data;
         switch (tableName) {
+            case "CATEGORY":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM CATEGORY"))
+                break;
             case "BRAND_DATA":
                 data = await this.database_instance.executeSql(new Query("SELECT * FROM BRAND_DATA"))
                 break;
@@ -155,6 +166,9 @@ export class DatabaseService {
             case "SIZE":
                 data = await this.database_instance.executeSql(new Query("SELECT * FROM SIZE"))
                 break;
+            case "PURCHASE":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM PURCHASE"))
+                break;
             default:
                 return;
 
@@ -162,14 +176,19 @@ export class DatabaseService {
         return data
     }
 
+    async getPurchaseData(purchaseCode) {
+        let data = await this.database_instance.executeSql(new Query("SELECT * FROM PURCHASE WHERE purchaseCode=?", [purchaseCode]))
+        return data
+    }
+
 
     public createTableWithSql() {
         this.tables_data = [
-            // 'DROP TABLE UPLOAD_DATA',
+            'CREATE TABLE IF NOT EXISTS CATEGORY(id INTEGER PRIMARY KEY AUTOINCREMENT,categoryName VARCHAR(25),categoryCode VARCHAR(25),categoryDescription VARCHAR(225))',
             'CREATE TABLE IF NOT EXISTS BRAND_DATA(id INTEGER PRIMARY KEY AUTOINCREMENT,brandName VARCHAR(25),brandCode VARCHAR(25),brandDescription VARCHAR(225))',
             'CREATE TABLE IF NOT EXISTS SUB_BRAND_DATA(id INTEGER PRIMARY KEY AUTOINCREMENT,brandCode VARCHAR(25),subBrandCode VARCHAR(25),name VARCHAR(25),description VARCHAR(225),size VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS SIZE(id INTEGER PRIMARY KEY AUTOINCREMENT,code VARCHAR(25),value VARCHAR(25))',
-
+            'CREATE TABLE IF NOT EXISTS PURCHASE(id INTEGER PRIMARY KEY AUTOINCREMENT,purchaseCode VARCHAR(25),voucherCode VARCHAR(25),date VARCHAR(25),supplierName VARCHAR(25),supplierPhone VARCHAR(25),supplierAddress VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),isRetail VARCHAR(25),isWholeSale VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),totalAmount VARCHAR(25))',
         ];
     }
 

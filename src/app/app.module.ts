@@ -26,6 +26,7 @@ import { SQLite } from '@ionic-native/sqlite/ngx';
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { AddNewSubBrandComponent } from './pages/sub-brand/add-new-sub-brand/add-new-sub-brand.component';
 import { AddSizeComponent } from './pages/sub-brand/add-size/add-size.component';
+import { AddNewcategoryComponent } from './pages/category/add-new-category/add-new-category.component';
 // #fake-start#
 // #fake-end#
 function appInitializer(authService: AuthService) {
@@ -38,7 +39,7 @@ function appInitializer(authService: AuthService) {
 
 
 @NgModule({
-  declarations: [AppComponent,AddNewBrandComponent,AddNewSubBrandComponent,AddSizeComponent],
+  declarations: [AppComponent,AddNewBrandComponent,AddNewSubBrandComponent,AddSizeComponent,AddNewcategoryComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

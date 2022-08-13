@@ -5,13 +5,11 @@
 
             <ng-container *ngFor="let item of colum; let i = index">
                 <ng-container matColumnDef="{{item.field}}">
-                    <ng-container *ngIf="item.type == 'field';else actTemp">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{item.title}} </th>
-
-                       
-
+                    <ng-container *ngIf="item.type == 'field';else actTemp" >
+                        <!-- mat-sort-header -->
+                        <th mat-header-cell *matHeaderCellDef   [ngStyle]="{'text-align': 'center'}"> {{item.title}} </th>
                         <td mat-cell *matCellDef="let element ; let i = index;"
-                            [ngStyle]="{'text-align': item.amtFormat ? 'right': 'left'}">
+                            [ngStyle]="{'text-align': 'center'}">
                             <ng-container *ngIf="item.isNo">
                                 {{i+1}}
                             </ng-container>
@@ -93,7 +91,7 @@
 
                     </ng-container>
                     <ng-template #actTemp>
-                        <th mat-header-cell *matHeaderCellDef> {{item.title | titlecase}} </th>
+                        <th mat-header-cell *matHeaderCellDef [ngStyle]="{'text-align':'center'}"> {{item.title | titlecase}} </th>
                         <td mat-cell *matCellDef="let element">
                             <app-action-button *ngIf="item.type == 'action'" [data]="element"
                                 (emitter)="actionBtn($event)" [viewBtn]="item.btn">

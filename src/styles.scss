@@ -291,15 +291,15 @@ app-header.header.header-fixed,
 // }
 .mat-custom-page:hover,
 .cus-ind:hover {
-    background-color: #187DE4 !important;
+    background-color: #0281ff !important;
 }
 
 .mat-custom-page[disabled] {
-    background-color: #ff8100;
+    background-color: #fed302;
 }
 
 .mat-custom-page[disabled]:hover {
-    background-color: #ff8100 !important;
+    background-color: #fed302 !important;
 }
 
 .mat-custom-page.cus-disabled[disabled],
@@ -502,7 +502,7 @@ td.mat-footer-cell,
 }
 
 .mat-sort-header-content {
-    text-align: left !important;
+    text-align: center !important;
 }
 
 .form-group {

@@ -66,7 +66,7 @@ export class SubBrandPage implements OnInit {
       this.addNewBrand(event.data)
     }
     else {
-      this.database.remove("SUB_BRAND_DATA", event.data, "brandCode")
+      this.database.remove("SUB_BRAND_DATA", event.data.brandCode, "brandCode")
       this.getSubBrandList()
     }
 

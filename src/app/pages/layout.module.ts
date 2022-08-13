@@ -19,10 +19,7 @@ import { CoreModule } from '../_metronic/core';
 import { SubheaderModule } from '../_metronic/partials/layout/subheader/subheader.module';
 import { AsideDynamicComponent } from './_layout/components/aside-dynamic/aside-dynamic.component';
 import { HeaderMenuDynamicComponent } from './_layout/components/header/header-menu-dynamic/header-menu-dynamic.component';
-// import { ActivityManagementListComponent } from './activity-management-list/activity-management-list.component';
-// import { ActivityManagementDetailComponent } from './activity-management-detail/activity-management-detail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 @NgModule({
   declarations: [
     LayoutComponent,
@@ -35,7 +32,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TopbarComponent,
     AsideDynamicComponent,
     HeaderMenuDynamicComponent,
-   
   ],
   imports: [
     CommonModule,

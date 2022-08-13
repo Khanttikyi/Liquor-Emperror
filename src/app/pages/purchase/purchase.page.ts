@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { DatabaseService } from 'src/app/_metronic/shared/crud-table/services/database.service';
 
 @Component({
   selector: 'app-purchase',
@@ -10,16 +11,21 @@ export class PurchasePage implements OnInit {
   purchaseForm: FormGroup
   purchaseCode: any = ""
   currentTimeInSeconds = Math.floor(Date.now() / 1000);
-  constructor() { }
+  constructor(private database:DatabaseService) { }
 
   ngOnInit() {
     this.loadForm()
+    this.database.getPurchaseData('PU-001').then((res)=>{
+      console.log(res);
+      
+    })
   }
   
   ngAfterViewInit() {
     this.purchaseCode = "PU-" + this.currentTimeInSeconds
     this.purchaseForm.controls.voucherCode.setValue(this.purchaseCode)
     this.purchaseForm.controls.purchaseCode.setValue(this.purchaseCode)
+    
   }
   loadForm() {
     this.purchaseForm = new FormGroup({

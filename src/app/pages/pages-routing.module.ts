@@ -13,7 +13,7 @@ const routes: Routes = [
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
-        path: 'category',
+        path: 'category/category',
         loadChildren: () => import('./category/category.module').then( m => m.CategoryPageModule)
       },
       {
@@ -33,6 +33,10 @@ const routes: Routes = [
         loadChildren: () => import('./purchase/purchase.module').then( m => m.PurchasePageModule)
       },
       {
+        path: 'purchase-list',
+        loadChildren: () => import('./purchase-list/purchase-list.module').then( m => m.PurchaseListPageModule)
+      },    
+      {
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',
@@ -43,6 +47,8 @@ const routes: Routes = [
       },
     ],
   },
+
+
  
 
   
