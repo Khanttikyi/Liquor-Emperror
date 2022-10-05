@@ -27,7 +27,7 @@ export class SubBrandPage implements OnInit {
   }
   getSubBrandList() {
     this.database.getData('SUB_BRAND_DATA').then((res) => {
-      console.log(res);
+      // console.log(res);
       this.brandList = res
 
       this.brandList.forEach(element => {
@@ -49,7 +49,7 @@ export class SubBrandPage implements OnInit {
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         let result = res.data
-        console.log(result);
+        // console.log(result);
         if (data) {
           this.database.update('SUB_BRAND_DATA', result)
           this.getSubBrandList()
@@ -61,7 +61,7 @@ export class SubBrandPage implements OnInit {
     })
   }
   actionBtn(event) {
-    console.log(event);
+    // console.log(event);
     if (event.cmd == 'edit') {
       this.addNewBrand(event.data)
     }

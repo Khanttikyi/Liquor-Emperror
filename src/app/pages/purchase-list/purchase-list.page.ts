@@ -14,6 +14,7 @@ import { purchaseCol, purchaseDisplayCol } from './purchase-const';
 export class PurchaseListPage implements OnInit {
   brandOption: any = []
   subBrandOption: any = []
+  isCreate: boolean = true
   purchaseList: any = [];
   ELEMENT_COL: any = purchaseCol;
   displayedColumns: any = purchaseDisplayCol;
@@ -79,18 +80,18 @@ export class PurchaseListPage implements OnInit {
       if (res) {
         let result = res.data
         console.log(result);
-        // if (data) {
-        //   this.database.update('BRAND_DATA', result)
-        //   this.getPurchaseList()
-        // } else {
-        //   this.database.create('BRAND_DATA', result)
-        //   this.getPurchaseList()
-        // }
+        if (data) {
+          this.database.update('PURCHASE', result)
+          this.getPurchaseList()
+        } else {
+          this.database.create('PURCHASE', result)
+          this.getPurchaseList()
+        }
       }
     })
   }
   actionBtn(event) {
-    console.log(event);
+    // console.log(event);
     if (event.cmd == 'edit') {
       this.newPurchase(event.data)
     }

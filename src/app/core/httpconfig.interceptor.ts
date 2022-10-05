@@ -33,7 +33,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
-                    // console.log('event--->>>', event);
+                    // // console.log('event--->>>', event);
                     // if(event.body === null){
                     //     this.authService.logout()
                     // }
@@ -44,7 +44,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                         // return event.body;
                     }
                 }
-                // console.log('event--->>>', event);
+                // // console.log('event--->>>', event);
                 return event;
             }),
             // catchError(this.errorHandler)

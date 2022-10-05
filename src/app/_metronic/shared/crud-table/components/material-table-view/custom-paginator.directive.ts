@@ -140,7 +140,7 @@ export class StylePaginatorDirective {
     }
   }
   public viewInit(pageTotal: number) {
-    // console.log("data");
+    // // console.log("data");
     this._dumPageTotal = pageTotal
     this.initPageRange();
     setTimeout(() => {

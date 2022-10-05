@@ -22,7 +22,7 @@ export class AddNewcategoryComponent implements OnInit {
 
   ngAfterViewInit() {
     this.categoryCode = this.data ? this.data.categoryCode : "CA-" + this.currentTimeInSeconds
-    console.log(this.categoryCode);
+    // console.log(this.categoryCode);
 
   }
   loadForm() {

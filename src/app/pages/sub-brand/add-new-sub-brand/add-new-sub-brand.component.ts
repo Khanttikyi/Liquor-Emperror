@@ -31,14 +31,14 @@ export class AddNewSubBrandComponent implements OnInit {
     this.database.getData('BRAND_DATA').then((res) => {
       let data = this.getFormatOpt(res)
       this.brandOption = data
-      console.log(this.brandOption);
+      // console.log(this.brandOption);
 
     })
   }
 
   ngAfterViewInit() {
     this.subBrandCode = this.data ? this.data.subBrandCode : "SB-" + this.currentTimeInSeconds
-    console.log(this.subBrandCode);
+    // console.log(this.subBrandCode);
 
   }
   loadForm() {
@@ -70,7 +70,7 @@ export class AddNewSubBrandComponent implements OnInit {
   }
   getSize(){
     this.database.getData('SIZE').then((res) => {
-      console.log(res);
+      // console.log(res);
       
       this.sizeOption = res
     })

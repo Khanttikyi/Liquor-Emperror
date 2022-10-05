@@ -1,0 +1,71 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      <h3 class="card-label" *ngIf="isCreate">Create Supplier</h3>
+      <h3 class="card-label" *ngIf="!isCreate">Supplier Detail</h3>
+    </div>
+
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <form action="#" class="form" [formGroup]="supplierForm" (ngSubmit)="createSupplier()">
+      <div>
+        <div class="row" style="align-items: center">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Supplier Name
+                <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm " name="supplierName" autocomplete="off"
+                  [class.is-invalid]="isControlInvalid('supplierName')" [class.is-valid]="isControlValid('supplierName')"
+                  formControlName="supplierName" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="align-items: center">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Supplier Address
+                <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm " name="supplierAddress" autocomplete="off"
+                  [class.is-invalid]="isControlInvalid('supplierAddress')" [class.is-valid]="isControlValid('supplierAddress')"
+                  formControlName="supplierAddress" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="align-items: center">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Supplier Phone No
+                <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm " name="supplierPhoneno" autocomplete="off"
+                  [class.is-invalid]="isControlInvalid('supplierPhoneno')" [class.is-valid]="isControlValid('supplierPhoneno')"
+                  formControlName="supplierPhoneno" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Description  <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm" name="description" autocomplete="off"
+                  [class.is-invalid]="isControlInvalid('description')"
+                  [class.is-valid]="isControlValid('description')" formControlName="description" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="cancel()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" [disabled]="supplierForm.invalid" (click)="createSupplier()">Save</button>
+  </div>
+  </div>

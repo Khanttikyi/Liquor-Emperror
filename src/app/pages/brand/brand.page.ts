@@ -13,25 +13,38 @@ import { BrandCol, BrandDisplayCol } from './brand-const';
 })
 export class BrandPage implements OnInit {
   brandList: any = [];
+  categoryList: any = [];
   ELEMENT_COL: any = BrandCol;
   displayedColumns: any = BrandDisplayCol;
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
   constructor(private cdf: ChangeDetectorRef, private modalCtrl: ModalController, private modalService: NgbModal, private database: DatabaseService) { }
 
   ngOnInit() {
+    this.getCategoryList()
     this.getBrandList()
+    
   }
-  getBrandList() {
-    this.database.getData('BRAND_DATA').then((res) => {
-      console.log(res);
+  getCategoryList() {
+    this.database.getData('CATEGORY').then((res) => {
+      this.categoryList = res;
+      console.log("CATEGORY", res);
       this.brandList = res
       this.cdf.detectChanges()
       this.matTable.reChangeData()
     })
-
-
-
   }
+  getBrandList() {
+    this.database.getData('BRAND_DATA').then((res) => {
+      console.log("category", res);
+      console.log("res", res);
+      this.brandList = res
+      console.log("list", this.brandList);
+      this.cdf.detectChanges()
+      this.matTable.reChangeData()
+    })
+  }
+  
+
   async addNewBrand(data?) {
     const modalRef = this.modalService.open(AddNewBrandComponent, { size: 'lg', backdrop: false });
     modalRef.componentInstance.type = 'modal'
@@ -40,7 +53,7 @@ export class BrandPage implements OnInit {
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         let result = res.data
-        console.log(result);
+        // // console.log(result);
 
         if (data) {
           this.database.update('BRAND_DATA', result)
@@ -53,7 +66,7 @@ export class BrandPage implements OnInit {
     })
   }
   actionBtn(event) {
-    console.log(event);
+    // // console.log(event);
     if (event.cmd == 'edit') {
       this.addNewBrand(event.data)
     }

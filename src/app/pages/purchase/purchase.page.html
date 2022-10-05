@@ -1,5 +1,12 @@
 <div class="row">
   <div class="col-12">
+    <div class="modal-header">
+      <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+        <h3 class="card-label" *ngIf="isCreate">Create Purchase</h3>
+        <h3 class="card-label" *ngIf="!isCreate">Purchase Detail</h3>
+      </div>
+  
+    </div>
     <form action="#" class="form" [formGroup]="purchaseForm" (ngSubmit)="createPurchase()">
       <div class="card card-custom">
         <div class="card-header">
@@ -26,9 +33,11 @@
                   <label class="col-sm-6 col-form-label">Date
                     <span>*</span></label>
                   <div class="col-sm-6">
+                    
                     <input type="text" class="form-control form-control-sm " name="date" autocomplete="off"
                       [class.is-invalid]="isControlInvalid('date')" [class.is-valid]="isControlValid('date')"
-                      formControlName="date" />
+                      formControlName="date" disabled />
+                      
                   </div>
                 </div>
               </div>
@@ -40,6 +49,10 @@
                   <label class="col-sm-6 col-form-label">Supplier Name
                     <span>*</span></label>
                   <div class="col-sm-6">
+                    <!-- <ng-select class="ng-custom-select ng-custom-select-sm"
+                      [class.is-invalid]="isControlInvalid('supplierCode')" [class.is-valid]="isControlValid('supplierCode')"
+                      [items]="supplierOption" bindLabel="value" bindValue="code" formControlName="supplierCode">
+                    </ng-select> -->
                     <input type="text" class="form-control form-control-sm " name="supplierName" autocomplete="off"
                       [class.is-invalid]="isControlInvalid('supplierName')"
                       [class.is-valid]="isControlValid('supplierName')" formControlName="supplierName" />
@@ -100,12 +113,18 @@
               </div>
               <div class="col-sm-6">
                 <div class="form-group row">
-                  <label class="col-sm-6 col-form-label">Date
+                  <label class="col-sm-6 col-form-label">Category
                     <span>*</span></label>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-sm " name="date" autocomplete="off"
-                      [class.is-invalid]="isControlInvalid('date')" [class.is-valid]="isControlValid('date')"
-                      formControlName="date" />
+                    <ng-select
+                      (change)="selectCategory($event)" formControlName="categoryCode" [class.is-invalid]="isControlInvalid('categoryCode')" [class.is-valid]="isControlValid('categoryCode')"
+                      >
+                      <ng-option *ngFor="let option of categoryOption"
+                                [value]="option.code">
+                        <div title="{{option.value}}">{{option.value}}</div>
+                      </ng-option>
+                    </ng-select>
+                     
                   </div>
                 </div>
               </div>
@@ -117,9 +136,17 @@
                   <label class="col-sm-6 col-form-label">Brand
                     <span>*</span></label>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-sm " name="brandCode" autocomplete="off"
+                    <ng-select
+                    (change)="selectBrand($event)" formControlName="brandCode" [class.is-invalid]="isControlInvalid('brandCode')" [class.is-valid]="isControlValid('brandCode')"
+                    >
+                    <ng-option *ngFor="let option of brandOption"
+                              [value]="option.code">
+                      <div title="{{option.value}}">{{option.value}}</div>
+                    </ng-option>
+                  </ng-select>
+                    <!-- <input type="text" class="form-control form-control-sm " name="brandCode" autocomplete="off"
                       [class.is-invalid]="isControlInvalid('brandCode')" [class.is-valid]="isControlValid('brandCode')"
-                      formControlName="brandCode" />
+                      formControlName="brandCode" /> -->
                   </div>
                 </div>
               </div>
@@ -128,9 +155,17 @@
                   <label class="col-sm-6 col-form-label">Sub Brand
                     <span>*</span></label>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-sm " name="subBrandCode" autocomplete="off"
+                    <ng-select
+                       formControlName="subBrandCode" [class.is-invalid]="isControlInvalid('subBrandCode')" [class.is-valid]="isControlValid('subBrandCode')"
+                      >
+                      <ng-option *ngFor="let option of subBrandOption"
+                                [value]="option.code">
+                        <div title="{{option.value}}">{{option.value}}</div>
+                      </ng-option>
+                  </ng-select>
+                    <!-- <input type="text" class="form-control form-control-sm " name="subBrandCode" autocomplete="off"
                       [class.is-invalid]="isControlInvalid('subBrandCode')"
-                      [class.is-valid]="isControlValid('subBrandCode')" formControlName="subBrandCode" />
+                      [class.is-valid]="isControlValid('subBrandCode')" formControlName="subBrandCode" /> -->
                   </div>
                 </div>
               </div>
@@ -142,9 +177,13 @@
                   <label class="col-sm-6 col-form-label">Size
                     <span>*</span></label>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-sm " name="size" autocomplete="off"
+                    <ng-select class="ng-custom-select ng-custom-select-sm"
                       [class.is-invalid]="isControlInvalid('size')" [class.is-valid]="isControlValid('size')"
-                      formControlName="size" />
+                      [items]="sizeOption" bindLabel="value" bindValue="value" formControlName="size">
+                    </ng-select>
+                    <!-- <input type="text" class="form-control form-control-sm " name="size" autocomplete="off"
+                      [class.is-invalid]="isControlInvalid('size')" [class.is-valid]="isControlValid('size')"
+                      formControlName="size" /> -->
                   </div>
                 </div>
               </div>
@@ -182,7 +221,7 @@
                   <div class="col-sm-6">
                     <input type="text" class="form-control form-control-sm " name="purchase" autocomplete="off"
                       [class.is-invalid]="isControlInvalid('purchase')" [class.is-valid]="isControlValid('purchase')"
-                      formControlName="purchase" />
+                      formControlName="purchase" (ngModelChange)="dataChanged($event)"/>
                   </div>
                 </div>
               </div>
@@ -194,14 +233,14 @@
                   <label class="col-sm-3 col-form-label">Retail Price</label>
                   <span class="switch switch-icon col-sm-3">
                     <label>
-                      <input type="checkbox" name="show" formControlName="isRetail" />
+                      <input type="checkbox" name="show" [(ngModel)]="isChecked" formControlName="isRetail" />
                       <span></span>
                     </label>
                   </span>
-                  <div class="col-sm-6" *ngIf="purchaseForm.controls.isRetail.value">
+                  <div class="col-sm-6">
                     <input type="text" class="form-control form-control-sm " name="retailPrice" autocomplete="off"
                       [class.is-invalid]="isControlInvalid('retailPrice')"
-                      [class.is-valid]="isControlValid('retailPrice')" formControlName="retailPrice" />
+                      [class.is-valid]="isControlValid('retailPrice')" formControlName="retailPrice" [readonly]="!isChecked"/>
                   </div>
                 </div>
               </div>
@@ -212,14 +251,14 @@
                   <label class="col-sm-3 col-form-label">WholeSale Price</label>
                   <span class="switch switch-icon col-sm-3">
                     <label>
-                      <input type="checkbox" name="show" formControlName="isWholeSale" />
+                      <input type="checkbox" name="show" [(ngModel)]="isWholeSale" formControlName="isWholeSale" />
                       <span></span>
                     </label>
                   </span>
-                  <div class="col-sm-6" *ngIf="purchaseForm.controls.isWholeSale.value">
+                  <div class="col-sm-6" >
                     <input type="text" class="form-control form-control-sm " name="wholeSalePrice" autocomplete="off"
                       [class.is-invalid]="isControlInvalid('wholeSalePrice')"
-                      [class.is-valid]="isControlValid('wholeSalePrice')" formControlName="wholeSalePrice" />
+                      [class.is-valid]="isControlValid('wholeSalePrice')" formControlName="wholeSalePrice" [readonly]="!isWholeSale"/>
                   </div>
                 </div>
               </div>

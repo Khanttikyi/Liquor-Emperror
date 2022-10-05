@@ -45,7 +45,7 @@ export class LayoutService {
         return;
       } catch (error) {
         this.removeConfig();
-        console.error('config parse from local storage', error);
+        // console.error('config parse from local storage', error);
       }
     }
     this.layoutConfigSubject.next(DefaultLayoutConfig);

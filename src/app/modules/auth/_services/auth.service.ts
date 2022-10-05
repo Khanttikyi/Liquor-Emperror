@@ -55,7 +55,7 @@ export class AuthService implements OnDestroy {
     this.isLoadingSubject.next(true);
     return this.authHttpService.login(email, password).pipe(
       map((res: any) => {
-        console.log(res);
+        // console.log(res);
         
         let auth = new AuthModel()
         auth.setAuth(res);
@@ -64,7 +64,7 @@ export class AuthService implements OnDestroy {
       }),
       switchMap(() => this.getUserByToken()),
       catchError((err) => {
-        console.error('err', err);
+        // console.error('err', err);
         return of(undefined);
       }),
       finalize(() => this.isLoadingSubject.next(false))
@@ -72,10 +72,8 @@ export class AuthService implements OnDestroy {
   }
 
   logout() {
-    localStorage.removeItem(this.authLocalStorageToken);
-    this.router.navigate(['/auth/login'], {
-      queryParams: {},
-    });
+    // localStorage.removeItem(this.authLocalStorageToken);
+    // this.router.navigate(['auth'])
   }
 
   getUserByToken(): Observable<UserModel> {
@@ -111,7 +109,7 @@ export class AuthService implements OnDestroy {
       }),
       switchMap(() => this.login(user.email, user.password)),
       catchError((err) => {
-        console.error('err', err);
+        // console.error('err', err);
         return of(undefined);
       }),
       finalize(() => this.isLoadingSubject.next(false))
@@ -142,7 +140,7 @@ export class AuthService implements OnDestroy {
       );
       return authData;
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       return undefined;
     }
   }

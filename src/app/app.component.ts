@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   @HostListener('window:unload', ['$event'])
   beforeUnloadHandler(event) {
     // const data = this.itemService.prodSubject.getValue()
-    //console.log(`I'm leaving the app!`, data);
+    //// console.log(`I'm leaving the app!`, data);
     // localStorage.setItem("itemsData", JSON.stringify(data));
   }
 

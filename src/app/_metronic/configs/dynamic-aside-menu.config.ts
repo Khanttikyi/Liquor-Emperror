@@ -35,6 +35,11 @@ export const DynamicAsideMenuConfig = {
           page: '/category/sub-brand',
           show:true
         },
+        {
+          title: 'Supplier',
+          page: '/category/supplier',
+          show:true
+        },
       ]
     },
    

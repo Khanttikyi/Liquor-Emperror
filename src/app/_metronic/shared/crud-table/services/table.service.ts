@@ -75,7 +75,7 @@ export abstract class TableService<T> {
     return this.http.post<BaseModel>(this.API_URL, item).pipe(
       catchError(err => {
         this._errorMessage.next(err);
-        console.error('CREATE ITEM', err);
+        // console.error('CREATE ITEM', err);
         return of({ id: undefined });
       }),
       finalize(() => this._isLoading$.next(false))
@@ -89,7 +89,7 @@ export abstract class TableService<T> {
     return this.http.post<TableResponseModel<T>>(url, tableState).pipe(
       catchError(err => {
         this._errorMessage.next(err);
-        console.error('FIND ITEMS', err);
+        // console.error('FIND ITEMS', err);
         return of({ items: [], total: 0 });
       })
     );
@@ -102,7 +102,7 @@ export abstract class TableService<T> {
     return this.http.get<BaseModel>(url).pipe(
       catchError(err => {
         this._errorMessage.next(err);
-        console.error('GET ITEM BY IT', id, err);
+        // console.error('GET ITEM BY IT', id, err);
         return of({ id: undefined });
       }),
       finalize(() => this._isLoading$.next(false))
@@ -117,7 +117,7 @@ export abstract class TableService<T> {
     return this.http.put(url, item).pipe(
       catchError(err => {
         this._errorMessage.next(err);
-        console.error('UPDATE ITEM', item, err);
+        // console.error('UPDATE ITEM', item, err);
         return of(item);
       }),
       finalize(() => this._isLoading$.next(false))
@@ -133,7 +133,7 @@ export abstract class TableService<T> {
     return this.http.put(url, body).pipe(
       catchError(err => {
         this._errorMessage.next(err);
-        console.error('UPDATE STATUS FOR SELECTED ITEMS', ids, status, err);
+        // console.error('UPDATE STATUS FOR SELECTED ITEMS', ids, status, err);
         return of([]);
       }),
       finalize(() => this._isLoading$.next(false))
@@ -148,7 +148,7 @@ export abstract class TableService<T> {
     return this.http.delete(url).pipe(
       catchError(err => {
         this._errorMessage.next(err);
-        console.error('DELETE ITEM', id, err);
+        // console.error('DELETE ITEM', id, err);
         return of({});
       }),
       finalize(() => this._isLoading$.next(false))
@@ -164,7 +164,7 @@ export abstract class TableService<T> {
     return this.http.put(url, body).pipe(
       catchError(err => {
         this._errorMessage.next(err);
-        console.error('DELETE SELECTED ITEMS', ids, err);
+        // console.error('DELETE SELECTED ITEMS', ids, err);
         return of([]);
       }),
       finalize(() => this._isLoading$.next(false))

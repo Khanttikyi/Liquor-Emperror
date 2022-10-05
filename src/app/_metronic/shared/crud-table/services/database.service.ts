@@ -43,7 +43,7 @@ export class DatabaseService {
 
                 })
                 .catch(e => {
-                    console.log("error " + JSON.stringify(e))
+                    // console.log("error " + JSON.stringify(e))
                 });
         });
 
@@ -55,7 +55,7 @@ export class DatabaseService {
                 let dbtable = await this.database_instance.executeSql(new Query(this.tables_data[i]))
 
             } catch (error) {
-                console.log("error " + JSON.stringify(error))
+                // console.log("error " + JSON.stringify(error))
             }
 
         }
@@ -69,7 +69,7 @@ export class DatabaseService {
         } else {
             this.database = window.openDatabase(SQL_DB_NAME, '1.0', 'DEV', 5 * 1024 * 1024);
         }
-        console.log('enter init')
+        // console.log('enter init')
         this.createTableWithSql();
         this.database_instance = await browserDBInstance(this.database);
         await this.createTable();
@@ -86,18 +86,27 @@ export class DatabaseService {
     public create(tableName, item) {
         let sqlText;
         let values;
+        // console.log("categorycode", item)
         switch (tableName) {
             case "CATEGORY":
                 sqlText = "INSERT INTO CATEGORY (categoryName, categoryCode, categoryDescription) VALUES (?,?,?) ";
                 values = [item.categoryName || null, item.categoryCode || null, item.categoryDescription || null]
                 break;
             case "BRAND_DATA":
-                sqlText = "INSERT INTO BRAND_DATA (brandName, brandCode, brandDescription) VALUES (?,?,?) ";
-                values = [item.brandName || null, item.brandCode || null, item.brandDescription || null]
+                sqlText = "INSERT INTO BRAND_DATA (categoryCode, brandName, brandCode, brandDescription) VALUES (?,?,?,?) ";
+                values = [item.categoryCode || null, item.brandName || null, item.brandCode || null, item.brandDescription || null]
                 break;
             case "SUB_BRAND_DATA":
                 sqlText = "INSERT INTO SUB_BRAND_DATA (brandCode, subBrandCode, name, description,size) VALUES (?,?,?,?,?) ";
                 values = [item.brandCode || null, item.subBrandCode || null, item.name || null, item.description || null, item.size || null]
+                break;
+            case "SUPPLIER":
+                sqlText = "INSERT INTO SUPPLIER (supplierCode, supplierName, supplierAddress,supplierPhoneno, description) VALUES (?,?,?,?,?) ";
+                values = [item.supplierCode || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhoneno, item.description || null]
+                break;
+            case "PURCHASE":
+                sqlText = "INSERT INTO PURCHASE (purchaseCode, voucherCode, date, supplierName, supplierAddress,supplierPhone,categoryCode,  brandCode, subBrandCode, size, quantity, purchase, isRetail, isWholeSale, retailPrice, wholeSalePrice, totalAmount) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+                values = [item.purchaseCode || null, item.voucherCode || null, item.date || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhone || null,item.categoryCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.quantity || null, item.purchase || null, item.isRetail || null, item.isWholeSale || null, item.retailPrice || null, item.wholeSalePrice || null,item.totalAmount || null]
                 break;
             case "SIZE":
                 sqlText = "INSERT INTO SIZE (code, value) VALUES (?,?) ";
@@ -108,6 +117,7 @@ export class DatabaseService {
 
         }
         let query = new Query(sqlText, values);
+        console.log("query", query);
         let res = this.database_instance.executeSql(query);
     }
 
@@ -121,19 +131,27 @@ export class DatabaseService {
                 values = [item.categoryName || null, item.categoryCode || null, item.categoryDescription || null, item.categoryCode]
                 break;
             case "BRAND_DATA":
-                sqlText = "UPDATE BRAND_DATA SET (brandName , brandCode , brandDescription ) = ( ? , ? , ? ) where brandCode = ? ;";
-                values = [item.brandName || null, item.brandCode || null, item.brandDescription || null, item.brandCode]
+                sqlText = "UPDATE BRAND_DATA SET (categoryCode, brandName , brandCode , brandDescription ) = (?, ? , ? , ? ) where brandCode = ? ;";
+                values = [item.categoryCode || null, item.brandName || null, item.brandCode || null, item.brandDescription || null, item.brandCode]
                 break;
             case "SUB_BRAND_DATA":
                 sqlText = "UPDATE SUB_BRAND_DATA SET (brandCode, subBrandCode, name, description,size)  = ( ? , ? , ? , ? , ? ) where subBrandCode = ? ;";
                 values = [item.brandCode || null, item.subBrandCode || null, item.name || null, item.description || null, item.size || null, item.subBrandCode]
+                break;
+            case "SUPPLIER":
+                sqlText = "UPDATE SUPPLIER SET (supplierCode , supplierName, supplierAddress, supplierPhoneno , description ) = ( ? , ? , ? , ? , ? ) where supplierCode = ? ;";
+                values = [item.supplierCode || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhoneno, item.description || null, item.supplierCode]
+                break;
+            case "PURCHASE":
+                sqlText = "UPDATE PURCHASE SET (purchaseCode, voucherCode, date, supplierName, supplierAddress,supplierPhone,categoryCode, brandCode, subBrandCode, size, quantity, purchase, isRetail, isWholeSale, retailPrice, wholeSalePrice, totalAmount) =  (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) where voucherCode = ? ;";
+                values = [item.purchaseCode || null, item.voucherCode || null, item.date || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhone || null,item.categoryCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.quantity || null, item.purchase || null, item.isRetail || null, item.isWholeSale || null, item.retailPrice || null, item.wholeSalePrice || null,item.totalAmount || null, item.voucherCode]
                 break;
             default:
                 return;
 
         }
         let query = new Query(sqlText, values);
-        console.log(query);
+        console.log("queryupdate", query);
 
         let res = this.database_instance.executeSql(query);
 
@@ -146,7 +164,7 @@ export class DatabaseService {
         sqlText = `delete from ${tableName} where ${type} = ? `;
         values = [data || null]
         let query = new Query(sqlText, values);
-        console.log(query);
+        // console.log(query);
 
         let res = this.database_instance.executeSql(query);
     }
@@ -162,6 +180,9 @@ export class DatabaseService {
                 break;
             case "SUB_BRAND_DATA":
                 data = await this.database_instance.executeSql(new Query("SELECT * FROM SUB_BRAND_DATA"))
+                break;
+            case "SUPPLIER":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM SUPPLIER"))
                 break;
             case "SIZE":
                 data = await this.database_instance.executeSql(new Query("SELECT * FROM SIZE"))
@@ -181,14 +202,25 @@ export class DatabaseService {
         return data
     }
 
+    async getBrandByCategoryCode(categoryCode) {
+        let data = await this.database_instance.executeSql(new Query("SELECT * FROM BRAND_DATA WHERE categoryCode=?", [categoryCode]))
+        return data
+    }
+
+    async getSubBrandByBrandCode(brandCode) {
+        let data = await this.database_instance.executeSql(new Query("SELECT * FROM SUB_BRAND_DATA WHERE brandCode=?", [brandCode]))
+        return data
+    }
+
 
     public createTableWithSql() {
         this.tables_data = [
             'CREATE TABLE IF NOT EXISTS CATEGORY(id INTEGER PRIMARY KEY AUTOINCREMENT,categoryName VARCHAR(25),categoryCode VARCHAR(25),categoryDescription VARCHAR(225))',
-            'CREATE TABLE IF NOT EXISTS BRAND_DATA(id INTEGER PRIMARY KEY AUTOINCREMENT,brandName VARCHAR(25),brandCode VARCHAR(25),brandDescription VARCHAR(225))',
+            'CREATE TABLE IF NOT EXISTS BRAND_DATA(id INTEGER PRIMARY KEY AUTOINCREMENT,categoryCode VARCHAR(25),brandName VARCHAR(25),brandCode VARCHAR(25),brandDescription VARCHAR(225))',
             'CREATE TABLE IF NOT EXISTS SUB_BRAND_DATA(id INTEGER PRIMARY KEY AUTOINCREMENT,brandCode VARCHAR(25),subBrandCode VARCHAR(25),name VARCHAR(25),description VARCHAR(225),size VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS SUPPLIER(id INTEGER PRIMARY KEY AUTOINCREMENT,supplierName VARCHAR(25),supplierCode VARCHAR(25),supplierAddress VARCHAR(25),supplierPhoneno VARCHAR(25),description VARCHAR(225))',
             'CREATE TABLE IF NOT EXISTS SIZE(id INTEGER PRIMARY KEY AUTOINCREMENT,code VARCHAR(25),value VARCHAR(25))',
-            'CREATE TABLE IF NOT EXISTS PURCHASE(id INTEGER PRIMARY KEY AUTOINCREMENT,purchaseCode VARCHAR(25),voucherCode VARCHAR(25),date VARCHAR(25),supplierName VARCHAR(25),supplierPhone VARCHAR(25),supplierAddress VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),isRetail VARCHAR(25),isWholeSale VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),totalAmount VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS PURCHASE(id INTEGER PRIMARY KEY AUTOINCREMENT,purchaseCode VARCHAR(25),voucherCode VARCHAR(25),date VARCHAR(25),supplierName VARCHAR(25),supplierPhone VARCHAR(25),categoryCode VARCHAR(25),supplierAddress VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),isRetail VARCHAR(25),isWholeSale VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),totalAmount VARCHAR(25))',
         ];
     }
 
@@ -204,7 +236,7 @@ export class DatabaseService {
                 } else {
                     let data_list = sql.split(';');
                     for (var i = 0; i < data_list.length; i++) {
-                        console.log(data_list);
+                        // console.log(data_list);
 
                         this.database_instance.executeSql(new Query(data_list[i] + ''), []);
                     }

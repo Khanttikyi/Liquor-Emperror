@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PurchasePageRoutingModule } from './purchase-routing.module';
+import { SupplierPageRoutingModule } from './supplier-routing.module';
 
-import { PurchasePage } from './purchase.page';
+import { SupplierPage } from './supplier.page';
 import { CRUDTableModule } from 'src/app/_metronic/shared/crud-table';
 
 @NgModule({
@@ -16,8 +16,8 @@ import { CRUDTableModule } from 'src/app/_metronic/shared/crud-table';
     IonicModule,
     CRUDTableModule,
     ReactiveFormsModule,
-    PurchasePageRoutingModule
+    SupplierPageRoutingModule
   ],
-  declarations: [PurchasePage]
+  declarations: [SupplierPage]
 })
-export class PurchasePageModule {}
+export class SupplierPageModule {}

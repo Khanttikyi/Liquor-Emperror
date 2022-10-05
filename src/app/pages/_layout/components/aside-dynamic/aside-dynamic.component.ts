@@ -94,8 +94,9 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
     return false;
   }
   logout(){
-    this.auth.logout();
-    document.location.reload();
+    this.router.navigate(['auth']);
+    // this.auth.logout();
+    // document.location.reload();
   }
 
   ngOnDestroy() {

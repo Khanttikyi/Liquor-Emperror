@@ -37,6 +37,10 @@ const routes: Routes = [
         loadChildren: () => import('./purchase-list/purchase-list.module').then( m => m.PurchaseListPageModule)
       },    
       {
+        path: 'category/supplier',
+        loadChildren: () => import('./supplier/supplier.module').then( m => m.SupplierPageModule)
+      },
+      {
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',
@@ -47,6 +51,8 @@ const routes: Routes = [
       },
     ],
   },
+  
+
 
 
  

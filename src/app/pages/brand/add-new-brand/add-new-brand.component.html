@@ -12,6 +12,21 @@
         <div class="row" style="align-items: center">
           <div class="col-sm-12">
             <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Category Name
+                <span>*</span></label>
+              <div class="col-sm-6">
+                <ng-select class="ng-custom-select ng-custom-select-sm"
+                  [class.is-invalid]="isControlInvalid('categoryCode')" [class.is-valid]="isControlValid('categoryCode')"
+                  [items]="categoryOption" bindLabel="value" bindValue="code" formControlName="categoryCode">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row" style="align-items: center">
+          <div class="col-sm-12">
+            <div class="form-group row">
               <label class="col-sm-6 col-form-label">Name
                 <span>*</span></label>
               <div class="col-sm-6">
