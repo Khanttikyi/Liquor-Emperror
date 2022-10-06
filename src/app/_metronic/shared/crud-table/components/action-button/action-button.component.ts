@@ -43,6 +43,12 @@ export class ActionButtonComponent implements OnInit {
       data: this.data,
     });
   }
+  onActionDetail() {
+    this.emitter.emit({
+      cmd: "detail",
+      data: this.data,
+    });
+  }
   onActionDownload() {
     this.emitter.emit({
       cmd: "download",

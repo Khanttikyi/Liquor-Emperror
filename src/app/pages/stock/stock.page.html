@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card card-custom">
+      <div class="card-header">
+        <div class="card-title">
+          <h3 class="card-label left-border-image">Stock</h3>
+        </div>
+        <!-- <div class="card-toolbar">
+          <button type="button" class="btn btn-primary" (click)="newPurchase()">
+            New Purchase
+          </button>
+        </div> -->
+      </div>
+      <div class="card-body customer-card-body">
+        <app-material-table-view [data]="purchaseList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns"
+          (emitter)="actionBtn($event)">
+        </app-material-table-view>
+      </div>
+    </div>
+  </div>
+</div>

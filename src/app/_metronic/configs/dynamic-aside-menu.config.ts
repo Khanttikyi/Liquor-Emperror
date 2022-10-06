@@ -42,6 +42,7 @@ export const DynamicAsideMenuConfig = {
         },
       ]
     },
+    
    
     {
       title: 'Purchase',
@@ -52,6 +53,16 @@ export const DynamicAsideMenuConfig = {
       bullet: 'dot',
       show: true,
 
+    },
+    {
+      title: 'Stock',
+      root: true,
+      icon: 'flaticon-list-1',
+      svg: './assets/media/svg/icons/Design/Adjust.svg',
+      page: '/stock',
+      bullet: 'dot',
+      show: true,
+      
     },
     {
       title: 'Sales',

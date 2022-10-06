@@ -190,6 +190,9 @@ export class DatabaseService {
             case "PURCHASE":
                 data = await this.database_instance.executeSql(new Query("SELECT * FROM PURCHASE"))
                 break;
+            case "STOCK":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM STOCK"))
+                break;
             default:
                 return;
 
@@ -221,6 +224,7 @@ export class DatabaseService {
             'CREATE TABLE IF NOT EXISTS SUPPLIER(id INTEGER PRIMARY KEY AUTOINCREMENT,supplierName VARCHAR(25),supplierCode VARCHAR(25),supplierAddress VARCHAR(25),supplierPhoneno VARCHAR(25),description VARCHAR(225))',
             'CREATE TABLE IF NOT EXISTS SIZE(id INTEGER PRIMARY KEY AUTOINCREMENT,code VARCHAR(25),value VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS PURCHASE(id INTEGER PRIMARY KEY AUTOINCREMENT,purchaseCode VARCHAR(25),voucherCode VARCHAR(25),date VARCHAR(25),supplierName VARCHAR(25),supplierPhone VARCHAR(25),categoryCode VARCHAR(25),supplierAddress VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),isRetail VARCHAR(25),isWholeSale VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),totalAmount VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS STOCK(id INTEGER PRIMARY KEY AUTOINCREMENT,stockCode VARCHAR(25),purchaseCode VARCHAR(25),date VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),status VARCHAR(25))',
         ];
     }
 
