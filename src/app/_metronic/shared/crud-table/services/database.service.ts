@@ -108,6 +108,10 @@ export class DatabaseService {
                 sqlText = "INSERT INTO PURCHASE (purchaseCode, voucherCode, date, supplierName, supplierAddress,supplierPhone,categoryCode,  brandCode, subBrandCode, size, quantity, purchase, isRetail, isWholeSale, retailPrice, wholeSalePrice, totalAmount) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
                 values = [item.purchaseCode || null, item.voucherCode || null, item.date || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhone || null,item.categoryCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.quantity || null, item.purchase || null, item.isRetail || null, item.isWholeSale || null, item.retailPrice || null, item.wholeSalePrice || null,item.totalAmount || null]
                 break;
+            case "ITEM_PRICE":
+                sqlText = "INSERT INTO ITEM_PRICE (itemPriceCode, brandCode, subBrandCode, code, retailPrice, wholeSalePrice) VALUES (?,?,?,?,?) ";
+                values = [item.itemPriceCode || null,item.brandCode || null, item.subBrandCode || null, item.code || null, item.retailPrice || null, item.wholeSalelPrice]
+                break;
             case "SIZE":
                 sqlText = "INSERT INTO SIZE (code, value) VALUES (?,?) ";
                 values = [item.code || null, item.value]
@@ -191,13 +195,17 @@ export class DatabaseService {
                 data = await this.database_instance.executeSql(new Query("SELECT * FROM PURCHASE"))
                 break;
             case "STOCK":
-                data = await this.database_instance.executeSql(new Query("SELECT * FROM STOCK"))
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM STOCK LEFT JOIN PURCHASE ON STOCK.purchaseCode=PURCHASE.purchaseCode"))
+                break;
+            case "ITEM_PRICE":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM ITEM_PRICE"))
                 break;
             default:
                 return;
 
         }
         return data
+        
     }
 
     async getPurchaseData(purchaseCode) {
@@ -225,6 +233,7 @@ export class DatabaseService {
             'CREATE TABLE IF NOT EXISTS SIZE(id INTEGER PRIMARY KEY AUTOINCREMENT,code VARCHAR(25),value VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS PURCHASE(id INTEGER PRIMARY KEY AUTOINCREMENT,purchaseCode VARCHAR(25),voucherCode VARCHAR(25),date VARCHAR(25),supplierName VARCHAR(25),supplierPhone VARCHAR(25),categoryCode VARCHAR(25),supplierAddress VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),isRetail VARCHAR(25),isWholeSale VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),totalAmount VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS STOCK(id INTEGER PRIMARY KEY AUTOINCREMENT,stockCode VARCHAR(25),purchaseCode VARCHAR(25),date VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),status VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS ITEM_PRICE(id INTEGER PRIMARY KEY AUTOINCREMENT,itemPriceCode VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25))',
         ];
     }
 
