@@ -29,14 +29,21 @@ export class StockPage implements OnInit {
     this.getPurchaseList()
   }
   getPurchaseList() {
-    this.database.getData('STOCK').then((res) => {
+    this.database.getData('PURCHASE').then((res) => {
       console.log(res);
 
       res.forEach(element => {
         let brand = this.brandOption.find((p) => p.code == element.brandCode);
         let sub = this.subBrandOption.find((p) => p.code == element.subBrandCode);
+        if(element.quantity){
+          element.status = "INSTOCK"
+        }
+        else{
+          element.status = "OUTOFSTOCK"
+        }
         element.brandName = brand.value
         element.subBrandName = sub.value
+        
       });
       this.purchaseList = res
       console.log("purchaselist", this.purchaseList);

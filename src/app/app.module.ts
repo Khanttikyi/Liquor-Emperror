@@ -29,6 +29,7 @@ import { AddSizeComponent } from './pages/sub-brand/add-size/add-size.component'
 import { AddNewcategoryComponent } from './pages/category/add-new-category/add-new-category.component';
 import { AddNewSupplierComponent } from './pages/supplier/add-new-supplier/add-new-supplier.component';
 import { PurchasePage } from './pages/purchase/purchase.page';
+import { AddNewItemPriceComponent } from './pages/item-price/add-new-item-price/add-new-item-price.component';
 // #fake-start#
 // #fake-end#
 function appInitializer(authService: AuthService) {
@@ -41,7 +42,7 @@ function appInitializer(authService: AuthService) {
 
 
 @NgModule({
-  declarations: [AppComponent,AddNewBrandComponent,AddNewSubBrandComponent,AddSizeComponent,AddNewcategoryComponent,AddNewSupplierComponent,PurchasePage],
+  declarations: [AppComponent,AddNewBrandComponent,AddNewSubBrandComponent,AddSizeComponent,AddNewcategoryComponent,AddNewSupplierComponent,PurchasePage,AddNewItemPriceComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

@@ -44,7 +44,7 @@ export const stockCol: any[] = [
         title: "Status",
         type: "field",
         field: "status",
-        amtFormat: true,
+        
     },
 
     {

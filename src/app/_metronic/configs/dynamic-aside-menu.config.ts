@@ -40,6 +40,11 @@ export const DynamicAsideMenuConfig = {
           page: '/category/supplier',
           show:true
         },
+        {
+          title: 'Item Price',
+          page: '/category/item-price',
+          show:true
+        },
       ]
     },
     

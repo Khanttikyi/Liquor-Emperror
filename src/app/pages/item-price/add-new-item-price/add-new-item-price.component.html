@@ -1,0 +1,101 @@
+<p>
+  add-new-item-price works!
+</p>
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      <h3 class="card-label" *ngIf="isCreate">Create Item Price</h3>
+      <h3 class="card-label" *ngIf="!isCreate">Item Price Detail</h3>
+    </div>
+
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <form action="#" class="form" [formGroup]="itemPriceForm" (ngSubmit)="createItemPrice()">
+      <div>
+
+        
+        <div class="row" style="align-items: center">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Brand Name
+                <span>*</span></label>
+              <div class="col-sm-6">
+                <ng-select class="ng-custom-select ng-custom-select-sm"
+                  [class.is-invalid]="isControlInvalid('brandCode')" [class.is-valid]="isControlValid('brandCode')"
+                  [items]="brandOption" bindLabel="value" bindValue="code" formControlName="brandCode">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="align-items: center">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">SubBrand Name
+                <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm " name="subBrandCode" autocomplete="off"
+                  [class.is-invalid]="isControlInvalid('subBrandCode')" [class.is-valid]="isControlValid('subBrandCode')"
+                  formControlName="subBrandCode" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="align-items: center">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Retail Price
+                <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm " name="retailPrice" autocomplete="off"
+                  [class.is-invalid]="isControlInvalid('retailPrice')" [class.is-valid]="isControlValid('retailPrice')"
+                  formControlName="retailPrice" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="align-items: center">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">WholeSale Price
+                <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm " name="wholeSalePrice" autocomplete="off"
+                  [class.is-invalid]="isControlInvalid('wholeSalePrice')" [class.is-valid]="isControlValid('wholeSalePrice')"
+                  formControlName="wholeSalePrice" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Size <span>*</span></label>
+              <div class="col-sm-5">
+                <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('size')"
+                  [class.is-valid]="isControlValid('size')" [items]="sizeOption" bindLabel="value" bindValue="code"
+                  formControlName="size">
+                </ng-select>
+              </div>
+              <div class="col-sm-1">
+                <button type="button" class="btn btn-primary" (click)="createSize()">
+                  <span class="flaticon2-plus"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="cancel()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" [disabled]="subBrandForm.invalid"
+      (click)="createBrand()">Save</button>
+  </div>
+</div>
