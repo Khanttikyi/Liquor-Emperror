@@ -14,29 +14,40 @@ import { BrandCol, BrandDisplayCol } from './brand-const';
 export class BrandPage implements OnInit {
   brandList: any = [];
   categoryList: any = [];
+  categoryOption: any = [];
   ELEMENT_COL: any = BrandCol;
   displayedColumns: any = BrandDisplayCol;
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  constructor(private cdf: ChangeDetectorRef, private modalCtrl: ModalController, private modalService: NgbModal, private database: DatabaseService) { }
-
-  ngOnInit() {
+  constructor(private cdf: ChangeDetectorRef, private modalCtrl: ModalController, private modalService: NgbModal, private database: DatabaseService) { 
     this.getCategoryList()
     this.getBrandList()
+  }
+
+  ngOnInit() {
+    
     
   }
   getCategoryList() {
     this.database.getData('CATEGORY').then((res) => {
-      this.categoryList = res;
-      console.log("CATEGORY", res);
-      this.brandList = res
+      this.categoryOption = res;
+      console.log("CATEGORY", this.categoryOption);
+      //this.brandList = res
       this.cdf.detectChanges()
       this.matTable.reChangeData()
     })
   }
   getBrandList() {
+    console.log("ddddd", this.categoryOption)
     this.database.getData('BRAND_DATA').then((res) => {
-      console.log("category", res);
-      console.log("res", res);
+      console.log("brandata", res);
+      res.forEach(element => {
+        
+        let categorycode = this.categoryOption.find((p) => p.categoryCode == element.categoryCode);
+        
+       console.log("categorycode", categorycode);
+        element.categoryName = categorycode.categoryName;
+        
+      });
       this.brandList = res
       console.log("list", this.brandList);
       this.cdf.detectChanges()

@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
@@ -14,6 +15,7 @@ export class AddNewBrandComponent implements OnInit {
   brandForm: FormGroup
   brandCode: any = ""
   categoryOption: any[] = [] 
+  date = new Date;
   currentTimeInSeconds = Math.floor(Date.now() / 1000);
   @Input() data: any = {}
   constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService) { 
@@ -27,8 +29,8 @@ export class AddNewBrandComponent implements OnInit {
   }
   getCategory() {
     this.database.getData('CATEGORY').then((res) => {
-      let data = this.getFormatOpt(res)
-      this.categoryOption = data
+      //let data = this.getFormatOpt(res)
+      this.categoryOption = res
       console.log("this.categoryOption", this.categoryOption);
 
     })
@@ -46,11 +48,14 @@ export class AddNewBrandComponent implements OnInit {
 
   }
   loadForm() {
+    console.log("brand", this.data)
     this.brandForm = new FormGroup({
       categoryCode: new FormControl(this.data ? this.data.categoryCode : null),
       brandCode: new FormControl(this.brandCode || null),
       brandName: new FormControl(this.data ? this.data.brandName : null, Validators.required),
       brandDescription: new FormControl(this.data ? this.data.brandDescription : null, Validators.required),
+      createddate: new FormControl(this.data ? this.data.createddate : formatDate(this.date, 'dd-MM-yyyy', 'en')),
+      updateddate: new FormControl(formatDate(this.date, 'dd-MM-yyyy', 'en')),
     })
   }
   cancel() {

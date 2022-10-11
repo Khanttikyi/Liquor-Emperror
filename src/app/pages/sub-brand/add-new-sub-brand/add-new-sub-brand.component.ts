@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
@@ -18,6 +19,7 @@ export class AddNewSubBrandComponent implements OnInit {
   @Input() data: any = {}
   brandOption: any[] = []
   sizeOption: any[] = []
+  date = new Date;
   constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService) {
 
     this.getBrand()
@@ -48,6 +50,8 @@ export class AddNewSubBrandComponent implements OnInit {
       description: new FormControl(this.data ? this.data.description : null, Validators.required),
       name: new FormControl(this.data ? this.data.name : null, Validators.required),
       size: new FormControl(this.data ? this.data.size : null, Validators.required),
+      createddate: new FormControl(this.data ? this.data.createddate : formatDate(this.date, 'dd-MM-yyyy', 'en')),
+      updateddate: new FormControl(formatDate(this.date, 'dd-MM-yyyy', 'en')),
 
     })
   }

@@ -89,32 +89,32 @@ export class DatabaseService {
         // console.log("categorycode", item)
         switch (tableName) {
             case "CATEGORY":
-                sqlText = "INSERT INTO CATEGORY (categoryName, categoryCode, categoryDescription) VALUES (?,?,?) ";
-                values = [item.categoryName || null, item.categoryCode || null, item.categoryDescription || null]
+                sqlText = "INSERT INTO CATEGORY (categoryName, categoryCode, categoryDescription, createddate, updateddate) VALUES (?,?,?,?,?) ";
+                values = [item.categoryName || null, item.categoryCode || null, item.categoryDescription || null, item.createddate || null, item.updateddate || null ]
                 break;
             case "BRAND_DATA":
-                sqlText = "INSERT INTO BRAND_DATA (categoryCode, brandName, brandCode, brandDescription) VALUES (?,?,?,?) ";
-                values = [item.categoryCode || null, item.brandName || null, item.brandCode || null, item.brandDescription || null]
+                sqlText = "INSERT INTO BRAND_DATA (categoryCode, brandName, brandCode, brandDescription, createddate, updateddate) VALUES (?,?,?,?,?,?) ";
+                values = [item.categoryCode || null, item.brandName || null, item.brandCode || null, item.brandDescription || null, item.createddate || null, item.updateddate || null]
                 break;
             case "SUB_BRAND_DATA":
-                sqlText = "INSERT INTO SUB_BRAND_DATA (brandCode, subBrandCode, name, description,size) VALUES (?,?,?,?,?) ";
-                values = [item.brandCode || null, item.subBrandCode || null, item.name || null, item.description || null, item.size || null]
+                sqlText = "INSERT INTO SUB_BRAND_DATA (brandCode, subBrandCode, name, description,size, createddate, updateddate) VALUES (?,?,?,?,?,?,?) ";
+                values = [item.brandCode || null, item.subBrandCode || null, item.name || null, item.description || null, item.size || null , item.createddate || null, item.updateddate || null]
                 break;
             case "SUPPLIER":
-                sqlText = "INSERT INTO SUPPLIER (supplierCode, supplierName, supplierAddress,supplierPhoneno, description) VALUES (?,?,?,?,?) ";
-                values = [item.supplierCode || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhoneno, item.description || null]
+                sqlText = "INSERT INTO SUPPLIER (supplierCode, supplierName, supplierAddress,supplierPhoneno, description, createddate, updateddate) VALUES (?,?,?,?,?,?,?) ";
+                values = [item.supplierCode || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhoneno, item.description || null , item.createddate || null, item.updateddate || null]
                 break;
             case "PURCHASE":
-                sqlText = "INSERT INTO PURCHASE (purchaseCode, voucherCode, date, supplierName, supplierAddress,supplierPhone,categoryCode,  brandCode, subBrandCode, size, quantity, purchase, isRetail, isWholeSale, retailPrice, wholeSalePrice, totalAmount) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
-                values = [item.purchaseCode || null, item.voucherCode || null, item.date || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhone || null,item.categoryCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.quantity || null, item.purchase || null, item.isRetail || null, item.isWholeSale || null, item.retailPrice || null, item.wholeSalePrice || null,item.totalAmount || null]
+                sqlText = "INSERT INTO PURCHASE (purchaseCode, voucherCode, date, supplierName, supplierAddress,supplierPhone,categoryCode,  brandCode, subBrandCode, size, quantity, purchase, isRetail, isWholeSale, retailPrice, wholeSalePrice, totalAmount, createddate, updateddate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+                values = [item.purchaseCode || null, item.voucherCode || null, item.date || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhone || null,item.categoryCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.quantity || null, item.purchase || null, item.isRetail || null, item.isWholeSale || null, item.retailPrice || null, item.wholeSalePrice || null,item.totalAmount || null , item.createddate || null, item.updateddate || null]
                 break;
             case "ITEM_PRICE":
-                sqlText = "INSERT INTO ITEM_PRICE (itemPriceCode, brandCode, subBrandCode, code, retailPrice, wholeSalePrice) VALUES (?,?,?,?,?) ";
-                values = [item.itemPriceCode || null,item.brandCode || null, item.subBrandCode || null, item.code || null, item.retailPrice || null, item.wholeSalelPrice]
+                sqlText = "INSERT INTO ITEM_PRICE (itemPriceCode, brandCode, subBrandCode, size, retailPrice, wholeSalePrice, createddate, updateddate) VALUES (?,?,?,?,?,?,?,?) ";
+                values = [item.itemPriceCode || null,item.brandCode || null, item.subBrandCode || null, item.size || null, item.retailPrice || null, item.wholeSalePrice || null, item.createddate || null, item.updateddate || null]
                 break;
             case "SIZE":
-                sqlText = "INSERT INTO SIZE (code, value) VALUES (?,?) ";
-                values = [item.code || null, item.value]
+                sqlText = "INSERT INTO SIZE (code, value, createddate, updateddate) VALUES (?,?,?,?) ";
+                values = [item.code || null, item.value || null, item.createddate || null, item.updateddate || null]
                 break;
             default:
                 return;
@@ -131,24 +131,28 @@ export class DatabaseService {
         let values;
         switch (tableName) {
             case "CATEGORY":
-                sqlText = "UPDATE CATEGORY SET (categoryName , categoryCode , categoryDescription ) = ( ? , ? , ? ) where categoryCode = ? ;";
-                values = [item.categoryName || null, item.categoryCode || null, item.categoryDescription || null, item.categoryCode]
+                sqlText = "UPDATE CATEGORY SET (categoryName , categoryCode , categoryDescription ,createddate, updateddate) = ( ? , ? , ? ,? ,?) where categoryCode = ? ;";
+                values = [item.categoryName || null, item.categoryCode || null, item.categoryDescription || null, item.createddate || null, item.updateddate || null, item.categoryCode]
                 break;
             case "BRAND_DATA":
-                sqlText = "UPDATE BRAND_DATA SET (categoryCode, brandName , brandCode , brandDescription ) = (?, ? , ? , ? ) where brandCode = ? ;";
-                values = [item.categoryCode || null, item.brandName || null, item.brandCode || null, item.brandDescription || null, item.brandCode]
+                sqlText = "UPDATE BRAND_DATA SET (categoryCode, brandName , brandCode , brandDescription ,createddate, updateddate) = (?, ? , ? , ? ,? ,?) where brandCode = ? ;";
+                values = [item.categoryCode || null, item.brandName || null, item.brandCode || null, item.brandDescription || null, item.createddate || null, item.updateddate || null, item.brandCode]
                 break;
             case "SUB_BRAND_DATA":
-                sqlText = "UPDATE SUB_BRAND_DATA SET (brandCode, subBrandCode, name, description,size)  = ( ? , ? , ? , ? , ? ) where subBrandCode = ? ;";
-                values = [item.brandCode || null, item.subBrandCode || null, item.name || null, item.description || null, item.size || null, item.subBrandCode]
+                sqlText = "UPDATE SUB_BRAND_DATA SET (brandCode, subBrandCode, name, description,size,createddate, updateddate)  = ( ? , ? , ? , ? , ? , ? ,?) where subBrandCode = ? ;";
+                values = [item.brandCode || null, item.subBrandCode || null, item.name || null, item.description || null, item.size || null, item.createddate || null, item.updateddate || null, item.subBrandCode]
                 break;
             case "SUPPLIER":
-                sqlText = "UPDATE SUPPLIER SET (supplierCode , supplierName, supplierAddress, supplierPhoneno , description ) = ( ? , ? , ? , ? , ? ) where supplierCode = ? ;";
-                values = [item.supplierCode || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhoneno, item.description || null, item.supplierCode]
+                sqlText = "UPDATE SUPPLIER SET (supplierCode , supplierName, supplierAddress, supplierPhoneno , description ,createddate, updateddate) = ( ? , ? , ? , ? , ? , ? , ?) where supplierCode = ? ;";
+                values = [item.supplierCode || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhoneno, item.description || null, item.createddate || null, item.updateddate || null, item.supplierCode]
                 break;
             case "PURCHASE":
-                sqlText = "UPDATE PURCHASE SET (purchaseCode, voucherCode, date, supplierName, supplierAddress,supplierPhone,categoryCode, brandCode, subBrandCode, size, quantity, purchase, isRetail, isWholeSale, retailPrice, wholeSalePrice, totalAmount) =  (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) where voucherCode = ? ;";
-                values = [item.purchaseCode || null, item.voucherCode || null, item.date || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhone || null,item.categoryCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.quantity || null, item.purchase || null, item.isRetail || null, item.isWholeSale || null, item.retailPrice || null, item.wholeSalePrice || null,item.totalAmount || null, item.voucherCode]
+                sqlText = "UPDATE PURCHASE SET (purchaseCode, voucherCode, date, supplierName, supplierAddress,supplierPhone,categoryCode, brandCode, subBrandCode, size, quantity, purchase, isRetail, isWholeSale, retailPrice, wholeSalePrice, totalAmount,createddate, updateddate) =  (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ? , ?) where voucherCode = ? ;";
+                values = [item.purchaseCode || null, item.voucherCode || null, item.date || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhone || null,item.categoryCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.quantity || null, item.purchase || null, item.isRetail || null, item.isWholeSale || null, item.retailPrice || null, item.wholeSalePrice || null,item.totalAmount || null, item.createddate || null, item.updateddate || null, item.voucherCode]
+                break;
+            case "ITEM_PRICE":
+                sqlText = "UPDATE ITEM_PRICE SET(itemPriceCode, brandCode, subBrandCode, size, retailPrice, wholeSalePrice, createddate, updateddate) = (?,?,?,?,?,?,?,?) where itemPriceCode = ? ;";
+                values = [item.itemPriceCode || null,item.brandCode || null, item.subBrandCode || null, item.size || null, item.retailPrice || null, item.wholeSalePrice || null, item.createddate || null, item.updateddate || null, item.itemPriceCode]
                 break;
             default:
                 return;
@@ -204,6 +208,7 @@ export class DatabaseService {
                 return;
 
         }
+        console.log("firstdata", data);
         return data
         
     }
@@ -227,9 +232,9 @@ export class DatabaseService {
         return data
     }
     async getSizeBySubBrand(brand,subbrand,code){
-        console.log("d", brand, subbrand, code);
+        //console.log("d", brand, subbrand, code);
         let data = await this.database_instance.executeSql(new Query("SELECT * FROM PURCHASE WHERE brandCode=? AND  subBrandCode=? AND size =?",[brand,subbrand,code]))
-        console.log("sqlquery", data);
+        //console.log("sqlquery", data);
         return data
 
     }
@@ -237,14 +242,14 @@ export class DatabaseService {
 
     public createTableWithSql() {
         this.tables_data = [
-            'CREATE TABLE IF NOT EXISTS CATEGORY(id INTEGER PRIMARY KEY AUTOINCREMENT,categoryName VARCHAR(25),categoryCode VARCHAR(25),categoryDescription VARCHAR(225))',
-            'CREATE TABLE IF NOT EXISTS BRAND_DATA(id INTEGER PRIMARY KEY AUTOINCREMENT,categoryCode VARCHAR(25),brandName VARCHAR(25),brandCode VARCHAR(25),brandDescription VARCHAR(225))',
-            'CREATE TABLE IF NOT EXISTS SUB_BRAND_DATA(id INTEGER PRIMARY KEY AUTOINCREMENT,brandCode VARCHAR(25),subBrandCode VARCHAR(25),name VARCHAR(25),description VARCHAR(225),size VARCHAR(25))',
-            'CREATE TABLE IF NOT EXISTS SUPPLIER(id INTEGER PRIMARY KEY AUTOINCREMENT,supplierName VARCHAR(25),supplierCode VARCHAR(25),supplierAddress VARCHAR(25),supplierPhoneno VARCHAR(25),description VARCHAR(225))',
-            'CREATE TABLE IF NOT EXISTS SIZE(id INTEGER PRIMARY KEY AUTOINCREMENT,code VARCHAR(25),value VARCHAR(25))',
-            'CREATE TABLE IF NOT EXISTS PURCHASE(id INTEGER PRIMARY KEY AUTOINCREMENT,purchaseCode VARCHAR(25),voucherCode VARCHAR(25),date VARCHAR(25),supplierName VARCHAR(25),supplierPhone VARCHAR(25),categoryCode VARCHAR(25),supplierAddress VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),isRetail VARCHAR(25),isWholeSale VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),totalAmount VARCHAR(25))',
-            'CREATE TABLE IF NOT EXISTS STOCK(id INTEGER PRIMARY KEY AUTOINCREMENT,stockCode VARCHAR(25),purchaseCode VARCHAR(25),date VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),status VARCHAR(25))',
-            'CREATE TABLE IF NOT EXISTS ITEM_PRICE(id INTEGER PRIMARY KEY AUTOINCREMENT,itemPriceCode VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS CATEGORY(id INTEGER PRIMARY KEY AUTOINCREMENT,categoryName VARCHAR(25),categoryCode VARCHAR(25),categoryDescription VARCHAR(225),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS BRAND_DATA(id INTEGER PRIMARY KEY AUTOINCREMENT,categoryCode VARCHAR(25),brandName VARCHAR(25),brandCode VARCHAR(25),brandDescription VARCHAR(225),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS SUB_BRAND_DATA(id INTEGER PRIMARY KEY AUTOINCREMENT,brandCode VARCHAR(25),subBrandCode VARCHAR(25),name VARCHAR(25),description VARCHAR(225),size VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS SUPPLIER(id INTEGER PRIMARY KEY AUTOINCREMENT,supplierName VARCHAR(25),supplierCode VARCHAR(25),supplierAddress VARCHAR(25),supplierPhoneno VARCHAR(25),description VARCHAR(225),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS SIZE(id INTEGER PRIMARY KEY AUTOINCREMENT,code VARCHAR(25),value VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS PURCHASE(id INTEGER PRIMARY KEY AUTOINCREMENT,purchaseCode VARCHAR(25),voucherCode VARCHAR(25),date VARCHAR(25),supplierName VARCHAR(25),supplierPhone VARCHAR(25),categoryCode VARCHAR(25),supplierAddress VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),isRetail VARCHAR(25),isWholeSale VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),totalAmount VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS STOCK(id INTEGER PRIMARY KEY AUTOINCREMENT,stockCode VARCHAR(25),purchaseCode VARCHAR(25),date VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),status VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS ITEM_PRICE(id INTEGER PRIMARY KEY AUTOINCREMENT,itemPriceCode VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
         ];
     }
 

@@ -9,7 +9,7 @@ export const BrandCol: any[] = [
     {
         title: "Category Name",
         type: "field",
-        field: "categoryCode"
+        field: "categoryName"
     },
     {
         title: "Brand",
@@ -34,7 +34,7 @@ export const BrandCol: any[] = [
 ]
 export const BrandDisplayCol: string[] = [
     "no",
-    "categoryCode",
+    "categoryName",
     "brandName",
     "brandDescription",
     "actions"

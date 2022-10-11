@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
@@ -14,10 +15,12 @@ export class AddNewItemPriceComponent implements OnInit {
   itemPriceForm: FormGroup
   subBrandCode: any = ""
   brandOption: any = []
+  itemPriceCode: any = ""
   currentTimeInSeconds = Math.floor(Date.now() / 1000);
   @Input() data: any = {}
   subBrandOption: any[] = []
   sizeOption: any[] = []
+  date = new Date;
   constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService) {
 
     this.getSubBrand()
@@ -30,15 +33,15 @@ export class AddNewItemPriceComponent implements OnInit {
     this.loadForm()
   }
   selectBrand(data) {
-    console.log('brandOption', this.brandOption);
+   
     let subbrand = this.brandOption.find((p) => p.code == data);
-    console.log('data', subbrand);
+   
     let code = subbrand.code;
-    // console.log('selectcate', this.subBrandList);
+    
     this.database.getSubBrandByBrandCode(code).then((res) => {
-      // console.log("res", res);
+     
       this.subBrandOption = this.getFormatOptSub(res);
-      // console.log("fdsfsdf", res);
+    // console.log("fdsfsdf", res);
     })
   }
   getFormatOptSub(res) {
@@ -48,9 +51,9 @@ export class AddNewItemPriceComponent implements OnInit {
   }
   getSubBrand() {
     this.database.getData('SUB_BRAND_DATA').then((res) => {
-      let data = this.getFormatOpt(res)
+      let data = this.getFormatOptSub(res)
       this.subBrandOption = data
-      // console.log(this.brandOption);
+     console.log("dfffff", data);
 
     })
   }
@@ -58,7 +61,7 @@ export class AddNewItemPriceComponent implements OnInit {
     this.database.getData('BRAND_DATA').then((res) => {
       let data = this.getFormatOptB(res)
       this.brandOption = data
-      // console.log(this.brandOption);
+      // // console.log(this.brandOption);
 
     })
   }
@@ -68,32 +71,35 @@ export class AddNewItemPriceComponent implements OnInit {
     })
   }
   selectSize(data) {
-    console.log('sizedata', data);
+   
     let brand = this.itemPriceForm.controls.brandCode.value;
-    console.log("br", brand);
+   
     let subbrand = this.itemPriceForm.controls.subBrandCode.value;
     let code = data.code;
-    //let code = subbrand.code;
-    // console.log('selectcate', this.subBrandList);
+    
     this.database.getSizeBySubBrand(brand,subbrand,code).then((res) => {
-    console.log("getSizeBySubBrand", res);
-      this.subBrandOption = this.getFormatOptSub(res);
-      // console.log("fdsfsdf", res);
+      console.log("a", res);
+      this.itemPriceForm.controls['retailPrice'].setValue(res[0].retailPrice);
+      this.itemPriceForm.controls['wholeSalePrice'].setValue(res[0].wholeSalePrice);
     })
   }
 
   ngAfterViewInit() {
-    this.subBrandCode = this.data ? this.data.subBrandCode : "SB-" + this.currentTimeInSeconds
-    // console.log(this.subBrandCode);
+   this.itemPriceCode = this.data ? this.data.itemPriceCode : "PR-" + this.currentTimeInSeconds
+    // // console.log(this.subBrandCode);
 
   }
   loadForm() {
+    //console.log("this.data", this.data)
     this.itemPriceForm = new FormGroup({
-      subBrandCode: new FormControl(this.subBrandCode || null),
+      itemPriceCode: new FormControl(this.itemPriceCode || null),
+      subBrandCode: new FormControl(this.data ? this.data.subBrandCode : null),
       brandCode: new FormControl(this.data ? this.data.brandCode : null, Validators.required),
       retailPrice: new FormControl(this.data ? this.data.retailPrice : null, Validators.required),
       wholeSalePrice: new FormControl(this.data ? this.data.wholeSalePrice : null, Validators.required),
       size: new FormControl(this.data ? this.data.size : null, Validators.required),
+      createddate: new FormControl(this.data ? this.data.createddate : formatDate(this.date, 'dd-MM-yyyy', 'en')),
+      updateddate: new FormControl(formatDate(this.date, 'dd-MM-yyyy', 'en')),
 
     })
   }
@@ -101,7 +107,7 @@ export class AddNewItemPriceComponent implements OnInit {
     this.modal.dismissAll()
   }
   createItemPrice() {
-    let value = { ...this.itemPriceForm.value, subBrandCode: this.subBrandCode }
+    let value = { ...this.itemPriceForm.value, itemPriceCode: this.itemPriceCode }
     this.modal.dismissAll({ data: value })
   }
   // createSize() {
@@ -116,7 +122,7 @@ export class AddNewItemPriceComponent implements OnInit {
   // }
   getSize(){
     this.database.getData('SIZE').then((res) => {
-      // console.log(res);
+      // // console.log(res);
       
       this.sizeOption = res
     })

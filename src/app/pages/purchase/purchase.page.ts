@@ -26,7 +26,7 @@ export class PurchasePage implements OnInit {
   sizeOption: any[] = []
   isChecked: boolean = false
   isWholeSale: boolean = false
-
+  date = new Date;
   @Input() data: any = {}
 
   currentTimeInSeconds = Math.floor(Date.now() / 1000);
@@ -176,6 +176,8 @@ export class PurchasePage implements OnInit {
       retailPrice: new FormControl(this.data ? this.data.retailPrice : null),
       wholeSalePrice: new FormControl(this.data ? this.data.wholeSalePrice : null),
       totalAmount: new FormControl(this.data ? this.data.totalAmount : null),
+      createddate: new FormControl(this.data ? this.data.createddate : formatDate(this.date, 'dd-MM-yyyy', 'en')),
+      updateddate: new FormControl(formatDate(this.date, 'dd-MM-yyyy', 'en')),
     })
     if (this.data  && this.data.isRetail == "true") {
       this.isChecked = true;
