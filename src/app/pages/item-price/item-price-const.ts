@@ -16,6 +16,11 @@ export const itempriceCol: any[] = [
         type: "field",
         field: "subBrandName"
     },
+    {
+        title: "Size",
+        type: "field",
+        field: "size"
+    },
     
     {
         title: "Retail Price",
@@ -43,7 +48,7 @@ export const ItemPriceDisplayCol: string[] = [
     "no",
     "brandName",
     "subBrandName",
-    
+    "size",
     "retailPrice",
     "wholeSalePrice",
     

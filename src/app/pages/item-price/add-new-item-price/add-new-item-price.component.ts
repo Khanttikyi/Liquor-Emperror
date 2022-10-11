@@ -13,6 +13,7 @@ export class AddNewItemPriceComponent implements OnInit {
   isCreate: boolean = true
   itemPriceForm: FormGroup
   subBrandCode: any = ""
+  brandOption: any = []
   currentTimeInSeconds = Math.floor(Date.now() / 1000);
   @Input() data: any = {}
   subBrandOption: any[] = []
@@ -22,10 +23,28 @@ export class AddNewItemPriceComponent implements OnInit {
     this.getSubBrand()
     this.getBrand()
     this.getSize()
+    
   }
 
   ngOnInit() {
     this.loadForm()
+  }
+  selectBrand(data) {
+    console.log('brandOption', this.brandOption);
+    let subbrand = this.brandOption.find((p) => p.code == data);
+    console.log('data', subbrand);
+    let code = subbrand.code;
+    // console.log('selectcate', this.subBrandList);
+    this.database.getSubBrandByBrandCode(code).then((res) => {
+      // console.log("res", res);
+      this.subBrandOption = this.getFormatOptSub(res);
+      // console.log("fdsfsdf", res);
+    })
+  }
+  getFormatOptSub(res) {
+    return res.map(x => {
+      return { 'code': x.subBrandCode, 'value': x.name }
+    })
   }
   getSubBrand() {
     this.database.getData('SUB_BRAND_DATA').then((res) => {
@@ -38,7 +57,7 @@ export class AddNewItemPriceComponent implements OnInit {
   getBrand() {
     this.database.getData('BRAND_DATA').then((res) => {
       let data = this.getFormatOptB(res)
-      this.subBrandOption = data
+      this.brandOption = data
       // console.log(this.brandOption);
 
     })
@@ -46,6 +65,20 @@ export class AddNewItemPriceComponent implements OnInit {
   getFormatOptB(res) {
     return res.map(x => {
       return { 'code': x.brandCode, 'value': x.brandName }
+    })
+  }
+  selectSize(data) {
+    console.log('sizedata', data);
+    let brand = this.itemPriceForm.controls.brandCode.value;
+    console.log("br", brand);
+    let subbrand = this.itemPriceForm.controls.subBrandCode.value;
+    let code = data.code;
+    //let code = subbrand.code;
+    // console.log('selectcate', this.subBrandList);
+    this.database.getSizeBySubBrand(brand,subbrand,code).then((res) => {
+    console.log("getSizeBySubBrand", res);
+      this.subBrandOption = this.getFormatOptSub(res);
+      // console.log("fdsfsdf", res);
     })
   }
 
@@ -71,16 +104,16 @@ export class AddNewItemPriceComponent implements OnInit {
     let value = { ...this.itemPriceForm.value, subBrandCode: this.subBrandCode }
     this.modal.dismissAll({ data: value })
   }
-  createSize() {
-    const modalRef = this.modal.open(AddNewItemPriceComponent, { size: 'sm', backdrop: false });
-    modalRef.componentInstance.type = 'modal'
-    modalRef.result.then((res) => {
-      if (res) {
-        this.database.create('SIZE',res)
-        this.getSize()
-      }
-    })
-  }
+  // createSize() {
+  //   const modalRef = this.modal.open(AddNewItemPriceComponent, { size: 'lg', backdrop: false });
+  //   modalRef.componentInstance.type = 'modal'
+  //   modalRef.result.then((res) => {
+  //     if (res) {
+  //       this.database.create('SIZE',res)
+  //       this.getSize()
+  //     }
+  //   })
+  // }
   getSize(){
     this.database.getData('SIZE').then((res) => {
       // console.log(res);

@@ -14,11 +14,16 @@ import { itempriceCol, ItemPriceDisplayCol } from './item-price-const';
 export class ItemPricePage implements OnInit {
   itemPriceList: any = [];
   itemPriceOption: any = []
+  brandOption: any = [];
+  brandList: any = [];
+  subBrandOption: any = [];
+  subBrandList: any = [];
   ELEMENT_COL: any = itempriceCol;
   displayedColumns: any = ItemPriceDisplayCol;
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
   constructor(private cdf: ChangeDetectorRef, private modalCtrl: ModalController, private modalService: NgbModal, private database: DatabaseService) { 
     this.getSubBrand() 
+    this.getBrand()
   }
 
   ngOnInit() {
@@ -27,12 +32,14 @@ export class ItemPricePage implements OnInit {
   getItemPriceList() {
     this.database.getData('ITEM_PRICE').then((res) => {
       console.log("itemprice",res);
-      console.log("itemPriceOption", this.itemPriceOption);
+      console.log("subBrandOption", this.subBrandOption);
+      console.log("brandlist", this.brandOption)
       res.forEach(element => {
-       
-        let sub = this.itemPriceOption.find((p) => p.code == element.subBrandCode);
-       console.log("sub", sub);
-        element.subBrandName = sub.value
+        let brand = this.brandOption.find((p) => p.code == element.brandCode);
+        let subBrand= this.subBrandOption.find((p) => p.code == element.subBrandCode);
+       console.log("brand", brand);
+        element.brandName = brand.value;
+        element.subBrandName = subBrand.value;
       });
       this.itemPriceList = res
       this.cdf.detectChanges()
@@ -43,7 +50,7 @@ export class ItemPricePage implements OnInit {
   getSubBrand() {
     this.database.getData('SUB_BRAND_DATA').then((res) => { 
       let data = this.getFormatOptName(res)
-      this.itemPriceOption = data
+      this.subBrandOption = data
     })
 
   }
@@ -52,8 +59,20 @@ export class ItemPricePage implements OnInit {
       return { 'code': x.subBrandCode, 'value': x.name }
     })
   }
+  getBrand() {
+    this.database.getData('BRAND_DATA').then((res) => { 
+      let data = this.getFormatOptNameB(res)
+      this.brandOption = data
+    })
+
+  }
+  getFormatOptNameB(res) {
+    return res.map(x => {
+      return { 'code': x.brandCode, 'value': x.brandName }
+    })
+  }
   async addNewItemPrice(data?) {
-    const modalRef = this.modalService.open(AddNewItemPriceComponent, { size: 'sm', backdrop: false });
+    const modalRef = this.modalService.open(AddNewItemPriceComponent, { size: 'lg', backdrop: false });
     modalRef.componentInstance.type = 'modal'
     modalRef.componentInstance.isCreate = data ? false : true
     modalRef.componentInstance.data = data

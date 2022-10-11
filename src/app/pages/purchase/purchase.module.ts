@@ -18,6 +18,6 @@ import { CRUDTableModule } from 'src/app/_metronic/shared/crud-table';
     ReactiveFormsModule,
     PurchasePageRoutingModule
   ],
-  declarations: [PurchasePage]
+  declarations: []
 })
 export class PurchasePageModule {}

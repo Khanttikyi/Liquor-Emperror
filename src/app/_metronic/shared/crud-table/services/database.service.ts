@@ -222,6 +222,17 @@ export class DatabaseService {
         let data = await this.database_instance.executeSql(new Query("SELECT * FROM SUB_BRAND_DATA WHERE brandCode=?", [brandCode]))
         return data
     }
+    async getBrandByBrandCode(brandCode) {
+        let data = await this.database_instance.executeSql(new Query("SELECT * FROM SUB_BRAND_DATA WHERE brandCode=?", [brandCode]))
+        return data
+    }
+    async getSizeBySubBrand(brand,subbrand,code){
+        console.log("d", brand, subbrand, code);
+        let data = await this.database_instance.executeSql(new Query("SELECT * FROM PURCHASE WHERE brandCode=? AND  subBrandCode=? AND size =?",[brand,subbrand,code]))
+        console.log("sqlquery", data);
+        return data
+
+    }
 
 
     public createTableWithSql() {
