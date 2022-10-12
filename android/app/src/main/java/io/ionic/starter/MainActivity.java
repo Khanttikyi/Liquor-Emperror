@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.liquor.pos;
 
 import com.getcapacitor.BridgeActivity;
 

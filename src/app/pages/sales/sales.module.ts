@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { SalesPageRoutingModule } from './sales-routing.module';
 
 import { SalesPage } from './sales.page';
+import { CRUDTableModule } from 'src/app/_metronic/shared/crud-table';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    CRUDTableModule,
     SalesPageRoutingModule
   ],
   declarations: [SalesPage]

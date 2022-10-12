@@ -204,6 +204,9 @@ export class DatabaseService {
             case "ITEM_PRICE":
                 data = await this.database_instance.executeSql(new Query("SELECT * FROM ITEM_PRICE"))
                 break;
+            case "SALES":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM SALES "))
+                break;
             default:
                 return;
 
@@ -250,6 +253,8 @@ export class DatabaseService {
             'CREATE TABLE IF NOT EXISTS PURCHASE(id INTEGER PRIMARY KEY AUTOINCREMENT,purchaseCode VARCHAR(25),voucherCode VARCHAR(25),date VARCHAR(25),supplierName VARCHAR(25),supplierPhone VARCHAR(25),categoryCode VARCHAR(25),supplierAddress VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),isRetail VARCHAR(25),isWholeSale VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),totalAmount VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS STOCK(id INTEGER PRIMARY KEY AUTOINCREMENT,stockCode VARCHAR(25),purchaseCode VARCHAR(25),date VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),status VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS ITEM_PRICE(id INTEGER PRIMARY KEY AUTOINCREMENT,itemPriceCode VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS SALES(id INTEGER PRIMARY KEY AUTOINCREMENT,saleitemCode VARCHAR(25),saleVoucherCode VARCHAR(25),saledate VARCHAR(25),staffName VARCHAR(25),isRetail VARCHAR(25),isWholeSale VARCHAR(25),netAmount VARCHAR(25),totalDiscount VARCHAR(25),isTax VARCHAR(25),totalTax VARCHAR(25),balance VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS SALES_ITEM(id INTEGER PRIMARY KEY AUTOINCREMENT,saleitemCode VARCHAR(25),saleVoucherCode VARCHAR(25),subBrandCode VARCHAR(25),quantity VARCHAR(25),price VARCHAR(25),discountAmount VARCHAR(25),totalAmount VARCHAR(25))',
         ];
     }
 

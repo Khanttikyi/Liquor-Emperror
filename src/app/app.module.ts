@@ -30,6 +30,8 @@ import { AddNewcategoryComponent } from './pages/category/add-new-category/add-n
 import { AddNewSupplierComponent } from './pages/supplier/add-new-supplier/add-new-supplier.component';
 import { PurchasePage } from './pages/purchase/purchase.page';
 import { AddNewItemPriceComponent } from './pages/item-price/add-new-item-price/add-new-item-price.component';
+import { AddNewSaleItemComponent } from './pages/sales/add-new-sale-item/add-new-sale-item.component';
+import { CRUDTableModule } from './_metronic/shared/crud-table';
 // #fake-start#
 // #fake-end#
 function appInitializer(authService: AuthService) {
@@ -42,7 +44,7 @@ function appInitializer(authService: AuthService) {
 
 
 @NgModule({
-  declarations: [AppComponent,AddNewBrandComponent,AddNewSubBrandComponent,AddSizeComponent,AddNewcategoryComponent,AddNewSupplierComponent,PurchasePage,AddNewItemPriceComponent],
+  declarations: [AppComponent,AddNewBrandComponent,AddNewSubBrandComponent,AddSizeComponent,AddNewcategoryComponent,AddNewSupplierComponent,PurchasePage,AddNewItemPriceComponent,AddNewSaleItemComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -60,7 +62,8 @@ function appInitializer(authService: AuthService) {
     OverlayModule,
     MatTooltipModule,
     MatSelectModule,
-    NgSelectModule
+    NgSelectModule,
+    CRUDTableModule
   ],
   providers: [
     {
