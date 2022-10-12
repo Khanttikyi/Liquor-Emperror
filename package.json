@@ -25,6 +25,7 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
+    "@awesome-cordova-plugins/sqlite-porter": "^5.46.0",
     "@capacitor/android": "3.4.0",
     "@capacitor/app": "1.1.0",
     "@capacitor/core": "3.4.0",
@@ -45,6 +46,7 @@
     "apexcharts": "^3.20.0",
     "bootstrap": "^4.6.0",
     "clipboard": "^2.0.6",
+    "cordova-sqlite-storage": "^6.0.0",
     "datatables.net-bs4": "^1.10.20",
     "faker": "^6.6.6",
     "highlight.js": "^10.4.0",
@@ -64,6 +66,7 @@
     "rxjs": "~7.4.0",
     "socicon": "^3.0.5",
     "tslib": "^2.3.0",
+    "uk.co.workingedge.cordova.plugin.sqliteporter": "^1.1.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
