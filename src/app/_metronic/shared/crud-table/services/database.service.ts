@@ -121,7 +121,7 @@ export class DatabaseService {
 
         }
         let query = new Query(sqlText, values);
-        console.log("query", query);
+       // console.log("query", query);
         let res = this.database_instance.executeSql(query);
     }
 
@@ -159,7 +159,7 @@ export class DatabaseService {
 
         }
         let query = new Query(sqlText, values);
-        console.log("queryupdate", query);
+       // console.log("queryupdate", query);
 
         let res = this.database_instance.executeSql(query);
 
@@ -211,7 +211,7 @@ export class DatabaseService {
                 return;
 
         }
-        console.log("firstdata", data);
+       // console.log("firstdata", data);
         return data
         
     }
@@ -241,6 +241,12 @@ export class DatabaseService {
         return data
 
     }
+    async getSizeBysubBrandCode(subBrandCode){
+        let data = await this.database_instance.executeSql(new Query("SELECT size FROM PURCHASE WHERE subBrandCode=? ", [subBrandCode]))
+        console.log("sqlquery", data);
+        return data
+    }
+
 
 
     public createTableWithSql() {

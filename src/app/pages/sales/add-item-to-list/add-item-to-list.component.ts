@@ -2,7 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatabaseService } from 'src/app/_metronic/shared/crud-table/services/database.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class AddItemToListComponent implements OnInit {
   subBrandOption: any[] = []
   sizeOption: any[] = []
   date = new Date;
-  constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService) {
+  constructor(private modalCtrl: ModalController, private modal: NgbActiveModal, private database: DatabaseService) {
 
     this.getSubBrand()
     // this.getBrand()
@@ -65,11 +65,7 @@ export class AddItemToListComponent implements OnInit {
 
   //   })
   // }
-  // getFormatOptB(res) {
-  //   return res.map(x => {
-  //     return { 'code': x.brandCode, 'value': x.brandName }
-  //   })
-  // }
+
   // selectSize(data) {
    
   //   let brand = this.addItemForm.controls.brandCode.value;
@@ -104,8 +100,26 @@ export class AddItemToListComponent implements OnInit {
 
     })
   }
+  selectItem(data) {
+    console.log("subBrandOption", data);
+    let Code = this.subBrandOption.find((p) => p.code == data);
+    console.log("subbrandcode", Code);
+    let subBrandCode = Code.code;
+    this.database.getSizeBysubBrandCode(subBrandCode).then((res) => {
+
+      console.log("res", res);
+      this.sizeOption = this.getFormatOptB(res);
+
+      console.log("sizeOption", this.sizeOption);
+    })
+  }
+  getFormatOptB(res) {
+    return res.map(x => {
+      return { 'code': x.code, 'value': x.value }
+    })
+  }
   cancel() {
-    this.modal.dismissAll()
+    this.modal.close()
   }
   // createItem() {
   //   let value = { ...this.addItemForm.value, itemPriceCode: this.itemCode }

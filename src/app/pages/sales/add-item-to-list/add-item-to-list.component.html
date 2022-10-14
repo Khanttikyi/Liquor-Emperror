@@ -18,7 +18,7 @@
             <label class="col-sm-6 col-form-label">Item Name
               <span>*</span></label>
             <div class="col-sm-6">
-              <ng-select formControlName="subBrandCode" [class.is-invalid]="isControlInvalid('subBrandCode')"
+              <ng-select formControlName="subBrandCode" (change)="selectItem($event)"  [class.is-invalid]="isControlInvalid('subBrandCode')"
                 [class.is-valid]="isControlValid('subBrandCode')">
                 <ng-option *ngFor="let option of subBrandOption" [value]="option.code">
                   <div title="{{option.value}}">{{option.value}}</div>
@@ -37,6 +37,9 @@
               <ng-select (change)="selectSize($event)" class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('size')"
                 [class.is-valid]="isControlValid('size')" [items]="sizeOption" bindLabel="value" bindValue="value"
                 formControlName="size">
+                <ng-option *ngFor="let option of sizeOption" [value]="option.code">
+                  <div title="{{option.value}}">{{option.value}}</div>
+                </ng-option>
               </ng-select>
               <!-- <input type="text" class="form-control form-control-sm " name="size" autocomplete="off"
                       [class.is-invalid]="isControlInvalid('size')" [class.is-valid]="isControlValid('size')"
@@ -77,6 +80,18 @@
             <input type="text" class="form-control form-control-sm " name="amount" autocomplete="off"
                     [class.is-invalid]="isControlInvalid('amount')"
                     [class.is-valid]="isControlValid('amount')" formControlName="amount" />
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="form-group row">
+          <label class="col-sm-6 col-form-label">Remark
+            <span>*</span></label>
+          <div class="col-sm-6">
+           
+            <input type="text" class="form-control form-control-sm " name="remark" autocomplete="off"
+                    [class.is-invalid]="isControlInvalid('remark')"
+                    [class.is-valid]="isControlValid('remark')" formControlName="remark" />
           </div>
         </div>
       </div>

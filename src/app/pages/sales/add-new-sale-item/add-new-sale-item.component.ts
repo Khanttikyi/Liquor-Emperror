@@ -2,7 +2,7 @@ import { formatDate } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { DatabaseService } from 'src/app/_metronic/shared/crud-table/services/database.service';
 import { AddItemToListComponent } from '../add-item-to-list/add-item-to-list.component';
@@ -31,7 +31,7 @@ export class AddNewSaleItemComponent implements OnInit {
 
   currentTimeInSeconds = Math.floor(Date.now() / 1000);
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService, private cdf: ChangeDetectorRef) {
+  constructor(private modalCtrl: ModalController, private activemodal: NgbActiveModal,private modal:NgbModal,private database: DatabaseService, private cdf: ChangeDetectorRef) {
     this.voucherCode = "VC-" + this.currentTimeInSeconds
   }
 
@@ -96,7 +96,7 @@ export class AddNewSaleItemComponent implements OnInit {
   createSaleItem() {
     let value = { ...this.saleForm.value }
     console.log("datavalue", value);
-    this.modal.dismissAll({ data: value })
+    this.activemodal.close({ data: value })
 
   }
   async newSaleItem(data?) {
@@ -122,7 +122,7 @@ export class AddNewSaleItemComponent implements OnInit {
   
   cancel() {
     // this.purchaseForm.reset()
-    this.modal.dismissAll()
+    this.activemodal.close()
   }
   actionBtn(event) {
     // console.log(event);
