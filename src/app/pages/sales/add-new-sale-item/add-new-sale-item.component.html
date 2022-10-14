@@ -53,9 +53,9 @@
                       [class.is-invalid]="isControlInvalid('supplierCode')" [class.is-valid]="isControlValid('supplierCode')"
                       [items]="supplierOption" bindLabel="value" bindValue="code" formControlName="supplierCode">
                     </ng-select> -->
-                    <input type="text" class="form-control form-control-sm " name="supplierName" autocomplete="off"
-                      [class.is-invalid]="isControlInvalid('supplierName')"
-                      [class.is-valid]="isControlValid('supplierName')" formControlName="supplierName" />
+                    <input type="text" class="form-control form-control-sm " name="staffName" autocomplete="off"
+                      [class.is-invalid]="isControlInvalid('staffName')"
+                      [class.is-valid]="isControlValid('staffName')" formControlName="staffName" />
                   </div>
                 </div>
               </div>
@@ -73,15 +73,56 @@
           <div class="card-title">
             <h3 class="card-label left-border-image">Sale Item</h3>
           </div>
-          <div class="col-sm-3" style="float: right;margin-top: 1%;"  >
-                
-            <button type="submit" class="btn btn-primary btn-elevate addbtn" 
-              (click)="createItem()">Add Item</button>
+          <div class="card-toolbar">
+            <button type="button" class="btn btn-primary" (click)="newSaleItem()">
+              Add Item
+            </button>
           </div>
         </div>
         <div class="card-body customer-card-body">
-
-          <div>
+          <div style="margin-top: 2%;">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Item name</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>dd
+                </td>
+                  <td>2</td>
+                  <td>90,000</td>
+                  <td>180,000</td>
+                  <td>
+                    
+                    <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
+                    <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Absolute </td>
+                  <td>1</td>
+                  <td>4,000</td>
+                  <td>4,000</td>
+                  <td>
+                    
+                    <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
+                  <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+            
 
             <!-- <div class="row">
               <div class="col-sm-4">
@@ -113,14 +154,6 @@
              
             </div> -->
             <div>
-              <!-- <div class="card card-custom" style="margin-top: 30px;">
-                <div class="card-body customer-card-body"> -->
-                  <app-material-table-view [data]="saleItemList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns"
-                  (emitter)="actionBtn($event)">
-                </app-material-table-view>
-                <!-- </div>
-              </div> -->
-            
             </div>
               
             
@@ -144,9 +177,9 @@
                   <label class="col-sm-6 col-form-label">Total Amount
                     <span>*</span></label>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-sm " name="purchase" autocomplete="off"
-                      [class.is-invalid]="isControlInvalid('purchase')" [class.is-valid]="isControlValid('purchase')"
-                      formControlName="purchase" (ngModelChange)="dataChanged($event)"/>
+                    <input type="text" class="form-control form-control-sm ifread" name="totalAmount" autocomplete="off"
+                      [class.is-invalid]="isControlInvalid('totalAmount')" [class.is-valid]="isControlValid('totalAmount')"
+                      formControlName="totalAmount" (ngModelChange)="dataChanged($event)" [readonly]="true"/>
                   </div>
                 </div>
               </div>
@@ -158,14 +191,14 @@
                   <label class="col-sm-3 col-form-label">Total Discount</label>
                   <span class="switch switch-icon col-sm-3">
                     <label>
-                      <input type="checkbox" name="show" [(ngModel)]="isChecked" formControlName="isRetail" />
+                      <input type="checkbox" name="show" [(ngModel)]="isDiscount" formControlName="isDiscount" />
                       <span></span>
                     </label>
                   </span>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-sm " name="retailPrice" autocomplete="off"
-                      [class.is-invalid]="isControlInvalid('retailPrice')"
-                      [class.is-valid]="isControlValid('retailPrice')" formControlName="retailPrice" [readonly]="!isChecked"/>
+                    <input type="text" class="form-control form-control-sm " name="totalDiscount" autocomplete="off"
+                      [class.is-invalid]="isControlInvalid('totalDiscount')"
+                      [class.is-valid]="isControlValid('totalDiscount')" formControlName="totalDiscount" [readonly]="!isDiscount"/>
                   </div>
                 </div>
               </div>
@@ -173,21 +206,22 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group row">
-                  <label class="col-sm-3 col-form-label">Tax</label>
+                  <label class="col-sm-3 col-form-label">Tax (5%)</label>
                   <span class="switch switch-icon col-sm-3">
                     <label>
-                      <input type="checkbox" name="show" [(ngModel)]="isWholeSale" formControlName="isWholeSale" />
+                      <input type="checkbox" name="show" [(ngModel)]="isTax" formControlName="isTax" />
                       <span></span>
                     </label>
                   </span>
                   <div class="col-sm-6" >
-                    <input type="text" class="form-control form-control-sm " name="wholeSalePrice" autocomplete="off"
-                      [class.is-invalid]="isControlInvalid('wholeSalePrice')"
-                      [class.is-valid]="isControlValid('wholeSalePrice')" formControlName="wholeSalePrice" [readonly]="!isWholeSale"/>
+                    <input type="text" class="form-control form-control-sm ifread" name="totalTax" autocomplete="off"
+                      [class.is-invalid]="isControlInvalid('totalTax')"
+                      [class.is-valid]="isControlValid('totalTax')" formControlName="totalTax" [readonly]="true"/>
                   </div>
                 </div>
               </div>
             </div>
+            
 
             <div class="row">
               <div class="col-sm-12">
@@ -195,9 +229,40 @@
                   <label class="col-sm-6 col-form-label">Balance
                     <span>*</span></label>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-sm " name="totalAmount" autocomplete="off"
-                      [class.is-invalid]="isControlInvalid('totalAmount')"
-                      [class.is-valid]="isControlValid('totalAmount')" formControlName="totalAmount" />
+                    <input type="text" class="form-control form-control-sm ifread" name="netAmount" autocomplete="off"
+                      [class.is-invalid]="isControlInvalid('netAmount')"
+                      [class.is-valid]="isControlValid('netAmount')" formControlName="netAmount" [readonly]="true"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Paid Amount</label>
+                  <span class="switch switch-icon col-sm-3">
+                    <label>
+                      <input type="checkbox" name="show" [(ngModel)]="isPaid" formControlName="isPaid" />
+                      <span></span>
+                    </label>
+                  </span>
+                  <div class="col-sm-6" >
+                    <input type="text" class="form-control form-control-sm " name="paidAmount" autocomplete="off"
+                      [class.is-invalid]="isControlInvalid('paidAmount')"
+                      [class.is-valid]="isControlValid('paidAmount')" formControlName="paidAmount" [readonly]="!isPaid"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group row">
+                  <label class="col-sm-6 col-form-label">Change Amount</label>
+                  
+                  <div class="col-sm-6" >
+                    <input type="text" class="form-control form-control-sm ifread " name="changeAmount" autocomplete="off"
+                      [class.is-invalid]="isControlInvalid('changeAmount')"
+                      [class.is-valid]="isControlValid('changeAmount')" formControlName="changeAmount" [readonly]="true"/>
                   </div>
                 </div>
               </div>

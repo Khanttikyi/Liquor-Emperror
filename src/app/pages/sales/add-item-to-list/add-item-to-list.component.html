@@ -1,3 +1,96 @@
 <p>
   add-item-to-list works!
 </p>
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      <h3 class="card-label" *ngIf="isCreate">Create Item</h3>
+      <h3 class="card-label" *ngIf="!isCreate">Item Detail</h3>
+    </div>
+
+  </div>
+
+  <div class="overlay overlay-block cursor-default modal-body">
+    <form action="#" class="form" [formGroup]="addItemForm" (ngSubmit)="createItem()">
+      
+        <div class="col-sm-12">
+          <div class="form-group row">
+            <label class="col-sm-6 col-form-label">Item Name
+              <span>*</span></label>
+            <div class="col-sm-6">
+              <ng-select formControlName="subBrandCode" [class.is-invalid]="isControlInvalid('subBrandCode')"
+                [class.is-valid]="isControlValid('subBrandCode')">
+                <ng-option *ngFor="let option of subBrandOption" [value]="option.code">
+                  <div title="{{option.value}}">{{option.value}}</div>
+                </ng-option>
+              </ng-select>
+             
+            </div>
+          </div>
+        </div>
+
+      <div class="col-sm-12">
+          <div class="form-group row">
+            <label class="col-sm-6 col-form-label">Size
+              <span>*</span></label>
+            <div class="col-sm-6">
+              <ng-select (change)="selectSize($event)" class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('size')"
+                [class.is-valid]="isControlValid('size')" [items]="sizeOption" bindLabel="value" bindValue="value"
+                formControlName="size">
+              </ng-select>
+              <!-- <input type="text" class="form-control form-control-sm " name="size" autocomplete="off"
+                      [class.is-invalid]="isControlInvalid('size')" [class.is-valid]="isControlValid('size')"
+                      formControlName="size" /> -->
+            </div>
+          </div>
+        </div>
+      <div class="col-sm-12">
+        <div class="form-group row">
+          <label class="col-sm-6 col-form-label">Price
+            <span>*</span></label>
+          <div class="col-sm-6">
+            
+            <input type="text" class="form-control form-control-sm " name="price" autocomplete="off"
+                    [class.is-invalid]="isControlInvalid('price')"
+                    [class.is-valid]="isControlValid('price')" formControlName="price" />
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="form-group row">
+          <label class="col-sm-6 col-form-label">Quantity
+            <span>*</span></label>
+          <div class="col-sm-6">
+           
+            <input type="text" class="form-control form-control-sm " name="quantity" autocomplete="off"
+                    [class.is-invalid]="isControlInvalid('quantity')"
+                    [class.is-valid]="isControlValid('quantity')" formControlName="quantity" />
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="form-group row">
+          <label class="col-sm-6 col-form-label">Amount
+            <span>*</span></label>
+          <div class="col-sm-6">
+           
+            <input type="text" class="form-control form-control-sm " name="amount" autocomplete="off"
+                    [class.is-invalid]="isControlInvalid('amount')"
+                    [class.is-valid]="isControlValid('amount')" formControlName="amount" />
+          </div>
+        </div>
+      </div>
+
+      
+        
+
+      
+
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="cancel()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate">Save</button>
+  </div>
+</div>

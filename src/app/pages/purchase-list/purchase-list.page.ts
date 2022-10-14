@@ -38,6 +38,7 @@ export class PurchaseListPage implements OnInit {
         element.subBrandName = sub.value
       });
       this.purchaseList = res
+      console.log("purchaselist", this.purchaseList)
       this.cdf.detectChanges()
       this.matTable.reChangeData()
     })

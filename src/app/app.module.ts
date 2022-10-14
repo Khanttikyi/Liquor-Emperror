@@ -32,6 +32,7 @@ import { PurchasePage } from './pages/purchase/purchase.page';
 import { AddNewItemPriceComponent } from './pages/item-price/add-new-item-price/add-new-item-price.component';
 import { AddNewSaleItemComponent } from './pages/sales/add-new-sale-item/add-new-sale-item.component';
 import { CRUDTableModule } from './_metronic/shared/crud-table';
+import { AddItemToListComponent } from './pages/sales/add-item-to-list/add-item-to-list.component';
 // #fake-start#
 // #fake-end#
 function appInitializer(authService: AuthService) {
@@ -44,7 +45,7 @@ function appInitializer(authService: AuthService) {
 
 
 @NgModule({
-  declarations: [AppComponent,AddNewBrandComponent,AddNewSubBrandComponent,AddSizeComponent,AddNewcategoryComponent,AddNewSupplierComponent,PurchasePage,AddNewItemPriceComponent,AddNewSaleItemComponent],
+  declarations: [AppComponent,AddNewBrandComponent,AddNewSubBrandComponent,AddSizeComponent,AddNewcategoryComponent,AddNewSupplierComponent,PurchasePage,AddNewItemPriceComponent,AddNewSaleItemComponent,AddItemToListComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
