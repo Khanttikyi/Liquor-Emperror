@@ -49,6 +49,10 @@ const routes: Routes = [
         loadChildren: () => import('./item-price/item-price.module').then( m => m.ItemPricePageModule)
       },
       {
+        path: 'new-sale',
+        loadChildren: () => import('./new-sale/new-sale.module').then( m => m.NewSalePageModule)
+      },
+      {
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',
@@ -59,6 +63,8 @@ const routes: Routes = [
       },
     ],
   },
+  
+
   
 
   
