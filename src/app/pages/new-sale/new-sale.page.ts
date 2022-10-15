@@ -22,10 +22,12 @@ export class NewSalePage implements OnInit {
   saleItem: any = []
   subBrandOption: any = []
   disabled: boolean = true
+  totalAmount: number = 0
   isChecked: boolean = false
   isTax: boolean = false;
   isDiscount: boolean = false;
   isPaid: boolean = false;
+  totalDiscount: number = 0
   date = new Date;
   @Input() data: any = {}
   ELEMENT_COL: any = addItemCol;
@@ -114,17 +116,73 @@ export class NewSalePage implements OnInit {
         let result = res.data
         console.log(result);
         if (data) {
-          
           this.saleItem.push(result)
           this.cdf.detectChanges()
+          this.calculateSaleAmount()
         } else {
           this.saleItem.push(result)
           this.cdf.detectChanges()
+          this.calculateSaleAmount()
         }
       }
       console.log(this.saleItem);
 
     })
+  }
+  calculateSaleAmount() {
+    this.totalAmount = 0
+    if (this.saleItem.length > 0) {
+      this.saleItem.forEach(element => {
+        this.totalAmount += Number(element.amount)
+      });
+      this.saleForm.controls.totalAmount.setValue(this.totalAmount)
+      console.log(this.totalAmount);
+
+    }
+  }
+  calDiscount() {
+   
+  }
+  calculateDiscount() {
+    let discount = this.saleForm.controls.totalDiscount.value
+    let total = 0
+    if (discount > 0) {
+      total = (this.saleForm.controls.totalAmount.value - discount)
+      this.saleForm.controls.netAmount.setValue(total)
+      this.cdf.detectChanges()
+    }
+  }
+  calculateTax() {
+    let totalamount = this.saleForm.controls.totalAmount.value
+    let tax = totalamount * 0.05
+    let total = totalamount + tax
+    if (!this.isTax) {
+      this.saleForm.controls.totalTax.setValue(tax)
+      this.saleForm.controls.netAmount.setValue(total)
+      this.cdf.detectChanges()
+    } else {
+      this.saleForm.controls.totalTax.setValue(0)
+      this.saleForm.controls.netAmount.setValue(totalamount)
+      this.cdf.detectChanges()
+    }
+  }
+
+  calculatePaid() {
+    let paid = Number(this.saleForm.controls.paidAmount.value)
+    let balance = Number(this.saleForm.controls.netAmount.value)
+    if (this.isPaid) {
+      console.log("HERE");
+      
+      if (paid > balance) {
+        let change = paid - balance
+        this.saleForm.controls.changeAmount.setValue(change)
+      }
+      this.cdf.detectChanges()
+    } else {
+      this.saleForm.controls.paidAmount.setValue(0)
+      this.saleForm.controls.changeAmount.setValue(0)
+      this.cdf.detectChanges()
+    }
   }
   getSubBrand() {
     this.database.getData('SUB_BRAND_DATA').then((res) => {
