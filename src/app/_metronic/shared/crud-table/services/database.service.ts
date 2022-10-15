@@ -234,19 +234,40 @@ export class DatabaseService {
         let data = await this.database_instance.executeSql(new Query("SELECT * FROM SUB_BRAND_DATA WHERE brandCode=?", [brandCode]))
         return data
     }
-    async getSizeBySubBrand(brand,subbrand,code){
-        //console.log("d", brand, subbrand, code);
-        let data = await this.database_instance.executeSql(new Query("SELECT * FROM PURCHASE WHERE brandCode=? AND  subBrandCode=? AND size =?",[brand,subbrand,code]))
+    async getSalePrice(brand,subbrand,code){
+       // console.log("d", brand, subbrand, code);
+        let data = await this.database_instance.executeSql(new Query("SELECT * FROM PURCHASE WHERE brandCode=? AND  subBrandCode=? AND size =? ORDER BY updateddate asc",[brand,subbrand,code]))
         //console.log("sqlquery", data);
         return data
 
     }
     async getSizeBysubBrandCode(subBrandCode){
-        let data = await this.database_instance.executeSql(new Query("SELECT size FROM PURCHASE WHERE subBrandCode=? ", [subBrandCode]))
-        console.log("sqlquery", data);
+        let data = await this.database_instance.executeSql(new Query("SELECT SIZE.code,SIZE.value FROM PURCHASE  LEFT JOIN SIZE ON PURCHASE.size = SIZE.code WHERE subBrandCode=? GROUP BY size", [subBrandCode]))
+        //console.log("sqlquery", data);
         return data
     }
-
+    async getSubBrand(){
+        let data = await this.database_instance.executeSql(new Query("SELECT * FROM PURCHASE P LEFT JOIN SUB_BRAND_DATA B ON P.subBrandCode = B.subBrandCode GROUP BY B.subBrandCode "))
+        //console.log("sqlquery", data);
+        return data
+    }
+    async getBrand(){
+        let data = await this.database_instance.executeSql(new Query("SELECT B.brandName,B.brandCode FROM PURCHASE P LEFT JOIN BRAND_DATA B ON P.brandCode = B.brandCode GROUP BY B.brandCode"))
+       // console.log("sqlquery", data);
+        return data
+    }
+    async getBrandByBrand(brandCode){
+        let data = await this.database_instance.executeSql(new Query("SELECT SB.subBrandCode,SB.name FROM PURCHASE P LEFT JOIN BRAND_DATA B ON P.brandCode = B.brandCode LEFT JOIN SUB_BRAND_DATA SB ON B.brandCode = SB.brandCode WHERE P.brandCode =? GROUP BY B.brandCode", [brandCode] ))
+        //console.log("sqlquery", data);
+        return data
+    }
+    async getPriceBySize(brand,subbrand,code){
+        console.log("d", brand, subbrand, code);
+        let data = await this.database_instance.executeSql(new Query("SELECT retailPrice FROM ITEM_PRICE WHERE brandCode=? AND  subBrandCode=? AND size =? LIMIT 1", [brand,subbrand,code]))
+        console.log("sqlw", data);
+        return data
+    }
+    
 
 
     public createTableWithSql() {

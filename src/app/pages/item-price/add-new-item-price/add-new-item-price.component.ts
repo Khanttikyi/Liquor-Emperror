@@ -22,54 +22,52 @@ export class AddNewItemPriceComponent implements OnInit {
   sizeOption: any[] = []
   date = new Date;
   constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService) {
-
-    this.getSubBrand()
-    this.getBrand()
-    this.getSize()
-    
+    this.getBrand()    
   }
 
   ngOnInit() {
     this.loadForm()
   }
-  selectBrand(data) {
-   
-    let subbrand = this.brandOption.find((p) => p.code == data);
-   
-    let code = subbrand.code;
-    
-    this.database.getSubBrandByBrandCode(code).then((res) => {
-     
-      this.subBrandOption = this.getFormatOptSub(res);
-    // console.log("fdsfsdf", res);
+  
+  getBrand() {
+    this.database.getBrand().then((res) => {
+      let data = this.getFormatOptBrand(res)
+      this.brandOption = data
     })
+  }
+  getFormatOptBrand(res) {
+    return res.map(x => {
+      return { 'code': x.brandCode, 'value': x.brandName }
+    })
+  }
+  selectBrand(brandCode) {
+    console.log("ddd", brandCode);
+    this.database.getBrandByBrand(brandCode).then((res => {
+      console.log("reeeee",res);
+      this.subBrandOption = this.getFormatOptSub(res);
+    }))
+   
   }
   getFormatOptSub(res) {
     return res.map(x => {
       return { 'code': x.subBrandCode, 'value': x.name }
     })
   }
-  getSubBrand() {
-    this.database.getData('SUB_BRAND_DATA').then((res) => {
-      let data = this.getFormatOptSub(res)
-      this.subBrandOption = data
-     console.log("dfffff", data);
 
-    })
-  }
-  getBrand() {
-    this.database.getData('BRAND_DATA').then((res) => {
-      let data = this.getFormatOptB(res)
-      this.brandOption = data
-      // // console.log(this.brandOption);
+  selectSubBrand(subBrandCode) {
+     this.database.getSizeBysubBrandCode(subBrandCode).then((res) => {
+       console.log("this.getSizeBysubBrandCode",res);
+       let data = this.getFormatOptB(res)
+       this.sizeOption = data
+     })
+     
+   }
+   getFormatOptB(res) {
+     return res.map(x => {
+       return { 'code': x.code, 'value': x.value }
+     })
+   }
 
-    })
-  }
-  getFormatOptB(res) {
-    return res.map(x => {
-      return { 'code': x.brandCode, 'value': x.brandName }
-    })
-  }
   selectSize(data) {
    
     let brand = this.itemPriceForm.controls.brandCode.value;
@@ -77,7 +75,7 @@ export class AddNewItemPriceComponent implements OnInit {
     let subbrand = this.itemPriceForm.controls.subBrandCode.value;
     let code = data.code;
     
-    this.database.getSizeBySubBrand(brand,subbrand,code).then((res) => {
+    this.database.getSalePrice(brand,subbrand,code).then((res) => {
       console.log("a", res);
       this.itemPriceForm.controls['retailPrice'].setValue(res[0].retailPrice);
       this.itemPriceForm.controls['wholeSalePrice'].setValue(res[0].wholeSalePrice);

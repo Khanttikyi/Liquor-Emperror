@@ -32,7 +32,7 @@
             <label class="col-sm-6 col-form-label">Sub Brand
               <span>*</span></label>
             <div class="col-sm-6">
-              <ng-select formControlName="subBrandCode" [class.is-invalid]="isControlInvalid('subBrandCode')"
+              <ng-select formControlName="subBrandCode" (change)="selectSubBrand($event)" [class.is-invalid]="isControlInvalid('subBrandCode')"
                 [class.is-valid]="isControlValid('subBrandCode')">
                 <ng-option *ngFor="let option of subBrandOption" [value]="option.code">
                   <div title="{{option.value}}">{{option.value}}</div>

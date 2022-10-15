@@ -8,8 +8,28 @@
   </div>
 
   <div class="overlay overlay-block cursor-default modal-body">
-    <form action="#" class="form" [formGroup]="addItemForm" (ngSubmit)="addItem()">
-      
+    <form action="#" class="form" [formGroup]="addItemForm" (ngSubmit)="createItem()">
+     
+        <div class="col-sm-12">
+          <div class="form-group row">
+            <label class="col-sm-6 col-form-label">Brand
+              <span>*</span></label>
+            <div class="col-sm-6">
+              <ng-select
+              (change)="selectBrand($event)" formControlName="brandCode" [class.is-invalid]="isControlInvalid('brandCode')" [class.is-valid]="isControlValid('brandCode')"
+              >
+              <ng-option *ngFor="let option of brandOption"
+                        [value]="option.code">
+                <div title="{{option.value}}">{{option.value}}</div>
+              </ng-option>
+            </ng-select>
+              <!-- <input type="text" class="form-control form-control-sm " name="brandCode" autocomplete="off"
+                [class.is-invalid]="isControlInvalid('brandCode')" [class.is-valid]="isControlValid('brandCode')"
+                formControlName="brandCode" /> -->
+            </div>
+          </div>
+        </div>
+     
         <div class="col-sm-12">
           <div class="form-group row">
             <label class="col-sm-6 col-form-label">Item Name
@@ -63,7 +83,7 @@
           <div class="col-sm-6">
            
             <input type="text" class="form-control form-control-sm " name="quantity" autocomplete="off"
-                    [class.is-invalid]="isControlInvalid('quantity')"
+                    [class.is-invalid]="isControlInvalid('quantity')" (ngModelChange)="dataChanged($event)"
                     [class.is-valid]="isControlValid('quantity')" formControlName="quantity" />
           </div>
         </div>
