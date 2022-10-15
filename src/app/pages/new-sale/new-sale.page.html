@@ -94,30 +94,17 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style="text-align: center;">
-                      <th scope="row">1</th>
-                      <td>dd
-                      </td>
-                      <td>2</td>
-                      <td>90,000</td>
-                      <td>180,000</td>
+                    <tr style="text-align: center;" *ngFor="let data of saleItem; let i=index">
+                      <th scope="row">{{i+1}}</th>
+                      <td>{{data.subBrandCode}}</td>
+                      <td>{{data.quantity}}</td>
+                      <td>{{data.price}}</td>
+                      <td>{{data.amount}}</td>
                       <td>
                         <span class="flaticon-edit btn btn-primary btn-cus btn-sm mx-1"></span>
                         <span class="flaticon-delete btn btn-danger btn-hover-danger btn-sm mx-1"></span>
                       </td>
                     </tr>
-                    <tr style="text-align: center;">
-                      <th scope="row">2</th>
-                      <td>Absolute </td>
-                      <td>1</td>
-                      <td>4,000</td>
-                      <td>4,000</td>
-                      <td>
-                        <span class="flaticon-edit btn btn-primary btn-cus btn-sm mx-1"></span>
-                        <span class="flaticon-delete btn btn-danger btn-hover-danger btn-sm mx-1"></span>
-                      </td>
-                    </tr>
-
                   </tbody>
                 </table>
 
@@ -280,9 +267,9 @@
       </div>
       <div class="card-footer" style="float: right;">
         <div class="form-group" style="text-align: right;">
-          <button type="button" class="btn btn-light btn-elevate"  (click)="cancel()">Cancel</button>
+          <button type="button" class="btn btn-light btn-elevate" (click)="cancel()">Cancel</button>
           <button type="button" class="btn btn-primary btn-elevate mx-2" (click)="createSaleItem()">Save</button>
-      </div>
+        </div>
       </div>
     </div>
   </div>

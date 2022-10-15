@@ -19,6 +19,8 @@ export class NewSalePage implements OnInit {
   isCreate: boolean = true;
   todaydate = new Date();
   saleItemList: any = [];
+  saleItem: any = []
+  subBrandOption: any = []
   disabled: boolean = true
   isChecked: boolean = false
   isTax: boolean = false;
@@ -31,7 +33,8 @@ export class NewSalePage implements OnInit {
 
   currentTimeInSeconds = Math.floor(Date.now() / 1000);
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  constructor(private modalCtrl: ModalController,private modal:NgbModal,private database: DatabaseService, private cdf: ChangeDetectorRef) {
+  constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService, private cdf: ChangeDetectorRef) {
+    this.getSubBrand()
     this.voucherCode = "VC-" + this.currentTimeInSeconds
   }
 
@@ -40,8 +43,8 @@ export class NewSalePage implements OnInit {
     this.database.getPurchaseData('PU-001').then((res) => {
     })
   }
-  
-  chkTax(){
+
+  chkTax() {
     alert("hello");
   }
   ngAfterViewInit() {
@@ -60,14 +63,14 @@ export class NewSalePage implements OnInit {
   }
   loadForm() {
     console.log("purchasecode", this.data)
-  //   if(this.categoryOption.length>0){
-  //   if (this.data.categoryCode) {
-  //     this.selectCategory(this.data.categoryCode)
-  //   }
-  //   if (this.data.brandCode) {
-  //     this.selectBrand(this.data.brandCode)
-  //   }
-  // }
+    //   if(this.categoryOption.length>0){
+    //   if (this.data.categoryCode) {
+    //     this.selectCategory(this.data.categoryCode)
+    //   }
+    //   if (this.data.brandCode) {
+    //     this.selectBrand(this.data.brandCode)
+    //   }
+    // }
     this.saleForm = new FormGroup({
       voucherCode: new FormControl(this.data ? this.data.voucherCode : this.voucherCode),
       date: new FormControl(formatDate(this.todaydate, 'dd-MM-yyyy', 'en')),
@@ -84,7 +87,7 @@ export class NewSalePage implements OnInit {
       createddate: new FormControl(this.data ? this.data.createddate : formatDate(this.date, 'dd-MM-yyyy', 'en')),
       updateddate: new FormControl(formatDate(this.date, 'dd-MM-yyyy', 'en')),
     })
-    if (this.data  && this.data.isPaid == "true") {
+    if (this.data && this.data.isPaid == "true") {
       this.isChecked = true;
       this.cdf.detectChanges();
     }
@@ -105,21 +108,36 @@ export class NewSalePage implements OnInit {
     modalRef.componentInstance.isCreate = data ? false : true
     modalRef.componentInstance.data = data
     modalRef.result.then(() => { }, (res) => {
-      // if (res) {
-      //   let result = res.data
-      //   //console.log(result);
-      //   if (data) {
-      //     this.database.update('PURCHASE', result)
-      //     this.getSaleItemList()
-      //   } else {
-      //     this.database.create('PURCHASE', result)
-      //     this.getSaleItemList()
-      //   }
-      // }
+      if (res) {
+        let item = this.subBrandOption.find((p) => p.code == res.data.subBrandCode);
+        res.data.subBrandCode = item.value
+        let result = res.data
+        console.log(result);
+        if (data) {
+          
+          this.saleItem.push(result)
+          this.cdf.detectChanges()
+        } else {
+          this.saleItem.push(result)
+          this.cdf.detectChanges()
+        }
+      }
+      console.log(this.saleItem);
+
     })
   }
-  
-  
+  getSubBrand() {
+    this.database.getData('SUB_BRAND_DATA').then((res) => {
+      let data = this.getFormatOptSub(res)
+      this.subBrandOption = data
+    })
+  }
+  getFormatOptSub(res) {
+    return res.map(x => {
+      return { 'code': x.subBrandCode, 'value': x.name }
+    })
+  }
+
   cancel() {
     // this.purchaseForm.reset()
     this.modal.dismissAll()
@@ -135,7 +153,7 @@ export class NewSalePage implements OnInit {
     }
 
   }
-  createPurchase(){
+  createPurchase() {
 
   }
   dataChanged(e) {

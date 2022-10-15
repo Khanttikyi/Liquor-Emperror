@@ -21,15 +21,16 @@ export class AddItemToListComponent implements OnInit {
   subBrandOption: any[] = []
   sizeOption: any[] = []
   date = new Date;
-  constructor(private modalCtrl: ModalController, private modal: NgbActiveModal, private database: DatabaseService) {
-
+  constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService) {
+    
     this.getSubBrand()
     // this.getBrand()
-    // this.getSize()
+    this.getSize()
     
   }
 
   ngOnInit() {
+    this.itemCode = this.data ? this.data.itemCode : "ITEM-" + this.currentTimeInSeconds
     this.loadForm()
   }
   selectBrand(data) {
@@ -53,8 +54,20 @@ export class AddItemToListComponent implements OnInit {
     this.database.getData('SUB_BRAND_DATA').then((res) => {
       let data = this.getFormatOptSub(res)
       this.subBrandOption = data
-     console.log("dfffff", data);
+    })
+  }
 
+  getSize() {
+    this.database.getData('SIZE').then((res) => {
+      let dataC = this.getFormatOptS(res)
+      this.sizeOption = dataC
+      // console.log("this.sizeOption", this.sizeOption);
+
+    })
+  }
+  getFormatOptS(res) {
+    return res.map(x => {
+      return { 'code': x.code, 'value': x.value }
     })
   }
   // getBrand() {
@@ -80,15 +93,14 @@ export class AddItemToListComponent implements OnInit {
   //   })
   // }
 
-  // ngAfterViewInit() {
-  //  this.itemCode = this.data ? this.data.itemCode : "PR-" + this.currentTimeInSeconds
-  //   // // console.log(this.subBrandCode);
+  ngAfterViewInit() {
+  
 
-  // }
+  }
   loadForm() {
     //console.log("this.data", this.data)
     this.addItemForm = new FormGroup({
-      itemCode: new FormControl(),
+      itemCode: new FormControl(this.itemCode),
       subBrandCode: new FormControl(),
       price: new FormControl(),
       size: new FormControl(),
@@ -108,7 +120,7 @@ export class AddItemToListComponent implements OnInit {
     this.database.getSizeBysubBrandCode(subBrandCode).then((res) => {
 
       console.log("res", res);
-      this.sizeOption = this.getFormatOptB(res);
+      // this.sizeOption = this.getFormatOptB(res);
 
       console.log("sizeOption", this.sizeOption);
     })
@@ -119,7 +131,10 @@ export class AddItemToListComponent implements OnInit {
     })
   }
   cancel() {
-    this.modal.close()
+    this.modal.dismissAll()
+  }
+  addItem(){
+    this.modal.dismissAll({data:this.addItemForm.value})
   }
   // createItem() {
   //   let value = { ...this.addItemForm.value, itemPriceCode: this.itemCode }

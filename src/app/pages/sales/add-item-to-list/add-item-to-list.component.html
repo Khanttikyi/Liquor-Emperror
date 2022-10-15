@@ -8,7 +8,7 @@
   </div>
 
   <div class="overlay overlay-block cursor-default modal-body">
-    <form action="#" class="form" [formGroup]="addItemForm" (ngSubmit)="createItem()">
+    <form action="#" class="form" [formGroup]="addItemForm" (ngSubmit)="addItem()">
       
         <div class="col-sm-12">
           <div class="form-group row">
@@ -103,6 +103,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light btn-elevate mr-2" (click)="cancel()">Cancel</button>
-    <button type="submit" class="btn btn-primary btn-elevate">Save</button>
+    <button type="submit" (click)="addItem()" class="btn btn-primary btn-elevate">Save</button>
   </div>
 </div>
