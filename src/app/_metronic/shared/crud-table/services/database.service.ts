@@ -86,11 +86,11 @@ export class DatabaseService {
     public create(tableName, item) {
         let sqlText;
         let values;
-        // console.log("categorycode", item)
+       // console.log("saleitemprice", item.saleItem.length)
         switch (tableName) {
             case "CATEGORY":
                 sqlText = "INSERT INTO CATEGORY (categoryName, categoryCode, categoryDescription, createddate, updateddate) VALUES (?,?,?,?,?) ";
-                values = [item.categoryName || null, item.categoryCode || null, item.categoryDescription || null, item.createddate || null, item.updateddate || null ]
+                values = [item.categoryName || null, item.categoryCode || null, item.categoryDescription || null, item.createddate || null, item.updateddate || null]
                 break;
             case "BRAND_DATA":
                 sqlText = "INSERT INTO BRAND_DATA (categoryCode, brandName, brandCode, brandDescription, createddate, updateddate) VALUES (?,?,?,?,?,?) ";
@@ -98,31 +98,51 @@ export class DatabaseService {
                 break;
             case "SUB_BRAND_DATA":
                 sqlText = "INSERT INTO SUB_BRAND_DATA (brandCode, subBrandCode, name, description,size, createddate, updateddate) VALUES (?,?,?,?,?,?,?) ";
-                values = [item.brandCode || null, item.subBrandCode || null, item.name || null, item.description || null, item.size || null , item.createddate || null, item.updateddate || null]
+                values = [item.brandCode || null, item.subBrandCode || null, item.name || null, item.description || null, item.size || null, item.createddate || null, item.updateddate || null]
                 break;
             case "SUPPLIER":
                 sqlText = "INSERT INTO SUPPLIER (supplierCode, supplierName, supplierAddress,supplierPhoneno, description, createddate, updateddate) VALUES (?,?,?,?,?,?,?) ";
-                values = [item.supplierCode || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhoneno, item.description || null , item.createddate || null, item.updateddate || null]
+                values = [item.supplierCode || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhoneno, item.description || null, item.createddate || null, item.updateddate || null]
                 break;
             case "PURCHASE":
                 sqlText = "INSERT INTO PURCHASE (purchaseCode, voucherCode, date, supplierName, supplierAddress,supplierPhone,categoryCode,  brandCode, subBrandCode, size, quantity, purchase, isRetail, isWholeSale, retailPrice, wholeSalePrice, totalAmount, createddate, updateddate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
-                values = [item.purchaseCode || null, item.voucherCode || null, item.date || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhone || null,item.categoryCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.quantity || null, item.purchase || null, item.isRetail || null, item.isWholeSale || null, item.retailPrice || null, item.wholeSalePrice || null,item.totalAmount || null , item.createddate || null, item.updateddate || null]
+                values = [item.purchaseCode || null, item.voucherCode || null, item.date || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhone || null, item.categoryCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.quantity || null, item.purchase || null, item.isRetail || null, item.isWholeSale || null, item.retailPrice || null, item.wholeSalePrice || null, item.totalAmount || null, item.createddate || null, item.updateddate || null]
                 break;
             case "ITEM_PRICE":
                 sqlText = "INSERT INTO ITEM_PRICE (itemPriceCode, brandCode, subBrandCode, size, retailPrice, wholeSalePrice, createddate, updateddate) VALUES (?,?,?,?,?,?,?,?) ";
-                values = [item.itemPriceCode || null,item.brandCode || null, item.subBrandCode || null, item.size || null, item.retailPrice || null, item.wholeSalePrice || null, item.createddate || null, item.updateddate || null]
+                values = [item.itemPriceCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.retailPrice || null, item.wholeSalePrice || null, item.createddate || null, item.updateddate || null]
                 break;
             case "SIZE":
                 sqlText = "INSERT INTO SIZE (code, value, createddate, updateddate) VALUES (?,?,?,?) ";
                 values = [item.code || null, item.value || null, item.createddate || null, item.updateddate || null]
+                break;
+            case "SALES":
+                sqlText = "INSERT INTO SALES (saleCode ,saleVoucherCode ,saledate ,staffName ,netAmount ,totalDiscount ,isTax ,isDiscount ,isPaid ,totalTax ,balance , paidAmount , changeAmount ,createddate ,updateddate ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+                values = [item.saleCode || null, item.saleVoucherCode || null, item.saledate || null, item.staffName || null, item.netAmount || null, item.totalDiscount || null, item.isTax || null, item.isDiscount || null, item.isPaid || null, item.totalTax || null, item.balance || null, item.paidAmount || null, item.changeAmount || null, item.createddate || null, item.updateddate || null]
+                if (item.saleItem.length > 0) {
+                    for (let data of item.saleItem) {
+                        this.createSaleItem(data)
+                    }
+                }
                 break;
             default:
                 return;
 
         }
         let query = new Query(sqlText, values);
-       // console.log("query", query);
+        // console.log("query", query);
         let res = this.database_instance.executeSql(query);
+    }
+    public createSaleItem(data) {
+        let sqlText;
+        let values;
+        console.log('createSaleItem',data);
+        
+        sqlText = "INSERT INTO SALES_ITEM (itemCode,saleCode, saleVoucherCode, brandCode, subBrandCode, quantity, price,amount, size) VALUES (?,?,?,?,?,?,?,?,?) ";
+        values = [data.itemCode || null, data.saleCode || null, data.saleVoucherCode || null, data.brandCode || null, data.subBrandCode || null, data.quantity || null, data.price || null, data.amount || null, data.size || null]
+        let query = new Query(sqlText, values);
+        let res = this.database_instance.executeSql(query);
+        
     }
 
 
@@ -148,18 +168,18 @@ export class DatabaseService {
                 break;
             case "PURCHASE":
                 sqlText = "UPDATE PURCHASE SET (purchaseCode, voucherCode, date, supplierName, supplierAddress,supplierPhone,categoryCode, brandCode, subBrandCode, size, quantity, purchase, isRetail, isWholeSale, retailPrice, wholeSalePrice, totalAmount,createddate, updateddate) =  (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ? , ?) where voucherCode = ? ;";
-                values = [item.purchaseCode || null, item.voucherCode || null, item.date || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhone || null,item.categoryCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.quantity || null, item.purchase || null, item.isRetail || null, item.isWholeSale || null, item.retailPrice || null, item.wholeSalePrice || null,item.totalAmount || null, item.createddate || null, item.updateddate || null, item.voucherCode]
+                values = [item.purchaseCode || null, item.voucherCode || null, item.date || null, item.supplierName || null, item.supplierAddress || null, item.supplierPhone || null, item.categoryCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.quantity || null, item.purchase || null, item.isRetail || null, item.isWholeSale || null, item.retailPrice || null, item.wholeSalePrice || null, item.totalAmount || null, item.createddate || null, item.updateddate || null, item.voucherCode]
                 break;
             case "ITEM_PRICE":
                 sqlText = "UPDATE ITEM_PRICE SET(itemPriceCode, brandCode, subBrandCode, size, retailPrice, wholeSalePrice, createddate, updateddate) = (?,?,?,?,?,?,?,?) where itemPriceCode = ? ;";
-                values = [item.itemPriceCode || null,item.brandCode || null, item.subBrandCode || null, item.size || null, item.retailPrice || null, item.wholeSalePrice || null, item.createddate || null, item.updateddate || null, item.itemPriceCode]
+                values = [item.itemPriceCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.retailPrice || null, item.wholeSalePrice || null, item.createddate || null, item.updateddate || null, item.itemPriceCode]
                 break;
             default:
                 return;
 
         }
         let query = new Query(sqlText, values);
-       // console.log("queryupdate", query);
+        // console.log("queryupdate", query);
 
         let res = this.database_instance.executeSql(query);
 
@@ -211,9 +231,9 @@ export class DatabaseService {
                 return;
 
         }
-       // console.log("firstdata", data);
+        // console.log("firstdata", data);
         return data
-        
+
     }
 
     async getPurchaseData(purchaseCode) {
@@ -234,40 +254,44 @@ export class DatabaseService {
         let data = await this.database_instance.executeSql(new Query("SELECT * FROM SUB_BRAND_DATA WHERE brandCode=?", [brandCode]))
         return data
     }
-    async getSalePrice(brand,subbrand,code){
-       // console.log("d", brand, subbrand, code);
-        let data = await this.database_instance.executeSql(new Query("SELECT * FROM PURCHASE WHERE brandCode=? AND  subBrandCode=? AND size =? ORDER BY updateddate asc",[brand,subbrand,code]))
+    async getSalePrice(brand, subbrand, code) {
+        // console.log("d", brand, subbrand, code);
+        let data = await this.database_instance.executeSql(new Query("SELECT * FROM PURCHASE WHERE brandCode=? AND  subBrandCode=? AND size =? ORDER BY updateddate asc", [brand, subbrand, code]))
         //console.log("sqlquery", data);
         return data
 
     }
-    async getSizeBysubBrandCode(subBrandCode){
+    async getSizeBysubBrandCode(subBrandCode) {
         let data = await this.database_instance.executeSql(new Query("SELECT SIZE.code,SIZE.value FROM PURCHASE  LEFT JOIN SIZE ON PURCHASE.size = SIZE.code WHERE subBrandCode=? GROUP BY size", [subBrandCode]))
         //console.log("sqlquery", data);
         return data
     }
-    async getSubBrand(){
+    async getSubBrand() {
         let data = await this.database_instance.executeSql(new Query("SELECT * FROM PURCHASE P LEFT JOIN SUB_BRAND_DATA B ON P.subBrandCode = B.subBrandCode GROUP BY B.subBrandCode "))
         //console.log("sqlquery", data);
         return data
     }
-    async getBrand(){
+    async getBrand() {
         let data = await this.database_instance.executeSql(new Query("SELECT B.brandName,B.brandCode FROM PURCHASE P LEFT JOIN BRAND_DATA B ON P.brandCode = B.brandCode GROUP BY B.brandCode"))
-       // console.log("sqlquery", data);
+        // console.log("sqlquery", data);
         return data
     }
-    async getBrandByBrand(brandCode){
-        let data = await this.database_instance.executeSql(new Query("SELECT SB.subBrandCode,SB.name FROM PURCHASE P LEFT JOIN BRAND_DATA B ON P.brandCode = B.brandCode LEFT JOIN SUB_BRAND_DATA SB ON B.brandCode = SB.brandCode WHERE P.brandCode =? GROUP BY B.brandCode", [brandCode] ))
+    async getBrandByBrand(brandCode) {
+        let data = await this.database_instance.executeSql(new Query("SELECT SB.subBrandCode,SB.name FROM PURCHASE P LEFT JOIN BRAND_DATA B ON P.brandCode = B.brandCode LEFT JOIN SUB_BRAND_DATA SB ON B.brandCode = SB.brandCode WHERE P.brandCode =? GROUP BY B.brandCode", [brandCode]))
         //console.log("sqlquery", data);
         return data
     }
-    async getPriceBySize(brand,subbrand,code){
-        console.log("d", brand, subbrand, code);
-        let data = await this.database_instance.executeSql(new Query("SELECT retailPrice FROM ITEM_PRICE WHERE brandCode=? AND  subBrandCode=? AND size =? LIMIT 1", [brand,subbrand,code]))
-        console.log("sqlw", data);
+    async getPriceBySize(brand, subbrand, code) {
+        //console.log("d", brand, subbrand, code);
+        let data = await this.database_instance.executeSql(new Query("SELECT retailPrice FROM ITEM_PRICE WHERE brandCode=? AND  subBrandCode=? AND size =? LIMIT 1", [brand, subbrand, code]))
+        // console.log("sqlw", data);
         return data
     }
-    
+    async getItemList (salecode){
+        let data = await this.database_instance.executeSql(new Query("SELECT * FROM SALES_ITEM WHERE saleCode = ?", [salecode]))
+        return data
+    }
+
 
 
     public createTableWithSql() {
@@ -280,8 +304,10 @@ export class DatabaseService {
             'CREATE TABLE IF NOT EXISTS PURCHASE(id INTEGER PRIMARY KEY AUTOINCREMENT,purchaseCode VARCHAR(25),voucherCode VARCHAR(25),date VARCHAR(25),supplierName VARCHAR(25),supplierPhone VARCHAR(25),categoryCode VARCHAR(25),supplierAddress VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),isRetail VARCHAR(25),isWholeSale VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),totalAmount VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS STOCK(id INTEGER PRIMARY KEY AUTOINCREMENT,stockCode VARCHAR(25),purchaseCode VARCHAR(25),date VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),status VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS ITEM_PRICE(id INTEGER PRIMARY KEY AUTOINCREMENT,itemPriceCode VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
-            'CREATE TABLE IF NOT EXISTS SALES(id INTEGER PRIMARY KEY AUTOINCREMENT,saleitemCode VARCHAR(25),saleVoucherCode VARCHAR(25),saledate VARCHAR(25),staffName VARCHAR(25),isRetail VARCHAR(25),isWholeSale VARCHAR(25),netAmount VARCHAR(25),totalDiscount VARCHAR(25),isTax VARCHAR(25),totalTax VARCHAR(25),balance VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
-            'CREATE TABLE IF NOT EXISTS SALES_ITEM(id INTEGER PRIMARY KEY AUTOINCREMENT,saleitemCode VARCHAR(25),saleVoucherCode VARCHAR(25),subBrandCode VARCHAR(25),quantity VARCHAR(25),price VARCHAR(25),discountAmount VARCHAR(25),totalAmount VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS SALES(id INTEGER PRIMARY KEY AUTOINCREMENT,saleCode VARCHAR(25),saleVoucherCode VARCHAR(25),saledate VARCHAR(25),staffName VARCHAR(25),netAmount VARCHAR(25),totalDiscount VARCHAR(25),isTax VARCHAR(25),isDiscount VARCHAR(25),isPaid VARCHAR(25),totalTax VARCHAR(25),balance VARCHAR(25), paidAmount VARCHAR(25), changeAmount VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
+
+            // 'CREATE TABLE IF NOT EXISTS SALES(id INTEGER PRIMARY KEY AUTOINCREMENT,saleitemCode VARCHAR(25),saleVoucherCode VARCHAR(25),saledate VARCHAR(25),staffName VARCHAR(25),netAmount VARCHAR(25),totalDiscount VARCHAR(25),isTax VARCHAR(25),totalTax VARCHAR(25),balance VARCHAR(25), paidAmount VARCHAR(25), changeAmount VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS SALES_ITEM(id INTEGER PRIMARY KEY AUTOINCREMENT,itemCode VARCHAR(25),saleCode VARCHAR(25),saleVoucherCode VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),quantity VARCHAR(25),price VARCHAR(25),amount VARCHAR(25),size VARCHAR(25))',
         ];
     }
 

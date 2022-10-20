@@ -1,7 +1,8 @@
 import { formatDate } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { ModalController, NavController } from '@ionic/angular';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { DatabaseService } from 'src/app/_metronic/shared/crud-table/services/database.service';
@@ -15,11 +16,16 @@ import { addItemCol, AddItemDisplayCol } from '../sales/add-new-sale-item/add-sa
 })
 export class NewSalePage implements OnInit {
   saleForm: FormGroup
-  voucherCode: any = ""
+  saleVoucherCode: any = ""
+  saleCode: any = ""
   isCreate: boolean = true;
   todaydate = new Date();
-  saleItemList: any = [];
-  saleItem: any = []
+  saleItemList: any = [
+    
+  ];
+  saleItem: any = [
+   
+  ]
   subBrandOption: any = []
   disabled: boolean = true
   totalAmount: number = 0
@@ -29,18 +35,37 @@ export class NewSalePage implements OnInit {
   isPaid: boolean = false;
   totalDiscount: number = 0
   date = new Date;
-  @Input() data: any = {}
+  staffName: string
+
+  @Input() data: any
+
   ELEMENT_COL: any = addItemCol;
   displayedColumns: any = AddItemDisplayCol;
 
   currentTimeInSeconds = Math.floor(Date.now() / 1000);
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService, private cdf: ChangeDetectorRef) {
+  constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService, private cdf: ChangeDetectorRef, private navCtrl: NavController,private router: ActivatedRoute) {
     this.getSubBrand()
-    this.voucherCode = "VC-" + this.currentTimeInSeconds
+
+    this.saleVoucherCode = "VC-" + this.currentTimeInSeconds
+    this.saleCode = "SA-" + this.currentTimeInSeconds
+    this.staffName = "aye"
+   
   }
 
   ngOnInit() {
+    this.router.queryParams.subscribe(async (params) => {
+      console.log("paramsdata", params);
+      if (params["data"]) {
+        this.data=JSON.parse(params["data"])
+        console.log("jsonarray" ,this.data);
+        let salecode = this.data.saleCode;
+        this.database.getItemList(salecode).then((res) => {
+          this.saleItemList = res;
+          console.log('getItemList', res);
+        })
+      }
+      })
     this.loadForm()
     this.database.getPurchaseData('PU-001').then((res) => {
     })
@@ -64,24 +89,17 @@ export class NewSalePage implements OnInit {
 
   }
   loadForm() {
-    console.log("purchasecode", this.data)
-    //   if(this.categoryOption.length>0){
-    //   if (this.data.categoryCode) {
-    //     this.selectCategory(this.data.categoryCode)
-    //   }
-    //   if (this.data.brandCode) {
-    //     this.selectBrand(this.data.brandCode)
-    //   }
-    // }
+    
     this.saleForm = new FormGroup({
-      voucherCode: new FormControl(this.data ? this.data.voucherCode : this.voucherCode),
-      date: new FormControl(formatDate(this.todaydate, 'dd-MM-yyyy', 'en')),
-      staffName: new FormControl(this.data ? this.data.staffName : null),
-      totalAmount: new FormControl(this.data ? this.data.totalAmount : 0),
+      saleCode: new FormControl(this.data ? this.data.saleCode : this.saleCode),
+      saleVoucherCode: new FormControl(this.data ? this.data.saleVoucherCode : this.saleVoucherCode),
+      saledate: new FormControl(formatDate(this.todaydate, 'dd-MM-yyyy', 'en')),
+      staffName: new FormControl(this.data ? this.data.staffName : this.staffName),
+      netAmount: new FormControl(this.data ? this.data.netAmount : 0),
       totalDiscount: new FormControl(this.data ? this.data.totalDiscount : 0),
       totalTax: new FormControl(this.data ? this.data.totalTax : 0),
       isTax: new FormControl(this.data ? this.data.isTax : null),
-      netAmount: new FormControl(this.data ? this.data.netAmount : 0),
+      balance: new FormControl(this.data ? this.data.balance : 0),
       isDiscount: new FormControl(this.data ? this.data.isDiscount : null),
       isPaid: new FormControl(this.data ? this.data.isPaid : null),
       paidAmount: new FormControl(this.data ? this.data.paidAmount : 0),
@@ -99,22 +117,23 @@ export class NewSalePage implements OnInit {
     }
   }
   createSaleItem() {
-    let value = { ...this.saleForm.value }
-    console.log("datavalue", value);
-    this.modal.dismissAll({ data: value })
-
+    let value = { ...this.saleForm.value, saleItem: this.saleItem }
+    this.database.create('SALES', value);
+    this.navCtrl.back();
   }
   async newSaleItem(data?) {
+    alert('dddd')
     const modalRef = this.modal.open(AddItemToListComponent, { size: 'lg', backdrop: false });
     modalRef.componentInstance.type = 'modal'
     modalRef.componentInstance.isCreate = data ? false : true
     modalRef.componentInstance.data = data
+    modalRef.componentInstance.parentData = {"saleVoucherCode":this.data?this.data.saleVoucherCode:this.saleVoucherCode,"saleCode":this.data?this.data.saleCode:this.saleCode}
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         let item = this.subBrandOption.find((p) => p.code == res.data.subBrandCode);
         res.data.subBrandCode = item.value
         let result = res.data
-        console.log(result);
+        // //console.log(result);
         if (data) {
           this.saleItem.push(result)
           this.cdf.detectChanges()
@@ -125,8 +144,6 @@ export class NewSalePage implements OnInit {
           this.calculateSaleAmount()
         }
       }
-      console.log(this.saleItem);
-
     })
   }
   calculateSaleAmount() {
@@ -135,46 +152,44 @@ export class NewSalePage implements OnInit {
       this.saleItem.forEach(element => {
         this.totalAmount += Number(element.amount)
       });
-      this.saleForm.controls.totalAmount.setValue(this.totalAmount)
-      console.log(this.totalAmount);
-
+      this.saleForm.controls.netAmount.setValue(this.totalAmount)
     }
   }
   calDiscount() {
-   
+
   }
   calculateDiscount() {
     let discount = this.saleForm.controls.totalDiscount.value
     let total = 0
     if (discount > 0) {
-      total = (this.saleForm.controls.totalAmount.value - discount)
-      this.saleForm.controls.netAmount.setValue(total)
+      total = (this.saleForm.controls.netAmount.value - discount)
+      this.saleForm.controls.balance.setValue(total)
       this.cdf.detectChanges()
     }
   }
   calculateTax() {
-    let totalamount = this.saleForm.controls.totalAmount.value
+    let totalamount = this.saleForm.controls.netAmount.value
     let tax = totalamount * 0.05
     let total = totalamount + tax
     if (!this.isTax) {
       this.saleForm.controls.totalTax.setValue(tax)
-      this.saleForm.controls.netAmount.setValue(total)
+      this.saleForm.controls.balance.setValue(total)
       this.cdf.detectChanges()
     } else {
       this.saleForm.controls.totalTax.setValue(0)
-      this.saleForm.controls.netAmount.setValue(totalamount)
+      this.saleForm.controls.balance.setValue(totalamount)
       this.cdf.detectChanges()
     }
   }
 
   calculatePaid() {
     let paid = Number(this.saleForm.controls.paidAmount.value)
-    let balance = Number(this.saleForm.controls.netAmount.value)
+    let balanceamt = Number(this.saleForm.controls.balance.value)
     if (this.isPaid) {
-      console.log("HERE");
-      
-      if (paid > balance) {
-        let change = paid - balance
+      //console.log("HERE");
+
+      if (paid > balanceamt) {
+        let change = paid - balanceamt
         this.saleForm.controls.changeAmount.setValue(change)
       }
       this.cdf.detectChanges()
@@ -198,10 +213,36 @@ export class NewSalePage implements OnInit {
 
   cancel() {
     // this.purchaseForm.reset()
-    this.modal.dismissAll()
+    this.navCtrl.back();
+  }
+  
+  async updateItem(data?) {
+    console.log("updateITem", data);
+    const modalRef = this.modal.open(AddItemToListComponent, { size: 'lg', backdrop: false });
+    modalRef.componentInstance.type = 'modal'
+    modalRef.componentInstance.isCreate = data ? false : true
+    modalRef.componentInstance.data = data
+    modalRef.componentInstance.parentData = {"saleVoucherCode":this.data?this.data.saleVoucherCode:this.saleVoucherCode,"saleCode":this.data?this.data.saleCode:this.saleCode}
+    modalRef.result.then(() => { }, (res) => {
+      if (res) {
+        let item = this.subBrandOption.find((p) => p.code == res.data.subBrandCode);
+        res.data.subBrandCode = item.value
+        let result = res.data
+        // //console.log(result);
+        if (data) {
+          this.saleItem.push(result)
+          this.cdf.detectChanges()
+          this.calculateSaleAmount()
+        } else {
+          this.saleItem.push(result)
+          this.cdf.detectChanges()
+          this.calculateSaleAmount()
+        }
+      }
+    })
   }
   actionBtn(event) {
-    // console.log(event);
+    // //console.log(event);
     if (event.cmd == 'edit') {
       this.newSaleItem(event.data)
     }

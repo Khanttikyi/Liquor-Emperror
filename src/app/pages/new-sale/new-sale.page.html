@@ -23,21 +23,21 @@
                       <label class="col-sm-6 col-form-label">Voucher No.
                         <span>*</span></label>
                       <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-sm " name="voucherCode" autocomplete="off"
-                          [class.is-invalid]="isControlInvalid('voucherCode')"
-                          [class.is-valid]="isControlValid('voucherCode')" formControlName="voucherCode" readonly />
+                        <input type="text" class="form-control form-control-sm " name="saleVoucherCode" autocomplete="off"
+                          [class.is-invalid]="isControlInvalid('saleVoucherCode')"
+                          [class.is-valid]="isControlValid('saleVoucherCode')" formControlName="saleVoucherCode" readonly />
                       </div>
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group row">
-                      <label class="col-sm-6 col-form-label">Date
+                      <label class="col-sm-6 col-form-label">saledate
                         <span>*</span></label>
                       <div class="col-sm-6">
 
-                        <input type="text" class="form-control form-control-sm " name="date" autocomplete="off"
-                          [class.is-invalid]="isControlInvalid('date')" [class.is-valid]="isControlValid('date')"
-                          formControlName="date" />
+                        <input type="text" class="form-control form-control-sm " name="saledate" autocomplete="off"
+                          [class.is-invalid]="isControlInvalid('saledate')" [class.is-valid]="isControlValid('saledate')"
+                          formControlName="saledate" />
 
                       </div>
                     </div>
@@ -94,14 +94,14 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style="text-align: center;" *ngFor="let data of saleItem; let i=index">
+                    <tr style="text-align: center;" *ngFor="let data of saleItem; let i=index" >
                       <th scope="row">{{i+1}}</th>
                       <td>{{data.subBrandCode}}</td>
                       <td>{{data.quantity}}</td>
                       <td>{{data.price}}</td>
                       <td>{{data.amount}}</td>
                       <td>
-                        <span class="flaticon-edit btn btn-primary btn-cus btn-sm mx-1"></span>
+                        <span class="flaticon-edit btn btn-primary btn-cus btn-sm mx-1" (click)="updateItem(data.id)"></span>
                         <span class="flaticon-delete btn btn-danger btn-hover-danger btn-sm mx-1"></span>
                       </td>
                     </tr>
@@ -163,10 +163,10 @@
                       <label class="col-sm-6 col-form-label">Total Amount
                         <span>*</span></label>
                       <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-sm ifread" name="totalAmount"
-                          autocomplete="off" [class.is-invalid]="isControlInvalid('totalAmount')"
-                          [class.is-valid]="isControlValid('totalAmount')" formControlName="totalAmount"
-                          (ngModelChange)="dataChanged($event)" [readonly]="true" />
+                        <input type="text" class="form-control form-control-sm ifread" name="netAmount"
+                          autocomplete="off" [class.is-invalid]="isControlInvalid('netAmount')"
+                          [class.is-valid]="isControlValid('netAmount')" formControlName="netAmount"
+                           [readonly]="true" />
                       </div>
                     </div>
                   </div>
@@ -217,9 +217,9 @@
                       <label class="col-sm-6 col-form-label">Balance
                         <span>*</span></label>
                       <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-sm ifread" name="netAmount"
-                          autocomplete="off" [class.is-invalid]="isControlInvalid('netAmount')"
-                          [class.is-valid]="isControlValid('netAmount')" formControlName="netAmount"
+                        <input type="text" class="form-control form-control-sm ifread" name="balance"
+                          autocomplete="off" [class.is-invalid]="isControlInvalid('balance')"
+                          [class.is-valid]="isControlValid('balance')" formControlName="balance"
                           [readonly]="true" />
                       </div>
                     </div>

@@ -17,7 +17,8 @@ export class AddItemToListComponent implements OnInit {
   brandOption: any = []
   itemCode: any = ""
   currentTimeInSeconds = Math.floor(Date.now() / 1000);
-  @Input() data: any = {}
+  @Input() data: any
+  @Input() parentData: any
   subBrandOption: any[] = []
   sizeOption: any[] = []
   date = new Date;
@@ -30,25 +31,23 @@ export class AddItemToListComponent implements OnInit {
     this.loadForm()
   }
   selectBrand(brandCode) {
-    console.log("ddd", brandCode);
     this.database.getBrandByBrand(brandCode).then((res => {
-      console.log("reeeee",res);
       this.subBrandOption = this.getFormatOptSub(res);
     }))
-   
+
   }
   getFormatOptSub(res) {
     return res.map(x => {
       return { 'code': x.subBrandCode, 'value': x.name }
     })
   }
-  
+
   getBrand() {
     this.database.getBrand().then((res) => {
       //console.log("this.res",res);
       let data = this.getFormatOptBrand(res)
       this.brandOption = data
-     // console.log("this.branddata", this.brandOption);
+      // console.log("this.branddata", this.brandOption);
     })
   }
   getSize() {
@@ -70,16 +69,12 @@ export class AddItemToListComponent implements OnInit {
     })
   }
   selectItem(subBrandCode) {
-   // console.log("item", dasubBrandCodeta);
+    // console.log("item", dasubBrandCodeta);
     this.database.getSizeBysubBrandCode(subBrandCode).then((res) => {
-      console.log("this.getSizeBysubBrandCode",res);
       let data = this.getFormatOptB(res)
       this.sizeOption = data
-      //this.sizeOption = data
-     // console.log("this.branddata", this.brandOption);
-
     })
-    
+
   }
   getFormatOptB(res) {
     return res.map(x => {
@@ -88,51 +83,50 @@ export class AddItemToListComponent implements OnInit {
   }
   selectSize(size) {
     let brand = this.addItemForm.controls.brandCode.value;
-   
+
     let subbrand = this.addItemForm.controls.subBrandCode.value;
     let code = size.code;
-    
-    this.database.getPriceBySize(brand,subbrand,code).then((res) => {
-      
+
+    this.database.getPriceBySize(brand, subbrand, code).then((res) => {
+
       this.addItemForm.controls['price'].setValue(res[0].retailPrice);
-    
+
     })
   }
   dataChanged(e) {
-    console.log('e', this.addItemForm.controls['quantity'].value)
     let amount = e * this.addItemForm.controls['price'].value;
-    console.log("dat", amount);
     this.addItemForm.controls['amount'].setValue(amount);
   }
 
   ngAfterViewInit() {
-  
+
 
   }
   loadForm() {
     this.addItemForm = new FormGroup({
-      itemCode: new FormControl(),
+      itemCode: new FormControl(this.data ? this.data.this.itemCode : this.itemCode),
       brandCode: new FormControl(),
       subBrandCode: new FormControl(),
-      price: new FormControl(),
+      price: new FormControl(this.data ? this.data.price : null),
       size: new FormControl(),
-      quantity: new FormControl( ),
-      amount: new FormControl( ),
+      quantity: new FormControl(),
+      amount: new FormControl(),
       remark: new FormControl(),
-      createddate: new FormControl(this.data ? this.data.createddate : formatDate(this.date, 'dd-MM-yyyy', 'en')),
-      updateddate: new FormControl(formatDate(this.date, 'dd-MM-yyyy', 'en')),
-
+      saleVoucherCode: new FormControl(this.parentData ? this.parentData.saleVoucherCode : null),
+      saleCode: new FormControl(this.parentData ? this.parentData.saleCode : null)
     })
   }
-  
+
   cancel() {
     this.modal.dismissAll()
   }
-  addItem(){
-    this.modal.dismissAll({data:this.addItemForm.value})
-  }
-  createItem(){
+  addItem() {
+    let value = { ...this.addItemForm.value }
+    this.modal.dismissAll({ data: value })
     
+  }
+  createItem() {
+
   }
   //for View
   isControlValid(controlName: string): boolean {

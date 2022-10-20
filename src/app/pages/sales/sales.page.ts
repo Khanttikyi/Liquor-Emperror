@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
@@ -19,7 +20,7 @@ export class SalesPage implements OnInit {
   ELEMENT_COL: any = saleItemCol;
   displayedColumns: any = SaleItemDisplayCol;
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  constructor(private cdf: ChangeDetectorRef,private navCtrl:NavController, private modalCtrl: ModalController, private modalService: NgbModal, private database: DatabaseService) {
+  constructor(private cdf: ChangeDetectorRef,private navCtrl:NavController, private modalCtrl: ModalController, private modalService: NgbModal, private database: DatabaseService,private route: Router) {
     this.getBrand()
     this.getSubBrand()
   }
@@ -72,27 +73,17 @@ export class SalesPage implements OnInit {
     })
   }
   async newSaleItem(data?) {
-    // const modalRef = this.modalService.open(AddNewSaleItemComponent, { size: 'xl2', backdrop: false });
-    // modalRef.componentInstance.type = 'modal'
-    // modalRef.componentInstance.isCreate = data ? false : true
-    // modalRef.componentInstance.data = data
-    // modalRef.result.then(() => { }, (res) => {
-    //   if (res) {
-    //     let result = res.data
-    //     //console.log(result);
-    //     if (data) {
-    //       this.database.update('PURCHASE', result)
-    //       this.getSaleItemList()
-    //     } else {
-    //       this.database.create('PURCHASE', result)
-    //       this.getSaleItemList()
-    //     }
-    //   }
-    // })
-    this.navCtrl.navigateForward('/new-sale')
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+      data: JSON.stringify(data)
+      }
+    };
+    this.route.navigate(['/new-sale'],navigationExtras)
+   // this.navCtrl.navigateForward('/new-sale')
+    
   }
   actionBtn(event) {
-    // console.log(event);
+    console.log("eventdata ",event);
     if (event.cmd == 'edit') {
       this.newSaleItem(event.data)
     }
