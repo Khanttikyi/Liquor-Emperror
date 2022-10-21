@@ -11,6 +11,29 @@ export const DynamicAsideMenuConfig = {
 
     },
     {
+      title: 'Administration',
+      root: true,
+      icon: 'flaticon-list-1',
+      svg: './assets/media/svg/icons/Design/Adjust.svg',
+      page: '/administration',
+      bullet: 'dot',
+      show: true,
+      submenu_show:true,
+      submenu:[
+        {
+          title: 'User Registration',   
+          page: '/user-registration',
+          show:true
+        },
+        {
+          title: 'User Role',   
+          page: '/user-role',
+          show:true
+        },
+
+      ]
+    },
+    {
       title: 'Setup',
       root: true,
       icon: 'flaticon-list-1',
@@ -78,6 +101,29 @@ export const DynamicAsideMenuConfig = {
       bullet: 'dot',
       show: true,
 
+    },
+    {
+      title: 'Report',
+      root: true,
+      icon: 'flaticon-list-1',
+      svg: './assets/media/svg/icons/Design/Adjust.svg',
+      page: '/category',
+      bullet: 'dot',
+      show: true,
+      submenu_show:true,
+      submenu:[
+        {
+          title: 'Daily Income/Outcome',   
+          page: '/category/category',
+          show:true
+        },
+        {
+          title: 'Profit & Loss',   
+          page: '/category/brand',
+          show:true
+        },
+
+      ]
     },
     
   ]

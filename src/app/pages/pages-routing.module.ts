@@ -53,6 +53,18 @@ const routes: Routes = [
         loadChildren: () => import('./new-sale/new-sale.module').then( m => m.NewSalePageModule)
       },
       {
+        path: 'administration',
+        loadChildren: () => import('./administration/administration.module').then( m => m.AdministrationPageModule)
+      },
+      {
+        path: 'user-registration',
+        loadChildren: () => import('./user-registration/user-registration.module').then( m => m.UserRegistrationPageModule)
+      },
+      {
+        path: 'user-role',
+        loadChildren: () => import('./user-role/user-role.module').then( m => m.UserRolePageModule)
+      },
+      {
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',
@@ -63,6 +75,10 @@ const routes: Routes = [
       },
     ],
   },
+
+
+
+
   
 
   

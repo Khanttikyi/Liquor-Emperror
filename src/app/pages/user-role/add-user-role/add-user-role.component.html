@@ -1,0 +1,46 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      <h3 class="card-label" *ngIf="isCreate">Create Category</h3>
+      <h3 class="card-label" *ngIf="!isCreate">Category Detail</h3>
+    </div>
+
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <form action="#" class="form" [formGroup]="categoryForm" (ngSubmit)="createCategory()">
+      <div>
+        <div class="row" style="align-items: center">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Name
+                <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm " name="categoryName" autocomplete="off"
+                  [class.is-invalid]="isControlInvalid('categoryName')" [class.is-valid]="isControlValid('categoryName')"
+                  formControlName="categoryName" />
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Description  <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm" name="categoryDescription" autocomplete="off"
+                  [class.is-invalid]="isControlInvalid('categoryDescription')"
+                  [class.is-valid]="isControlValid('categoryDescription')" formControlName="categoryDescription" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="cancel()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" [disabled]="categoryForm.invalid" (click)="createCategory()">Save</button>
+  </div>
+  </div>
