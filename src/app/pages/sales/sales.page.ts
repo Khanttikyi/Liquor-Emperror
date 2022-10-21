@@ -70,7 +70,7 @@ export class SalesPage implements OnInit {
   getFormatOptName(res) {
     return res.map(x => {
       return { 'code': x.subBrandCode, 'value': x.name }
-    })
+    }) 
   }
   async newSaleItem(data?) {
     let navigationExtras: NavigationExtras = {

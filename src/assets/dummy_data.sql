@@ -13,3 +13,10 @@ INSERT INTO stock VALUES(null,'ST-001','PU-001','27/9/2022','B-001','SB-001','1 
 INSERT INTO item_price VALUES(null,'PR-001','B-002','SB-002','1 L','25000','25000','01-10-2022','01-10-2022');
 INSERT INTO sales VALUES(null,'SA-00001' ,'VC-001' ,'12-10-2022' ,'Aye Aye' ,'120,000' ,'2,000','true' ,'true' ,"true" ,'3000' ,'130,500' , '140,000' , '9,500' ,'01-10-2022','01-10-2022'); 
 INSERT INTO sales_item VALUES(null,'itemCode','SA-00001', 'saleVoucherCode', 'brandCode', 'subBrandCode', 'quantity', 'price','amount', 'size'); 
+INSERT INTO program VALUES(null,'1','P-0000001','CATEGORY','CATEGORY','TRUE','TRUE','TRUE','TRUE')
+INSERT INTO program VALUES(null,'2','P-0000002','BRAND','CATEGORY','TRUE','TRUE','TRUE','TRUE')
+INSERT INTO program VALUES(null,'3','P-0000003','SUB-BRAND','CATEGORY','TRUE','TRUE','TRUE','TRUE')
+INSERT INTO program VALUES(null,'4','P-0000004','ITEM-PRICE','CATEGORY','TRUE','TRUE','TRUE','TRUE')
+INSERT INTO program VALUES(null,'5','P-0000005','SALE','CATEGORY','TRUE','TRUE','TRUE','TRUE')
+INSERT INTO program VALUES(null,'6','P-0000006','PURCHASE','CATEGORY','TRUE','TRUE','TRUE','TRUE')
+INSERT INTO program VALUES(null,'7','P-0000007','REPORT','CATEGORY','TRUE','TRUE','TRUE','TRUE')
