@@ -308,6 +308,8 @@ export class DatabaseService {
 
             // 'CREATE TABLE IF NOT EXISTS SALES(id INTEGER PRIMARY KEY AUTOINCREMENT,saleitemCode VARCHAR(25),saleVoucherCode VARCHAR(25),saledate VARCHAR(25),staffName VARCHAR(25),netAmount VARCHAR(25),totalDiscount VARCHAR(25),isTax VARCHAR(25),totalTax VARCHAR(25),balance VARCHAR(25), paidAmount VARCHAR(25), changeAmount VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS SALES_ITEM(id INTEGER PRIMARY KEY AUTOINCREMENT,itemCode VARCHAR(25),saleCode VARCHAR(25),saleVoucherCode VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),quantity VARCHAR(25),price VARCHAR(25),amount VARCHAR(25),size VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS SALES_ITEM(id INTEGER PRIMARY KEY AUTOINCREMENT,itemCode VARCHAR(25),saleCode VARCHAR(25),saleVoucherCode VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),quantity VARCHAR(25),price VARCHAR(25),amount VARCHAR(25),size VARCHAR(25))',
+        
         ];
     }
 
