@@ -122,6 +122,8 @@ export class NewSalePage implements OnInit {
     this.navCtrl.back();
   }
   async newSaleItem(data?) {
+    console.log(data);
+    
     const modalRef = this.modal.open(AddItemToListComponent, { size: 'lg', backdrop: false });
     modalRef.componentInstance.type = 'modal'
     modalRef.componentInstance.isCreate = data ? false : true

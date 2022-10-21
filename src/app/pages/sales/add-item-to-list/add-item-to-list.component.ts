@@ -104,14 +104,14 @@ export class AddItemToListComponent implements OnInit {
   }
   loadForm() {
     this.addItemForm = new FormGroup({
-      itemCode: new FormControl(this.data ? this.data.this.itemCode : this.itemCode),
-      brandCode: new FormControl(),
-      subBrandCode: new FormControl(),
+      itemCode: new FormControl(this.data ? this.data.itemCode : this.itemCode),
+      brandCode: new FormControl(this.data ? this.data.brandCode : null),
+      subBrandCode: new FormControl(this.data ? this.data.subBrandCode : null),
       price: new FormControl(this.data ? this.data.price : null),
-      size: new FormControl(),
-      quantity: new FormControl(),
-      amount: new FormControl(),
-      remark: new FormControl(),
+      size: new FormControl(this.data ? this.data.size : null),
+      quantity: new FormControl(this.data ? this.data.quantity : null),
+      amount: new FormControl(this.data ? this.data.amount : null),
+      remark: new FormControl(this.data ? this.data.remark : null),
       saleVoucherCode: new FormControl(this.parentData ? this.parentData.saleVoucherCode : null),
       saleCode: new FormControl(this.parentData ? this.parentData.saleCode : null)
     })
@@ -123,7 +123,7 @@ export class AddItemToListComponent implements OnInit {
   addItem() {
     let value = { ...this.addItemForm.value }
     this.modal.dismissAll({ data: value })
-    
+
   }
   createItem() {
 
