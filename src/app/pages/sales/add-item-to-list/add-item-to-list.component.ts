@@ -95,7 +95,7 @@ export class AddItemToListComponent implements OnInit {
   }
   dataChanged(e) {
     let amount = e * this.addItemForm.controls['price'].value;
-    this.addItemForm.controls['amount'].setValue(amount);
+    this.addItemForm.controls['amount'].setValue(amount.toString());
   }
 
   ngAfterViewInit() {
@@ -122,6 +122,8 @@ export class AddItemToListComponent implements OnInit {
   }
   addItem() {
     let value = { ...this.addItemForm.value }
+    console.log(value);
+    
     this.modal.dismissAll({ data: value })
     
   }

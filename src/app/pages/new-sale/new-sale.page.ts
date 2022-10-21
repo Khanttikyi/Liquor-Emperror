@@ -21,10 +21,10 @@ export class NewSalePage implements OnInit {
   isCreate: boolean = true;
   todaydate = new Date();
   saleItemList: any = [
-    
+
   ];
   saleItem: any = [
-   
+
   ]
   subBrandOption: any = []
   disabled: boolean = true
@@ -34,8 +34,10 @@ export class NewSalePage implements OnInit {
   isDiscount: boolean = false;
   isPaid: boolean = false;
   totalDiscount: number = 0
+  balance : number = 0
   date = new Date;
   staffName: string
+  totalTax : number = 0
 
   @Input() data: any
 
@@ -44,28 +46,28 @@ export class NewSalePage implements OnInit {
 
   currentTimeInSeconds = Math.floor(Date.now() / 1000);
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService, private cdf: ChangeDetectorRef, private navCtrl: NavController,private router: ActivatedRoute) {
+  constructor(private modalCtrl: ModalController, private modal: NgbModal, private database: DatabaseService, private cdf: ChangeDetectorRef, private navCtrl: NavController, private router: ActivatedRoute) {
     this.getSubBrand()
 
     this.saleVoucherCode = "VC-" + this.currentTimeInSeconds
     this.saleCode = "SA-" + this.currentTimeInSeconds
     this.staffName = "aye"
-   
+
   }
 
   ngOnInit() {
     this.router.queryParams.subscribe(async (params) => {
       console.log("paramsdata", params);
       if (params["data"]) {
-        this.data=JSON.parse(params["data"])
-        console.log("jsonarray" ,this.data);
+        this.data = JSON.parse(params["data"])
+        console.log("jsonarray", this.data);
         let salecode = this.data.saleCode;
         this.database.getItemList(salecode).then((res) => {
           this.saleItem = res;
           console.log('getItemList', res);
         })
       }
-      })
+    })
     this.loadForm()
     this.database.getPurchaseData('PU-001').then((res) => {
     })
@@ -82,6 +84,7 @@ export class NewSalePage implements OnInit {
       console.log("sale", res);
       this.saleItemList = res
       this.cdf.detectChanges()
+      
       // this.matTable.reChangeData()
     })
 
@@ -89,7 +92,7 @@ export class NewSalePage implements OnInit {
 
   }
   loadForm() {
-    
+    console.log("saledata", this.data)
     this.saleForm = new FormGroup({
       saleCode: new FormControl(this.data ? this.data.saleCode : this.saleCode),
       saleVoucherCode: new FormControl(this.data ? this.data.saleVoucherCode : this.saleVoucherCode),
@@ -107,6 +110,30 @@ export class NewSalePage implements OnInit {
       createddate: new FormControl(this.data ? this.data.createddate : formatDate(this.date, 'dd-MM-yyyy', 'en')),
       updateddate: new FormControl(formatDate(this.date, 'dd-MM-yyyy', 'en')),
     })
+   
+    if (this.data ? this.data.isDiscount == 'true' : false) {
+      this.isDiscount = true
+      this.cdf.detectChanges();
+      // this.totalDiscount = this.data.totalDiscount;
+    } else {
+      this.isDiscount = false
+      this.cdf.detectChanges();
+    }
+    if (this.data ? this.data.isPaid == 'true' : false) {
+      this.isPaid = true
+      this.cdf.detectChanges();
+    } else {
+      this.isPaid = false
+      this.cdf.detectChanges();
+    }
+    if (this.data ? this.data.isTax == 'true' : false) {
+      this.isTax = true
+      this.cdf.detectChanges();
+      // console.log("totaltax", this.data.totalTax)
+      // this.totalTax = this.data.totalTax 
+    } else {
+      this.isTax = false
+    }
     if (this.data && this.data.isPaid == "true") {
       this.isChecked = true;
       this.cdf.detectChanges();
@@ -118,6 +145,8 @@ export class NewSalePage implements OnInit {
   }
   createSaleItem() {
     let value = { ...this.saleForm.value, saleItem: this.saleItem }
+    console.log("CAREte",value);
+    
     this.database.create('SALES', value);
     this.navCtrl.back();
   }
@@ -126,7 +155,7 @@ export class NewSalePage implements OnInit {
     modalRef.componentInstance.type = 'modal'
     modalRef.componentInstance.isCreate = data ? false : true
     modalRef.componentInstance.data = data
-    modalRef.componentInstance.parentData = {"saleVoucherCode":this.data?this.data.saleVoucherCode:this.saleVoucherCode,"saleCode":this.data?this.data.saleCode:this.saleCode}
+    modalRef.componentInstance.parentData = { "saleVoucherCode": this.data ? this.data.saleVoucherCode : this.saleVoucherCode, "saleCode": this.data ? this.data.saleCode : this.saleCode }
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         let item = this.subBrandOption.find((p) => p.code == res.data.subBrandCode);
@@ -151,7 +180,8 @@ export class NewSalePage implements OnInit {
       this.saleItem.forEach(element => {
         this.totalAmount += Number(element.amount)
       });
-      this.saleForm.controls.netAmount.setValue(this.totalAmount)
+      this.saleForm.controls.netAmount.setValue(this.totalAmount.toString())
+      this.saleForm.controls.balance.setValue(this.totalAmount.toString())
     }
   }
   calDiscount() {
@@ -162,21 +192,28 @@ export class NewSalePage implements OnInit {
     let total = 0
     if (discount > 0) {
       total = (this.saleForm.controls.netAmount.value - discount)
-      this.saleForm.controls.balance.setValue(total)
+      this.saleForm.controls.balance.setValue(total.toString())
       this.cdf.detectChanges()
     }
   }
   calculateTax() {
-    let totalamount = this.saleForm.controls.netAmount.value
+    console.log(this.isTax);
+    
+    let totalamount = Number(this.saleForm.controls.netAmount.value)
+    let dis = Number(this.saleForm.controls.totalDiscount.value)
+    console.log("dis", dis);
     let tax = totalamount * 0.05
-    let total = totalamount + tax
-    if (!this.isTax) {
-      this.saleForm.controls.totalTax.setValue(tax)
-      this.saleForm.controls.balance.setValue(total)
+    console.log("TAX",tax);
+    
+    let total = totalamount + (tax - dis)
+
+    if (this.isTax) {
+      this.saleForm.controls.totalTax.setValue(tax.toString())
+      this.saleForm.controls.balance.setValue(total.toString())
       this.cdf.detectChanges()
     } else {
       this.saleForm.controls.totalTax.setValue(0)
-      this.saleForm.controls.balance.setValue(totalamount)
+      this.saleForm.controls.balance.setValue(totalamount.toString())
       this.cdf.detectChanges()
     }
   }
@@ -189,7 +226,7 @@ export class NewSalePage implements OnInit {
 
       if (paid > balanceamt) {
         let change = paid - balanceamt
-        this.saleForm.controls.changeAmount.setValue(change)
+        this.saleForm.controls.changeAmount.setValue(change.toString())
       }
       this.cdf.detectChanges()
     } else {
@@ -214,14 +251,14 @@ export class NewSalePage implements OnInit {
     // this.purchaseForm.reset()
     this.navCtrl.back();
   }
-  
+
   async updateItem(data?) {
     console.log("updateITem", data);
     const modalRef = this.modal.open(AddItemToListComponent, { size: 'lg', backdrop: false });
     modalRef.componentInstance.type = 'modal'
     modalRef.componentInstance.isCreate = data ? false : true
     modalRef.componentInstance.data = data
-    modalRef.componentInstance.parentData = {"saleVoucherCode":this.data?this.data.saleVoucherCode:this.saleVoucherCode,"saleCode":this.data?this.data.saleCode:this.saleCode}
+    modalRef.componentInstance.parentData = { "saleVoucherCode": this.data ? this.data.saleVoucherCode : this.saleVoucherCode, "saleCode": this.data ? this.data.saleCode : this.saleCode }
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         let item = this.subBrandOption.find((p) => p.code == res.data.subBrandCode);

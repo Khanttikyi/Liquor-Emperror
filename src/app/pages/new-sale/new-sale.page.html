@@ -163,7 +163,7 @@
                       <label class="col-sm-6 col-form-label">Total Amount
                         <span>*</span></label>
                       <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-sm ifread" name="netAmount"
+                        <input type="number" class="form-control form-control-sm ifread" name="netAmount"
                           autocomplete="off" [class.is-invalid]="isControlInvalid('netAmount')"
                           [class.is-valid]="isControlValid('netAmount')" formControlName="netAmount"
                            [readonly]="true" />
@@ -183,7 +183,7 @@
                         </label>
                       </span>
                       <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-sm " (change)="calculateDiscount()"  [(ngModel)]="totalDiscount" name="totalDiscount" autocomplete="off"
+                        <input type="text" class="form-control form-control-sm " (change)="calculateDiscount()"  name="totalDiscount" autocomplete="off"
                           [class.is-invalid]="isControlInvalid('totalDiscount')"
                           [class.is-valid]="isControlValid('totalDiscount')" formControlName="totalDiscount"
                           [readonly]="!isDiscount" />
@@ -197,13 +197,13 @@
                       <label class="col-sm-3 col-form-label">Tax (5%)</label>
                       <span class="switch switch-icon col-sm-3">
                         <label>
-                          <input type="checkbox" name="show" (ngModelChange)="calculateTax()" [(ngModel)]="isTax" formControlName="isTax" />
+                          <input type="checkbox" name="show" (change)="calculateTax()" [(ngModel)]="isTax" formControlName="isTax" />
                           <span></span>
                         </label>
                       </span>
                       <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-sm ifread" name="totalTax"
-                          autocomplete="off" [class.is-invalid]="isControlInvalid('totalTax')"
+                        <input type="text"  class="form-control form-control-sm ifread" name="totalTax"
+                          autocomplete="off" [class.is-invalid]="isControlInvalid('totalTax')" 
                           [class.is-valid]="isControlValid('totalTax')" formControlName="totalTax" [readonly]="true" />
                       </div>
                     </div>
@@ -218,7 +218,7 @@
                         <span>*</span></label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm ifread" name="balance"
-                          autocomplete="off" [class.is-invalid]="isControlInvalid('balance')"
+                          autocomplete="off" [class.is-invalid]="isControlInvalid('balance')" 
                           [class.is-valid]="isControlValid('balance')" formControlName="balance"
                           [readonly]="true" />
                       </div>
