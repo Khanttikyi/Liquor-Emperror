@@ -61,7 +61,7 @@ export class NewSalePage implements OnInit {
         console.log("jsonarray" ,this.data);
         let salecode = this.data.saleCode;
         this.database.getItemList(salecode).then((res) => {
-          this.saleItemList = res;
+          this.saleItem = res;
           console.log('getItemList', res);
         })
       }
@@ -122,7 +122,6 @@ export class NewSalePage implements OnInit {
     this.navCtrl.back();
   }
   async newSaleItem(data?) {
-    alert('dddd')
     const modalRef = this.modal.open(AddItemToListComponent, { size: 'lg', backdrop: false });
     modalRef.componentInstance.type = 'modal'
     modalRef.componentInstance.isCreate = data ? false : true
