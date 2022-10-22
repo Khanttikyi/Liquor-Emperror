@@ -5,6 +5,9 @@ import { first } from 'rxjs/operators';
 import { UserModel } from '../_models/user.model';
 import { AuthService } from '../_services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DatabaseService } from 'src/app/_metronic/shared/crud-table/services/database.service';
+import { AlertController } from '@ionic/angular';
+import { UserProfileService } from '../_services/user-profile.service';
 
 @Component({
   selector: 'app-login',
@@ -18,14 +21,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   //   password: '',
   // };
   defaultAuth: any = {
-    email: '',
-    password: '',
+    userName: '',
+    userPassword: '',
   };
   loginForm: FormGroup;
   hasError: boolean;
   returnUrl: string;
   isLoading$: Observable<boolean>;
-
+  public showPassword: boolean;
+  public showoldPassword: boolean;
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
 
@@ -33,7 +37,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private database: DatabaseService,
+    private alertCtrl: AlertController,
+    private userService: UserProfileService
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -56,8 +63,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.loginForm = this.fb.group({
-      email: [
-        this.defaultAuth.email,
+      userName: [
+        this.defaultAuth.userName,
         Validators.compose([
           Validators.required,
           // Validators.email,
@@ -65,8 +72,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
         ]),
       ],
-      password: [
-        this.defaultAuth.password,
+      userPassword: [
+        this.defaultAuth.userPassword,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -76,10 +83,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  submit() {
+  async submit() {
     this.hasError = false;
     // const loginSubscr = this.authService
-    //   .login(this.f.email.value, this.f.password.value)
+    //   .login(this.f.userName.value, this.f.userPassword.value)
     //   .pipe(first())
     //   .subscribe((user: UserModel) => {
     //     if (user) {
@@ -89,7 +96,36 @@ export class LoginComponent implements OnInit, OnDestroy {
     //     }
     //   });
     // this.unsubscribe.push(loginSubscr);
-    this.router.navigate(['/dashboard']);
+    this.database.checkUserExist(this.loginForm.value).then(async (res) => {
+      console.log(res);
+      if (res) {
+        if (res.userId != null) {
+          this.userService.userInfo = res
+          this.database.update('LOGIN_USER', res)
+          this.router.navigate(['/dashboard']);
+        }
+      } else {
+        let alert = await this.alertCtrl.create({
+          header: 'Warning',
+          message: 'User Name Or Password Incorrect',
+          buttons: [
+            { role: "cancel", text: "Cancel" },
+            { role: "ok", text: "OK" },
+          ],
+          backdropDismiss: false,
+          cssClass: "my-customer-alert",
+        });
+        await alert.present();
+        alert.onDidDismiss().then((res) => {
+          if (res.role == "ok") {
+          }
+        });
+      }
+    })
+
+  }
+  checkUser() {
+
   }
 
   ngOnDestroy() {

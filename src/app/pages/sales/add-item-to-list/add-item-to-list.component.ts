@@ -88,7 +88,8 @@ export class AddItemToListComponent implements OnInit {
     let code = size.code;
 
     this.database.getPriceBySize(brand, subbrand, code).then((res) => {
-
+      console.log(res);
+      
       this.addItemForm.controls['price'].setValue(res[0].retailPrice);
 
     })

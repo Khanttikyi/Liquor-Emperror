@@ -13,6 +13,7 @@ import { TableExtendedService } from './_metronic/shared/crud-table';
 import { ProductsService } from './_metronic/core/services/products.service';
 import { AuthService } from './modules/auth';
 import { DatabaseService } from './_metronic/shared/crud-table/services/database.service';
+import { UserProfileService } from './modules/auth/_services/user-profile.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -30,9 +31,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private tableService: TableExtendedService,
     private itemService: ProductsService,
     private authService: AuthService,
-    private database:DatabaseService
+    private database: DatabaseService,
+    private userService: UserProfileService
   ) {
-
+    router.navigate(['/auth']);
   }
   @HostListener('window:unload', ['$event'])
   beforeUnloadHandler(event) {
@@ -41,8 +43,9 @@ export class AppComponent implements OnInit, OnDestroy {
     // localStorage.setItem("itemsData", JSON.stringify(data));
   }
 
-  ngOnInit() {
-   this.database.init()
+  async ngOnInit() {
+    this.database.init()
+   
     const routerSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // clear filtration paginations and others

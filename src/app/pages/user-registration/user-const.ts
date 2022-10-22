@@ -7,14 +7,19 @@ export const userCol: any[] = [
         isNo: true
     },
     {
-        title: "Category",
+        title: "User Name",
         type: "field",
-        field: "categoryName"
+        field: "userName"
     },
     {
-        title: "Description",
+        title: "User Phone ",
         type: "field",
-        field: "categoryDescription"
+        field: "userPhone"
+    },
+    {
+        title: "Email ",
+        type: "field",
+        field: "userEmail"
     },
     {
         title: "Action",
@@ -29,8 +34,9 @@ export const userCol: any[] = [
 ]
 export const UserDisplayCol: string[] = [
     "no",
-    "categoryName",
-    "categoryDescription",
+    "userName",
+    "userPhone",
+    "userEmail",
     "actions"
 
 ]

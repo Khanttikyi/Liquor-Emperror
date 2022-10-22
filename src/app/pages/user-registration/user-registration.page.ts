@@ -12,19 +12,19 @@ import { userCol, UserDisplayCol } from './user-const';
   styleUrls: ['./user-registration.page.scss'],
 })
 export class UserRegistrationPage implements OnInit {
-  categoryList: any = [];
+  userList: any = [];
   ELEMENT_COL: any = userCol;
   displayedColumns: any = UserDisplayCol;
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
   constructor(private cdf: ChangeDetectorRef, private modalCtrl: ModalController, private modalService: NgbModal, private database: DatabaseService) { }
 
   ngOnInit() {
-    this.getcategoryList()
+    this.getUserList()
   }
-  getcategoryList() {
-    this.database.getData('CATEGORY').then((res) => {
+  getUserList() {
+    this.database.getData('USER').then((res) => {
       // console.log(res);
-      this.categoryList = res
+      this.userList = res
       this.cdf.detectChanges()
       this.matTable.reChangeData()
     })
@@ -32,8 +32,8 @@ export class UserRegistrationPage implements OnInit {
 
 
   }
-  async addNewCategory(data?) {
-    const modalRef = this.modalService.open(AddUserComponent, { size: 'sm', backdrop: false });
+  async addNewUser(data?) {
+    const modalRef = this.modalService.open(AddUserComponent, { size: 'lg', backdrop: false });
     modalRef.componentInstance.type = 'modal'
     modalRef.componentInstance.isCreate = data ? false : true
     modalRef.componentInstance.data = data
@@ -41,13 +41,12 @@ export class UserRegistrationPage implements OnInit {
       if (res) {
         let result = res.data
         // console.log(result);
-
         if (data) {
-          this.database.update('CATEGORY', result)
-          this.getcategoryList()
+          this.database.update('USER', result)
+          this.getUserList()
         } else {
-          this.database.create('CATEGORY', result)
-          this.getcategoryList()
+          this.database.create('USER', result)
+          this.getUserList()
         }
       }
     })
@@ -55,11 +54,11 @@ export class UserRegistrationPage implements OnInit {
   actionBtn(event) {
     // console.log(event);
     if (event.cmd == 'edit') {
-      this.addNewCategory(event.data)
+      this.addNewUser(event.data)
     }
     else {
-      this.database.remove("CATEGORY", event.data.categoryCode, "categoryCode")
-      this.getcategoryList()
+      this.database.remove("USER", event.data.UserCode, "UserCode")
+      this.getUserList()
     }
 
   }

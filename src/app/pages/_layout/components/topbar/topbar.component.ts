@@ -11,6 +11,7 @@ import KTLayoutQuickPanel from '../../../../../assets/js/layout/extended/quick-p
 import KTLayoutQuickUser from '../../../../../assets/js/layout/extended/quick-user';
 import KTLayoutHeaderTopbar from '../../../../../assets/js/layout/base/header-topbar';
 import { KTUtil } from '../../../../../assets/js/components/util';
+import { UserProfileService } from 'src/app/modules/auth/_services/user-profile.service';
 
 @Component({
   selector: 'app-topbar',
@@ -33,12 +34,12 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   extrasUserDisplay: boolean;
   extrasUserLayout: 'offcanvas' | 'dropdown';
   currentUser:UserModel = new UserModel()
-  constructor(private layout: LayoutService, private auth: AuthService) {
+  constructor(private layout: LayoutService, private auth: AuthService,private userService:UserProfileService) {
     this.user$ = this.auth.currentUserSubject.asObservable();
   }
 
   ngOnInit(): void {
-    this.currentUser.username="Admin"
+    this.currentUser.username=this.userService.userInfo.userName
     // topbar extras
     this.extraSearchDisplay = this.layout.getProp('extras.search.display');
     this.extrasSearchLayout = this.layout.getProp('extras.search.layout');

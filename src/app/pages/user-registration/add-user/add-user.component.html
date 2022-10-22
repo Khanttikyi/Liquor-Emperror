@@ -1,3 +1,132 @@
-<p>
-  add-user works!
-</p>
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      <h3 class="card-label" *ngIf="isCreate">Create User </h3>
+      <h3 class="card-label" *ngIf="!isCreate">Edit User Info</h3>
+    </div>
+
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <form action="#" class="form" [formGroup]="userForm" (ngSubmit)="createUser()">
+      <div>
+        <div class="row" style="align-items: center">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Name
+                <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm "
+                  [class.is-invalid]="isControlInvalid('userName')" [class.is-valid]="isControlValid('userName')"
+                  formControlName="userName" />
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Phone <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm"
+                  [class.is-invalid]="isControlInvalid('userPhone')" [class.is-valid]="isControlValid('userPhone')"
+                  formControlName="userPhone" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Email <span>*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control form-control-sm" 
+                  [class.is-invalid]="isControlInvalid('userEmail')" [class.is-valid]="isControlValid('userEmail')"
+                  formControlName="userEmail" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Role <span>*</span></label>
+              <div class="col-sm-6">
+                <ng-select class="ng-custom-select ng-custom-select-sm"
+                  [class.is-invalid]="isControlInvalid('userRole')" [class.is-valid]="isControlValid('userRole')"
+                  [items]="roleOption" bindLabel="value" bindValue="code" formControlName="userRole">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div>
+
+          <div class="row">
+            <div class="col-sm-12">
+
+              <div class="form-group row inner-addon left-addon">
+                <label class="col-sm-6 col-form-label">Password<span>*</span></label>
+                <div class="col-sm-6">
+                  <div class="input-group">
+                    <input name="password" [type]="showPassword ? 'text' : 'password'" id="password-field"
+                      class="pwd-control form-control form-control-sm " name="password" placeholder="Password"
+                      autocomplete="off" [class.is-invalid]="confirmPassword()"
+                      [class.is-invalid]="iscomfirmPassword('password','confirmPassword')"
+                      [class.is-invalid]="isControlInvalid('password')" [class.is-valid]="isControlValid('password')"
+                      formControlName="password">
+                    <i alt="show" class="fas fa-eye eye-show" (click)="showPassword = !showPassword"
+                      [class.hide]="showPassword"></i>
+                    <i alt="hide" class="fas fa-eye-slash eye-hide" (click)="showPassword = !showPassword"
+                      [class.hide]="!showPassword"></i>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+
+              <div class="form-group row inner-addon left-addon">
+                <label class="col-sm-6 col-form-label">Confirm Password<span>*</span></label>
+                <div class="col-sm-6">
+                  <div class="input-group">
+                    <input name="password" [type]="showConfirmPassword ? 'text' : 'password'" id="password-field"
+                      class="pwd-control form-control form-control-sm " name="confirmPassword"
+                      placeholder="Confirm Password" autocomplete="off" [class.is-invalid]="confirmPassword()"
+                      [class.is-invalid]="iscomfirmPassword('password','confirmPassword')"
+                      [class.is-invalid]="isControlInvalid('confirmPassword')"
+                      [class.is-valid]="isControlValid('confirmPassword')" formControlName="confirmPassword">
+                    <i alt="show" class="fas fa-eye eye-show" (click)="showConfirmPassword = !showConfirmPassword"
+                      [class.hide]="showConfirmPassword"></i>
+                    <i alt="hide" class="fas fa-eye-slash eye-hide" (click)="showConfirmPassword = !showConfirmPassword"
+                      [class.hide]="!showConfirmPassword"></i>
+                  </div>
+                  <div *ngIf="!isMatch"><label class="error col-12">Password does not match</label></div>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="cancel()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" [disabled]="userForm.invalid"
+      (click)="createUser()">Save</button>
+  </div>
+</div>

@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { UserProfileService } from 'src/app/modules/auth/_services/user-profile.service';
 
 declare var window: any;
 const SQL_DB_NAME = 'liquor_emperor.db';
@@ -22,7 +23,7 @@ export class DatabaseService {
     initDatabase = new Subject<string>()
     updateingMasterData = new Subject<boolean>()
     //@Inject(forwardRef(() => MasterDataService)) private masterData: MasterDataService
-    constructor(private sqlite: SQLite, private platform: Platform, private sqlitePorter: SQLitePorter, private http: HttpClient) {
+    constructor(private sqlite: SQLite, private platform: Platform, private userService: UserProfileService, private sqlitePorter: SQLitePorter, private http: HttpClient) {
         //this.database = window.openDatabase(this.database_name, '1.0', 'database', 5 * 1024 * 1024);
         // this.init()
 
@@ -74,6 +75,7 @@ export class DatabaseService {
         this.database_instance = await browserDBInstance(this.database);
         await this.createTable();
         await this.initData()
+
     }
 
     async createTables() {
@@ -86,7 +88,7 @@ export class DatabaseService {
     public create(tableName, item) {
         let sqlText;
         let values;
-       // console.log("saleitemprice", item.saleItem.length)
+        // console.log("saleitemprice", item.saleItem.length)
         switch (tableName) {
             case "CATEGORY":
                 sqlText = "INSERT INTO CATEGORY (categoryName, categoryCode, categoryDescription, createddate, updateddate) VALUES (?,?,?,?,?) ";
@@ -116,6 +118,18 @@ export class DatabaseService {
                 sqlText = "INSERT INTO SIZE (code, value, createddate, updateddate) VALUES (?,?,?,?) ";
                 values = [item.code || null, item.value || null, item.createddate || null, item.updateddate || null]
                 break;
+            case "USER":
+                sqlText = "INSERT INTO USER (userId,userPhone,userName,userPassword,confirmPassword,userEmail,userRole,createddate,updateddate) VALUES (?,?,?,?,?,?,?,?,?) ";
+                values = [item.userId || null, item.userPhone || null, item.userName || null, item.password || null, item.confirmPassword || null, item.userEmail || null, item.userRole || null, item.createddate || null, item.updateddate || null]
+                break;
+            case "USER_ROLE":
+                sqlText = "INSERT INTO USER_ROLE (userId ,userName,userRole,createddate,updateddate) VALUES (?,?,?,?,?)";
+                values = [item.userId || null, item.userName || null, item.userRole || null, item.createddate || null, item.updateddate || null]
+                break;
+            case "LOGIN_USER":
+                sqlText = "INSERT INTO LOGIN_USER (userId,userRole,userName,userPassword) VALUES (?,?,?,?,?)";
+                values = [item.userId || null, item.userRole || null, item.userName || null, item.userPassword || null]
+                break;
             case "SALES":
                 sqlText = "INSERT INTO SALES (saleCode ,saleVoucherCode ,saledate ,staffName ,netAmount ,totalDiscount ,isTax ,isDiscount ,isPaid ,totalTax ,balance , paidAmount , changeAmount ,createddate ,updateddate ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
                 values = [item.saleCode || null, item.saleVoucherCode || null, item.saledate || null, item.staffName || null, item.netAmount || null, item.totalDiscount || null, item.isTax || null, item.isDiscount || null, item.isPaid || null, item.totalTax || null, item.balance || null, item.paidAmount || null, item.changeAmount || null, item.createddate || null, item.updateddate || null]
@@ -130,23 +144,34 @@ export class DatabaseService {
 
         }
         let query = new Query(sqlText, values);
-        // console.log("query", query);
+        console.log("query", query);
         let res = this.database_instance.executeSql(query);
     }
     public createSaleItem(data) {
         let sqlText;
         let values;
-        console.log('createSaleItem',data);
-        
+        console.log('createSaleItem', data);
+
         sqlText = "INSERT INTO SALES_ITEM (itemCode,saleCode, saleVoucherCode, brandCode, subBrandCode, quantity, price,amount, size) VALUES (?,?,?,?,?,?,?,?,?) ";
         values = [data.itemCode || null, data.saleCode || null, data.saleVoucherCode || null, data.brandCode || null, data.subBrandCode || null, data.quantity || null, data.price || null, data.amount || null, data.size || null]
         let query = new Query(sqlText, values);
         let res = this.database_instance.executeSql(query);
-        
+
+    }
+    public updateSaleItem(data) {
+        let sqlText;
+        let values;
+        console.log('updateSaleItem', data);
+
+        sqlText = "UPDATE SALES_ITEM SET(itemCode,saleCode, saleVoucherCode, brandCode, subBrandCode, quantity, price,amount, size) = (?,?,?,?,?,?,?,?,?) where itemCode=? ; ";
+        values = [data.itemCode || null, data.saleCode || null, data.saleVoucherCode || null, data.brandCode || null, data.subBrandCode || null, data.quantity || null, data.price || null, data.amount || null, data.size || null, data.itemCode]
+        let query = new Query(sqlText, values);
+        let res = this.database_instance.executeSql(query);
+
     }
 
 
-    public update(tableName, item) {
+    public update(tableName, item, isItemUpdate?) {
         let sqlText;
         let values;
         switch (tableName) {
@@ -174,12 +199,37 @@ export class DatabaseService {
                 sqlText = "UPDATE ITEM_PRICE SET(itemPriceCode, brandCode, subBrandCode, size, retailPrice, wholeSalePrice, createddate, updateddate) = (?,?,?,?,?,?,?,?) where itemPriceCode = ? ;";
                 values = [item.itemPriceCode || null, item.brandCode || null, item.subBrandCode || null, item.size || null, item.retailPrice || null, item.wholeSalePrice || null, item.createddate || null, item.updateddate || null, item.itemPriceCode]
                 break;
+            case "USER":
+                sqlText = "UPDATE USER SET(userId,userPhone,userName,userPassword,confirmPassword,userEmail,userRole,createddate,updateddate) = (?,?,?,?,?,?,?,?,?) where userId = ? ;";
+                values = [item.userId || null, item.userPhone || null, item.userName || null, item.password || null, item.confirmPassword || null, item.userEmail || null, item.userRole || null, item.createddate || null, item.updateddate || null, item.userId]
+                break;
+            case "USER_ROLE":
+                sqlText = "UPDATE USER_ROLE SET(userId,userRole,userName,createddate,updateddate) = (?,?,?,?,?) where userId = ? ;";
+                values = [item.userId || null, item.userRole || null, item.userName || null, item.createddate || null, item.updateddate || null, item.userId]
+                break;
+            case "LOGIN_USER":
+                sqlText = "UPDATE LOGIN_USER SET(userId,userRole,userName,userPassword) = (?,?,?,?) where userId = ? ;";
+                values = [item.userId || null, item.userRole || null, item.userName || null, item.userPassword || null, item.userId]
+                break;
+            case "SALES":
+                sqlText = "UPDATE SALES SET(saleCode ,saleVoucherCode ,saledate ,staffName ,netAmount ,totalDiscount ,isTax ,isDiscount ,isPaid ,totalTax ,balance , paidAmount , changeAmount ,createddate ,updateddate ) = (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) where saleCode=?; ";
+                values = [item.saleCode || null, item.saleVoucherCode || null, item.saledate || null, item.staffName || null, item.netAmount || null, item.totalDiscount || null, item.isTax || null, item.isDiscount || null, item.isPaid || null, item.totalTax || null, item.balance || null, item.paidAmount || null, item.changeAmount || null, item.createddate || null, item.updateddate || null, item.saleCode]
+                if (item.saleItem.length > 0) {
+                    for (let data of item.saleItem) {
+                        if (isItemUpdate) {
+                            this.updateSaleItem(data)
+                        } else {
+                            this.createSaleItem(data)
+                        }
+                    }
+                }
+                break;
             default:
                 return;
 
         }
         let query = new Query(sqlText, values);
-        // console.log("queryupdate", query);
+        console.log("queryupdate", query);
 
         let res = this.database_instance.executeSql(query);
 
@@ -227,6 +277,18 @@ export class DatabaseService {
             case "SALES":
                 data = await this.database_instance.executeSql(new Query("SELECT * FROM SALES "))
                 break;
+            case "USER_ROLE":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM USER_ROLE "))
+                break;
+            case "USER":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM USER "))
+                break;
+            case "ROLE":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM ROLE "))
+                break;
+            case "LOGIN_USER":
+                data = await this.database_instance.executeSql(new Query("SELECT * FROM LOGIN_USER "))
+                break;
             default:
                 return;
 
@@ -234,6 +296,14 @@ export class DatabaseService {
         // console.log("firstdata", data);
         return data
 
+    }
+    async checkUserExist(userInfo) {
+        let data = await this.database_instance.executeSql(new Query("SELECT * FROM USER "))
+        console.log(data);
+        const found = data.find((obj) => {
+            return obj.userName === userInfo.userName && obj.userPassword === userInfo.userPassword;
+        });
+        return found
     }
 
     async getPurchaseData(purchaseCode) {
@@ -282,12 +352,12 @@ export class DatabaseService {
         return data
     }
     async getPriceBySize(brand, subbrand, code) {
-        //console.log("d", brand, subbrand, code);
+        console.log("d", brand, subbrand, code);
         let data = await this.database_instance.executeSql(new Query("SELECT retailPrice FROM ITEM_PRICE WHERE brandCode=? AND  subBrandCode=? AND size =? LIMIT 1", [brand, subbrand, code]))
-        // console.log("sqlw", data);
+        console.log("sqlw", data);
         return data
     }
-    async getItemList (salecode){
+    async getItemList(salecode) {
         let data = await this.database_instance.executeSql(new Query("SELECT * FROM SALES_ITEM WHERE saleCode = ?", [salecode]))
         return data
     }
@@ -305,11 +375,13 @@ export class DatabaseService {
             'CREATE TABLE IF NOT EXISTS STOCK(id INTEGER PRIMARY KEY AUTOINCREMENT,stockCode VARCHAR(25),purchaseCode VARCHAR(25),date VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),quantity VARCHAR(25),purchase VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),status VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS ITEM_PRICE(id INTEGER PRIMARY KEY AUTOINCREMENT,itemPriceCode VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),size VARCHAR(25),retailPrice VARCHAR(25),wholeSalePrice VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS SALES(id INTEGER PRIMARY KEY AUTOINCREMENT,saleCode VARCHAR(25),saleVoucherCode VARCHAR(25),saledate VARCHAR(25),staffName VARCHAR(25),netAmount VARCHAR(25),totalDiscount VARCHAR(25),isTax VARCHAR(25),isDiscount VARCHAR(25),isPaid VARCHAR(25),totalTax VARCHAR(25),balance VARCHAR(25), paidAmount VARCHAR(25), changeAmount VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
-
-            // 'CREATE TABLE IF NOT EXISTS SALES(id INTEGER PRIMARY KEY AUTOINCREMENT,saleitemCode VARCHAR(25),saleVoucherCode VARCHAR(25),saledate VARCHAR(25),staffName VARCHAR(25),netAmount VARCHAR(25),totalDiscount VARCHAR(25),isTax VARCHAR(25),totalTax VARCHAR(25),balance VARCHAR(25), paidAmount VARCHAR(25), changeAmount VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
-            'CREATE TABLE IF NOT EXISTS SALES_ITEM(id INTEGER PRIMARY KEY AUTOINCREMENT,itemCode VARCHAR(25),saleCode VARCHAR(25),saleVoucherCode VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),quantity VARCHAR(25),price VARCHAR(25),amount VARCHAR(25),size VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS SALES_ITEM(id INTEGER PRIMARY KEY AUTOINCREMENT,itemCode VARCHAR(25),saleCode VARCHAR(25),saleVoucherCode VARCHAR(25),brandCode VARCHAR(25),subBrandCode VARCHAR(25),quantity VARCHAR(25),price VARCHAR(25),amount VARCHAR(25),size VARCHAR(25))',
             'CREATE TABLE IF NOT EXISTS PROGRAM(id INTEGER PRIMARY KEY AUTOINCREMENT,code VARCHAR(25),programCode VARCHAR(25),name VARCHAR(25),description VARCHAR(25),isActive VARCHAR(25),isRead VARCHAR(25),isWrite VARCHAR(25),isDelete VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS USER(id INTEGER PRIMARY KEY AUTOINCREMENT,userId VARCHAR(25),userPhone VARCHAR(25),userName VARCHAR(30),userPassword VARCHAR(30),confirmPassword VARCHAR(30),userEmail VARCHAR(30),userRole VARCHAR(20),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS USER_ROLE(id INTEGER PRIMARY KEY AUTOINCREMENT,userId VARCHAR(25),userName VARCHAR(30),userRole VARCHAR(20),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS ROLE(id INTEGER PRIMARY KEY AUTOINCREMENT,roleCode VARCHAR(25),roleValue VARCHAR(25),createddate VARCHAR(25),updateddate VARCHAR(25))',
+            'CREATE TABLE IF NOT EXISTS LOGIN_USER(id INTEGER PRIMARY KEY AUTOINCREMENT,userId VARCHAR(25),userRole VARCHAR(25),userName VARCHAR(25),userPassword VARCHAR(25))',
+
         ];
     }
 

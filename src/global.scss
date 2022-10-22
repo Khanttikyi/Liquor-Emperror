@@ -30,3 +30,39 @@
     margin-left: 30px;
 
 }
+.my-customer-alert {
+    .alert-head {
+        padding      : 0px;
+        border-bottom: var(--new-light-text) solid 1px;
+    }
+    .alert-title {
+        padding     : 10px 20px;
+        padding-left: 25px;
+        text-align  : left;
+        font-size   : var(--new-font-md);
+        position    : relative;
+        font-weight : bold;
+        color       : var(--new-primary-color);
+    }
+    .alert-message {
+        padding-inline-start: 25px;
+        padding-top         : 10px !important;
+        font-size           : var(--new-font-size);
+    }
+    .alert-title::after {
+        content            : "";
+        display            : block;
+        background-image   : url("./assets/left-border.png");
+        background-position: center;
+        width              : 7px;
+        height             : 14px;
+        position           : absolute;
+        left               : 10px;
+        top                : 7px;
+    }
+    .alert-button-inner {
+        color      : var(--new-primary-color);
+        font-size  : var(--new-font-md);
+        font-weight: bold;
+    }
+}

@@ -7,14 +7,14 @@ export const userRoleCol: any[] = [
         isNo: true
     },
     {
-        title: "Category",
+        title: "User Name",
         type: "field",
-        field: "categoryName"
+        field: "userName"
     },
     {
-        title: "Description",
+        title: "User Role",
         type: "field",
-        field: "categoryDescription"
+        field: "userRole"
     },
     {
         title: "Action",
@@ -29,8 +29,8 @@ export const userRoleCol: any[] = [
 ]
 export const UserRoleDisplayCol: string[] = [
     "no",
-    "categoryName",
-    "categoryDescription",
+    "userName",
+    "userRole",
     "actions"
 
 ]

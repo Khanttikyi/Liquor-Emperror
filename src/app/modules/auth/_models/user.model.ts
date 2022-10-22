@@ -3,8 +3,8 @@ import { AddressModel } from './address.model';
 
 export class UserModel extends AuthModel {
   id?: number;
-  username?: string;
-  password?: string;
+  userName?: string;
+  userPassword?: string;
   fullname?: string;
   email?: string;
   pic?: string;
@@ -47,10 +47,10 @@ export class UserModel extends AuthModel {
 
   setUser(user?: any) {
     this.id = user.id;
-    this.username = user.username || '';
+    this.userName = user.userName || '';
     this.firstName = user.firstName || '';
     this.lastName = user.lastName || '';
-    this.password = user.password || '';
+    this.userPassword = user.userPassword || '';
     this.fullname = user.fullname || '';
     this.email = user.email || '';
     this.pic = user.pic || './assets/media/users/default.jpg';

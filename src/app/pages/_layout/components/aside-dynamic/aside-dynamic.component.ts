@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { UserProfileService } from 'src/app/modules/auth/_services/user-profile.service';
+import { DatabaseService } from 'src/app/_metronic/shared/crud-table/services/database.service';
 import { AuthService } from '../../../../modules/auth';
 import { LayoutService, DynamicAsideMenuService } from '../../../../_metronic/core';
 
@@ -24,18 +26,23 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
   brandClasses: string;
   asideMenuScroll = 1;
   asideSelfMinimizeToggle = false;
-
+  role: string = ''
   currentUrl: string;
-
+  userAccess = [
+    "Administration", "Setup", "Report"
+  ]
   constructor(
     private layout: LayoutService,
     private router: Router,
     private menu: DynamicAsideMenuService,
     private auth: AuthService,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef,
+    private databaseService: DatabaseService,
+    private userService: UserProfileService) { }
 
   ngOnInit(): void {
     // load view settings
+    this.role = this.getLoginUserRole()
     this.disableAsideSelfDisplay =
       this.layout.getProp('aside.self.display') === false;
     this.brandSkin = this.layout.getProp('brand.self.theme');
@@ -63,6 +70,15 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
 
     // menu load
     const menuSubscr = this.menu.menuConfig$.subscribe(res => {
+      if (this.userService.userInfo.userRole == 'USR') {
+        for (var i = res.items.length - 1; i >= 0; i--) {
+          for (var j = 0; j < this.userAccess.length; j++) {
+            if (res.items[i].title === this.userAccess[j]) {
+              res.items.splice(i, 1);
+            }
+          }
+        }
+      }
       this.menuConfig = res;
       this.cdr.detectChanges();
     });
@@ -76,6 +92,10 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
     } else {
       return './assets/media/bss_logo_white.png';
     }
+  }
+  getLoginUserRole() {
+    console.log(this.userService.userInfo)
+    return this.userService.userInfo.userRole
   }
 
   isMenuItemActive(path) {
@@ -93,7 +113,7 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
 
     return false;
   }
-  logout(){
+  logout() {
     this.router.navigate(['auth']);
     // this.auth.logout();
     // document.location.reload();

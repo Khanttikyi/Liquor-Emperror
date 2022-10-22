@@ -12,19 +12,19 @@ import { userRoleCol, UserRoleDisplayCol } from './user-role-const';
   styleUrls: ['./user-role.page.scss'],
 })
 export class UserRolePage implements OnInit {
-  categoryList: any = [];
+  userList: any = [];
   ELEMENT_COL: any = userRoleCol;
   displayedColumns: any = UserRoleDisplayCol;
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
   constructor(private cdf: ChangeDetectorRef, private modalCtrl: ModalController, private modalService: NgbModal, private database: DatabaseService) { }
 
   ngOnInit() {
-    this.getcategoryList()
+    this.getuserList()
   }
-  getcategoryList() {
-    this.database.getData('CATEGORY').then((res) => {
-      // console.log(res);
-      this.categoryList = res
+  getuserList() {
+    this.database.getData('USER_ROLE').then((res) => {
+      console.log(res);
+      this.userList = res
       this.cdf.detectChanges()
       this.matTable.reChangeData()
     })
@@ -32,8 +32,8 @@ export class UserRolePage implements OnInit {
 
 
   }
-  async addNewCategory(data?) {
-    const modalRef = this.modalService.open(AddUserRoleComponent, { size: 'sm', backdrop: false });
+  async addNewUserRole(data?) {
+    const modalRef = this.modalService.open(AddUserRoleComponent, { size: 'md', backdrop: false });
     modalRef.componentInstance.type = 'modal'
     modalRef.componentInstance.isCreate = data ? false : true
     modalRef.componentInstance.data = data
@@ -41,13 +41,12 @@ export class UserRolePage implements OnInit {
       if (res) {
         let result = res.data
         // console.log(result);
-
         if (data) {
-          this.database.update('CATEGORY', result)
-          this.getcategoryList()
+          this.database.update('USER_ROLE', result)
+          this.getuserList()
         } else {
-          this.database.create('CATEGORY', result)
-          this.getcategoryList()
+          this.database.create('USER_ROLE', result)
+          this.getuserList()
         }
       }
     })
@@ -55,11 +54,11 @@ export class UserRolePage implements OnInit {
   actionBtn(event) {
     // console.log(event);
     if (event.cmd == 'edit') {
-      this.addNewCategory(event.data)
+      this.addNewUserRole(event.data)
     }
     else {
-      this.database.remove("CATEGORY", event.data.categoryCode, "categoryCode")
-      this.getcategoryList()
+      this.database.remove("USER_ROLE", event.data.userId, "userId")
+      this.getuserList()
     }
 
   }

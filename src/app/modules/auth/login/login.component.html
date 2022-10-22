@@ -35,30 +35,37 @@
                 <!--begin::Form group-->
                 <div class="form-group">
                     <!-- <input placeholder="User ID" class="form-control form-control-sm h-3 py-7 px-6 rounded-lg" type="text"
-                        name="username" formControlName="email" autocomplete="off"
-                        [ngClass]="{ 'is-invalid': loginForm.controls['email'].invalid }" /> -->
+                        name="username" formControlName="userName" autocomplete="off"
+                        [ngClass]="{ 'is-invalid': loginForm.controls['userName'].invalid }" /> -->
                     <div class="input-icons">
                         <i class="flaticon-avatar"></i>
                         <input placeholder="User ID" class="input-field form-control h-3 py-7 px-11 rounded-lg"
-                            type="text" name="username" formControlName="email" autocomplete="off"
-                            [ngClass]="{ 'is-invalid': loginForm.controls['email'].invalid }" />
+                            type="text" name="username" formControlName="userName" autocomplete="off"
+                            [ngClass]="{ 'is-invalid': loginForm.controls['userName'].invalid }" />
                     </div>
                 </div>
                 <!--end::Form group-->
 
                 <!--begin::Form group-->
-                <div class="form-group">
+                <div class="form-group inner-addon">
 
-                    <div class="input-icons">
-                        <i class="flaticon-lock"></i>
+                    <div class="input-icons">   
+                        <i class="flaticon-lock"></i>                     
+                        <div *ngIf="loginForm.controls.userPassword.valid">
+                            <i alt="show" class="fas fa-eye eye-show eye" (click)="showPassword = !showPassword"
+                                [class.hide]="showPassword"></i>
+                            <i alt="hide" class="fas fa-eye-slash eye-hide eye" eye
+                                (click)="showPassword = !showPassword" [class.hide]="!showPassword"></i>
+                        </div>
                         <input placeholder="Password" class="input-field form-control h-3 py-7 px-6 rounded-lg"
-                            type="password" name="password" autocomplete="off" formControlName="password"
-                            [ngClass]="{ 'is-invalid': loginForm.controls['password'].invalid }" />
+                            [type]="showPassword ? 'text' : 'password'" id="password-field" name="userPassword"
+                            autocomplete="off" formControlName="userPassword"
+                            [ngClass]="{ 'is-invalid': loginForm.controls['userPassword'].invalid }" />
                     </div>
                 </div>
                 <!--end::Form group-->
                 <div class="font-weight-bolder text-center">
-                    <a routerLink="/auth/forgot-password"
+                    <a routerLink="/auth/forgot-userPassword"
                         class="text-new text-center font-weight-bolder text-hover-new ">
                         Forgot Password ?
                     </a>

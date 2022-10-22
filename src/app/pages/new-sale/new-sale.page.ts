@@ -26,6 +26,8 @@ export class NewSalePage implements OnInit {
   saleItem: any = [
 
   ]
+  tempArray: any = []
+  isItemUpdate: boolean = false
   subBrandOption: any = []
   disabled: boolean = true
   totalAmount: number = 0
@@ -34,10 +36,10 @@ export class NewSalePage implements OnInit {
   isDiscount: boolean = false;
   isPaid: boolean = false;
   totalDiscount: number = 0
-  balance : number = 0
+  balance: number = 0
   date = new Date;
   staffName: string
-  totalTax : number = 0
+  totalTax: number = 0
 
   @Input() data: any
 
@@ -65,7 +67,9 @@ export class NewSalePage implements OnInit {
         this.database.getItemList(salecode).then((res) => {
           this.saleItem = res;
           console.log('getItemList', res);
+          this.cdf.detectChanges()
         })
+
       }
     })
     this.loadForm()
@@ -77,14 +81,14 @@ export class NewSalePage implements OnInit {
     alert("hello");
   }
   ngAfterViewInit() {
-    this.getSaleItemList();
+    // this.getSaleItemList();
   }
   getSaleItemList() {
     this.database.getData('SALES').then((res) => {
       console.log("sale", res);
       this.saleItemList = res
       this.cdf.detectChanges()
-      
+
       // this.matTable.reChangeData()
     })
 
@@ -110,7 +114,7 @@ export class NewSalePage implements OnInit {
       createddate: new FormControl(this.data ? this.data.createddate : formatDate(this.date, 'dd-MM-yyyy', 'en')),
       updateddate: new FormControl(formatDate(this.date, 'dd-MM-yyyy', 'en')),
     })
-   
+
     if (this.data ? this.data.isDiscount == 'true' : false) {
       this.isDiscount = true
       this.cdf.detectChanges();
@@ -145,14 +149,16 @@ export class NewSalePage implements OnInit {
   }
   createSaleItem() {
     let value = { ...this.saleForm.value, saleItem: this.saleItem }
-    console.log("CAREte",value);
-    
-    this.database.create('SALES', value);
+    if (this.data) {
+      this.database.update('SALES', value, this.isItemUpdate);
+    } else {
+      this.database.create('SALES', value);
+    }
     this.navCtrl.back();
   }
   async newSaleItem(data?) {
     console.log(data);
-    
+
     const modalRef = this.modal.open(AddItemToListComponent, { size: 'lg', backdrop: false });
     modalRef.componentInstance.type = 'modal'
     modalRef.componentInstance.isCreate = data ? false : true
@@ -200,13 +206,13 @@ export class NewSalePage implements OnInit {
   }
   calculateTax() {
     console.log(this.isTax);
-    
+
     let totalamount = Number(this.saleForm.controls.netAmount.value)
     let dis = Number(this.saleForm.controls.totalDiscount.value)
     console.log("dis", dis);
     let tax = totalamount * 0.05
-    console.log("TAX",tax);
-    
+    console.log("TAX", tax);
+
     let total = totalamount + (tax - dis)
 
     if (this.isTax) {
@@ -250,7 +256,6 @@ export class NewSalePage implements OnInit {
   }
 
   cancel() {
-    // this.purchaseForm.reset()
     this.navCtrl.back();
   }
 
@@ -263,15 +268,23 @@ export class NewSalePage implements OnInit {
     modalRef.componentInstance.parentData = { "saleVoucherCode": this.data ? this.data.saleVoucherCode : this.saleVoucherCode, "saleCode": this.data ? this.data.saleCode : this.saleCode }
     modalRef.result.then(() => { }, (res) => {
       if (res) {
-        let item = this.subBrandOption.find((p) => p.code == res.data.subBrandCode);
-        res.data.subBrandCode = item.value
+        // let item = this.subBrandOption.find((p) => p.code == res.data.subBrandCode);
+        // res.data.subBrandCode = item.value
         let result = res.data
-        // //console.log(result);
+        this.tempArray = result
+        var foundIndex = this.saleItem.findIndex(x => x.itemCode == this.tempArray.itemCode);
+        this.saleItem[foundIndex] = this.tempArray;
         if (data) {
-          this.saleItem.push(result)
+          this.isItemUpdate = true
+          this.saleItem.forEach((element, index) => {
+            if (element.itemCode === this.saleItem.itemCode) {
+              this.saleItem[index] = this.saleItem;
+            }
+          });
           this.cdf.detectChanges()
           this.calculateSaleAmount()
         } else {
+          this.isItemUpdate = false
           this.saleItem.push(result)
           this.cdf.detectChanges()
           this.calculateSaleAmount()
@@ -279,20 +292,20 @@ export class NewSalePage implements OnInit {
       }
     })
   }
-  actionBtn(event) {
-    // //console.log(event);
-    if (event.cmd == 'edit') {
-      this.newSaleItem(event.data)
+  deleteItem(data) {
+
+    let index = this.saleItem.findIndex((x) => x.subBrandCode == data.subBrandCode);
+    if (index > -1) { // only splice array when item is found
+      this.saleItem.splice(index, 1); // 2nd parameter means remove one item only
     }
-    else {
-      this.database.remove("BRAND_DATA", event.data.brandCode, "brandCode")
-      this.getSaleItemList()
+    if (this.saleItem.length > 0) {
+      for (let data of this.saleItem) {
+        this.database.remove('SALES_ITEM', data.itemCode, 'itemCode')
+      }
     }
 
   }
-  createPurchase() {
 
-  }
   dataChanged(e) {
     console.log('e', this.saleForm.controls['quantity'].value)
     let amount = e * this.saleForm.controls['quantity'].value;

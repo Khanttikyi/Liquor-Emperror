@@ -51,9 +51,9 @@ export class AuthService implements OnDestroy {
   }
 
   // public methods
-  login(email: string, password: string): Observable<UserModel> {
+  login(userName: string, userPassword: string): Observable<UserModel> {
     this.isLoadingSubject.next(true);
-    return this.authHttpService.login(email, password).pipe(
+    return this.authHttpService.login(userName, userPassword).pipe(
       map((res: any) => {
         // console.log(res);
         
@@ -107,7 +107,7 @@ export class AuthService implements OnDestroy {
       map(() => {
         this.isLoadingSubject.next(false);
       }),
-      switchMap(() => this.login(user.email, user.password)),
+      switchMap(() => this.login(user.userName, user.userPassword)),
       catchError((err) => {
         // console.error('err', err);
         return of(undefined);
@@ -116,10 +116,10 @@ export class AuthService implements OnDestroy {
     );
   }
 
-  forgotPassword(email: string): Observable<boolean> {
+  forgotPassword(userName: string): Observable<boolean> {
     this.isLoadingSubject.next(true);
     return this.authHttpService
-      .forgotPassword(email)
+      .forgotPassword(userName)
       .pipe(finalize(() => this.isLoadingSubject.next(false)));
   }
 
