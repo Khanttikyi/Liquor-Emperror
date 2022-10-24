@@ -208,8 +208,8 @@ export class DatabaseService {
                 values = [item.userId || null, item.userRole || null, item.userName || null, item.createddate || null, item.updateddate || null, item.userId]
                 break;
             case "LOGIN_USER":
-                sqlText = "UPDATE LOGIN_USER SET(userId,userRole,userName,userPassword) = (?,?,?,?) where userId = ? ;";
-                values = [item.userId || null, item.userRole || null, item.userName || null, item.userPassword || null, item.userId]
+                sqlText = "UPDATE LOGIN_USER SET(userId,userRole,userName,userPassword) = (?,?,?,?);";
+                values = [item.userId || null, item.userRole || null, item.userName || null, item.userPassword || null]
                 break;
             case "SALES":
                 sqlText = "UPDATE SALES SET(saleCode ,saleVoucherCode ,saledate ,staffName ,netAmount ,totalDiscount ,isTax ,isDiscount ,isPaid ,totalTax ,balance , paidAmount , changeAmount ,createddate ,updateddate ) = (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) where saleCode=?; ";
