@@ -86,7 +86,7 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
   }
 
   private getLogo() {
-    return './assets/logo-02.jpg'
+    return './assets/logo-02.png'
     if (this.brandSkin === 'light') {
       return './assets/media/logo_text_blue.png';
     } else {

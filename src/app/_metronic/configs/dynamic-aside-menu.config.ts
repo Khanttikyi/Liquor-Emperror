@@ -13,7 +13,7 @@ export const DynamicAsideMenuConfig = {
     {
       title: 'Administration',
       root: true,
-      icon: 'flaticon-list-1',
+      icon: 'flaticon-folder-1',
       svg: './assets/media/svg/icons/Design/Adjust.svg',
       page: '/administration',
       bullet: 'dot',
@@ -85,7 +85,7 @@ export const DynamicAsideMenuConfig = {
     {
       title: 'Stock',
       root: true,
-      icon: 'flaticon-list-1',
+      icon: 'flaticon-open-box',
       svg: './assets/media/svg/icons/Design/Adjust.svg',
       page: '/stock',
       bullet: 'dot',
@@ -105,7 +105,7 @@ export const DynamicAsideMenuConfig = {
     {
       title: 'Report',
       root: true,
-      icon: 'flaticon-list-1',
+      icon: 'flaticon-line-graph',
       svg: './assets/media/svg/icons/Design/Adjust.svg',
       page: '/category',
       bullet: 'dot',
